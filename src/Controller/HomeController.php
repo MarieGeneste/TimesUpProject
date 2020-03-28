@@ -5,15 +5,15 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomePageController extends AbstractController
+class HomeController extends AbstractController
 {
     /**
-     * @Route("/home/page", name="home_page")
+     * @Route("/nouvelle_partie", name="home")
      */
     public function index()
     {
-        return $this->render('home_page/index.html.twig', [
-            'controller_name' => 'HomePageController',
+        return $this->render('home/index.html.twig', [
+            'controller_name' => 'HomeController',
         ]);
     }
 }

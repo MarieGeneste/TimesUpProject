@@ -8,12 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/nouvelle_partie", name="home")
+     * @Route("/", name="home")
      */
     public function index()
     {
+        $isCurentGame = false;
+        
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'isCurentGame' => $isCurentGame,
         ]);
     }
 }

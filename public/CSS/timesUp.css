@@ -1,0 +1,36 @@
+.portfolio-item .game-mod {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.25rem;
+    background-color: #fdc40f;
+    color: rgb(0, 115, 182);
+}
+
+/* .portfolio-item:hover .game-mod {
+
+    transition: all 0.2s ease-in-out;
+    background-color: white;
+} */
+
+.portfolio-item p {
+    text-align: center;
+    margin: 0 !important;
+}
+
+.fa-times{
+    color: #d95112;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.fa-times:hover {
+    color: rgb(0, 115, 182);
+}
+
+.fadeIn.first{
+    text-align: end;
+}
+
+#connexion {
+    cursor: pointer;
+}

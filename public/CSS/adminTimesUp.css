@@ -23,3 +23,10 @@
 .dark-edition li.active>a p {
     font-size: 1.2rem;
 }
+
+.dark-edition .sidebar h3,
+.pageTitle {
+    background: -webkit-linear-gradient(60deg, #f9ce31, #0073b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

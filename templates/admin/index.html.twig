@@ -1,20 +1,105 @@
 {% extends 'adminBase.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
-
 {% block body %}
+
+    <h1 class="pageTitle mb-4 text-center">Tableau de bord</h1>
+
     <div class="row">
+        <div class="col-lg-12">
+
+            <h2>Les cartes <a href="{{ path('add_card') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Numéros</th>
+                        <th>Mots</th>
+                        <th>Descriptions</th>
+                        <th>Categories</th>
+                        <th>Editer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for card in allCards %}
+                        <tr>
+                            <td rowspan="2">{{ card.id }} ({{ card.edition }})</td>
+                            <td>{{ card.yellowText }}</td>
+                            <td>{{ card.yellowDescription }}</td>
+                            <td>
+                                {% for category in card.yellowCategories %}
+                                    {% if loop.firts %}
+                                        {{ catergory.title }}
+                                    {% else %}
+                                        - {{ catergory.title }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td rowspan="2"><span class="material-icons"><a href="{{ path('edit_card', {'id' : card.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                        </tr>
+                        <tr>
+                            <td>{{ card.blueText }}</td>
+                            <td>{{ card.blueDescription }}</td>
+                            <td>
+                                {% for category in card.blueCategories %}
+                                    {% if loop.firts %}
+                                        {{ catergory.title }}
+                                    {% else %}
+                                        - {{ catergory.title }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-4 d-flex flex-wrap justify-content-between">
         <div class="col-lg-6 col-md-12">
 
-            <div class="example-wrapper">
-                <h1>Hello {{ controller_name }}! ✅</h1>
+            <h2>Les Catégories <a href="{{ path('add_category') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
 
-                This friendly message is coming from:
-                <ul>
-                    <li>Your controller at <code><a href="{{ '/home/marie/Documents/Projet_Perso/TimesUpProject/src/Controller/AdminController.php'|file_link(0) }}">src/Controller/AdminController.php</a></code></li>
-                    <li>Your template at <code><a href="{{ '/home/marie/Documents/Projet_Perso/TimesUpProject/templates/admin/index.html.twig'|file_link(0) }}">templates/admin/index.html.twig</a></code></li>
-                </ul>
-            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Catégories</th>
+                        <th>Descriptions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in allCategories %}
+                        <tr>
+                            <td>{{ category.title }}</td>
+                            <td>{{ category.description }}</td>
+                            <td><span class="material-icons"><a href="{{ path('edit_category', {'id' : category.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-6 col-md-12">
+
+            <h2>Les Editions <a href="{{ path('add_edition') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Editions</th>
+                        <th>Logos</th>
+                        <th>Editer<th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for edition in allEditions %}
+                        <tr>
+                            <td>{{ edition.title }}</td>
+                            <td>{{ edition.description }}</td>
+                            <td><span class="material-icons"><a href="{{ path('edit_edition', {'id' : edition.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

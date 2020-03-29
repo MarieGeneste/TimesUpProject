@@ -9,42 +9,42 @@
 
             <h2>Les cartes <a href="{{ path('add_card') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
 
-            <table class="table table-striped">
+            <table class="table table-dark table-hover table-striped">
                 <thead>
                     <tr>
                         <th>Numéros</th>
-                        <th>Mots</th>
+                        <th>Contenu</th>
                         <th>Descriptions</th>
                         <th>Categories</th>
-                        <th>Editer</th>
+                        <th class="text-center">Editer</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for card in allCards %}
-                        <tr>
-                            <td rowspan="2">{{ card.id }} ({{ card.edition }})</td>
-                            <td>{{ card.yellowText }}</td>
-                            <td>{{ card.yellowDescription }}</td>
-                            <td>
-                                {% for category in card.yellowCategories %}
-                                    {% if loop.firts %}
-                                        {{ catergory.title }}
+                        <tr class="yellow-card">
+                            <td rowspan="2">{{ card.id }} ({{ card.edition.title }})</td>
+                            <td class="color-card">{{ card.yellowWord.name }}</td>
+                            <td class="color-card">{{ card.yellowWord.description }}</td>
+                            <td class="color-card">
+                                {% for category in card.yellowWord.category %}
+                                    {% if loop.first %}
+                                        {{ category.title }}
                                     {% else %}
-                                        - {{ catergory.title }}
+                                        - {{ category.title }}
                                     {% endif %}
                                 {% endfor %}
                             </td>
-                            <td rowspan="2"><span class="material-icons"><a href="{{ path('edit_card', {'id' : card.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                            <td class="text-center" rowspan="2"><span class="material-icons"><a href="{{ path('edit_card', {'id' : card.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
                         </tr>
-                        <tr>
-                            <td>{{ card.blueText }}</td>
-                            <td>{{ card.blueDescription }}</td>
-                            <td>
-                                {% for category in card.blueCategories %}
-                                    {% if loop.firts %}
-                                        {{ catergory.title }}
+                        <tr class="blue-card">
+                            <td class="color-card">{{ card.blueWord.name }}</td>
+                            <td class="color-card">{{ card.blueWord.description }}</td>
+                            <td class="color-card">
+                                {% for category in card.blueWord.category %}
+                                    {% if loop.first %}
+                                        {{ category.title }}
                                     {% else %}
-                                        - {{ catergory.title }}
+                                        - {{ category.title }}
                                     {% endif %}
                                 {% endfor %}
                             </td>
@@ -60,11 +60,12 @@
 
             <h2>Les Catégories <a href="{{ path('add_category') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
 
-            <table class="table table-striped">
+            <table class="table table-dark table-hover table-striped">
                 <thead>
                     <tr>
                         <th>Catégories</th>
                         <th>Descriptions</th>
+                        <th class="text-center">Editer</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,7 +73,7 @@
                         <tr>
                             <td>{{ category.title }}</td>
                             <td>{{ category.description }}</td>
-                            <td><span class="material-icons"><a href="{{ path('edit_category', {'id' : category.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_category', {'id' : category.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -82,20 +83,20 @@
 
             <h2>Les Editions <a href="{{ path('add_edition') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
 
-            <table class="table table-striped">
+            <table class="table table-dark table-hover table-striped">
                 <thead>
                     <tr>
                         <th>Editions</th>
                         <th>Logos</th>
-                        <th>Editer<th>
+                        <th class="text-center">Editer</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for edition in allEditions %}
                         <tr>
                             <td>{{ edition.title }}</td>
-                            <td>{{ edition.description }}</td>
-                            <td><span class="material-icons"><a href="{{ path('edit_edition', {'id' : edition.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                            <td>{{ edition.logo }}</td>
+                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_edition', {'id' : edition.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
                         </tr>
                     {% endfor %}
                 </tbody>

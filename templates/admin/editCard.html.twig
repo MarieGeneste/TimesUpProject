@@ -6,7 +6,31 @@
 
     <h1 class="pageTitle mb-4 text-center">{{ pageModTitle }} d'une Carte</h1>
 
-    <div class="row">
+    <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
+        {% if pageModTitle == "Création" %}
+            {{ form_start(cardForm, {'action': path('add_card')} )}}
+        {% else %}
+            {{ form_start(cardForm, {'action': path('edit_card', {'id' : card.id }) }) }}
+        {% endif %}
 
+            <div class="row mt-4 mb-4">
+                <div class="col-md-4 mt-4">
+                    {{ form_row(cardForm.edition)}}
+                </div>
+                <div class="col-md-4 mt-4">
+                    {{ form_row(cardForm.yellowWord)}}
+                </div>
+                <div class="col-md-4 mt-4">
+                    {{ form_row(cardForm.blueWord)}}
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary mt-4">
+                {% if pageModTitle == "Création" %}
+                    Créer
+                {% else %}
+                    Editer
+                {% endif %}
+
+        {{ form_end(cardForm)}}
     </div>
 {% endblock %}

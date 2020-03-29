@@ -14,6 +14,10 @@
     opacity: .94;
 }
 
+.dark-edition li>a {
+    color: white !important;
+}
+
 .dark-edition li.active>a {
     background: linear-gradient(60deg, #f9ce31, #0073b6) !important;
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(39, 81, 176, 0.4) !important;
@@ -29,4 +33,47 @@
     background: -webkit-linear-gradient(60deg, #f9ce31, #0073b6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.table-dark {
+    background-color: #292a44;
+}
+
+.table-dark .yellow-card .color-card {
+    background-color: rgb(249, 206, 49, 0.2) !important;
+}
+
+.table-dark .blue-card .color-card {
+    background-color: rgb(0, 115, 182, 0.2) !important;
+}
+
+.table-dark .yellow-card td,
+.table-dark .blue-card td {
+    color: white !important;
+}
+
+.dark-edition .form-control, .is-focused .dark-edition .form-control {
+    background-image: linear-gradient(to top, #0073b6 2px, rgba(156, 39, 176, 0) 2px), linear-gradient(to top, rgba(180, 180, 180, 0.1) 1px, rgba(180, 180, 180, 0) 1px);
+}
+
+.dark-edition .btn.btn-primary {
+    color: #fff;
+    background-color: #0073b6;
+    border-color: #0073b6;
+    box-shadow: 0 2px 2px 0 rgba(145, 63, 158, 0.14), 0 3px 1px -2px rgba(145, 63, 158, 0.2), 0 1px 5px 0 rgba(145, 63, 158, 0.12);
+}
+
+.dark-edition .btn.btn-primary:focus, .dark-edition .btn.btn-primary.focus, .dark-edition .btn.btn-primary:hover {
+    color: #fff;
+    background-color: #2992d0;
+    border-color: #2992d0;
+}
+
+.dark-edition .is-focused [class*='bmd-label']{
+    color: #f9ce31;
+}
+
+.dark-edition .form-group input{
+    padding-top: 22px;
+    height: 60px;
 }

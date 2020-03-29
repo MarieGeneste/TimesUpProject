@@ -29,18 +29,14 @@ class Category
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Card", mappedBy="yellowCategories")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Word", mappedBy="category")
      */
-    private $yellowCards;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Card", mappedBy="blueCategories")
-     */
-    private $blueCards;
+    private $words;
 
     public function __construct()
     {
         $this->cards = new ArrayCollection();
+        $this->words = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -73,56 +69,28 @@ class Category
     }
 
     /**
-     * @return Collection|Card[]
+     * @return Collection|Word[]
      */
-    public function getYellowCards(): Collection
+    public function getWords(): Collection
     {
-        return $this->yellowCards;
+        return $this->words;
     }
 
-    public function addYellowCard(Card $card): self
+    public function addWord(Word $word): self
     {
-        if (!$this->yellowCards->contains($card)) {
-            $this->yellowCards[] = $card;
-            $card->addYellowCategory($this);
+        if (!$this->words->contains($word)) {
+            $this->words[] = $word;
+            $word->addCategory($this);
         }
 
         return $this;
     }
 
-    public function removeYellowCard(Card $card): self
+    public function removeWord(Word $word): self
     {
-        if ($this->yellowCards->contains($card)) {
-            $this->yellowCards->removeElement($card);
-            $card->removeYellowCategory($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Card[]
-     */
-    public function getBlueCards(): Collection
-    {
-        return $this->blueCards;
-    }
-
-    public function addBlueCard(Card $card): self
-    {
-        if (!$this->blueCards->contains($card)) {
-            $this->blueCards[] = $card;
-            $card->addBlueCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBlueCard(Card $card): self
-    {
-        if ($this->blueCards->contains($card)) {
-            $this->blueCards->removeElement($card);
-            $card->removeBlueCategory($this);
+        if ($this->words->contains($word)) {
+            $this->words->removeElement($word);
+            $word->removeCategory($this);
         }
 
         return $this;

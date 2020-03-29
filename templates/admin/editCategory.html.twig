@@ -6,7 +6,19 @@
 
     <h1 class="pageTitle mb-4 text-center">{{ pageModTitle }} d'une Catégorie</h1>
 
-    <div class="row">
+    <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
+        {{ form_start(categoryForm)}}
 
+            <div class="row mt-4 mb-4">
+                <div class="col-md-6 mt-4">
+                    {{ form_row(categoryForm.title)}}
+                </div>
+                <div class="col-md-6 mt-4">
+                    {{ form_row(categoryForm.description)}}
+                </div>
+            </div>
+            <buton type="submit" class="btn btn-primary mt-4">Editer</buton>
+
+        {{ form_end(categoryForm)}}
     </div>
 {% endblock %}

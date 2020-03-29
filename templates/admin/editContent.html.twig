@@ -1,0 +1,39 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Time's Up Admin - {{ pageModTitle }} de Contenu{% endblock %}
+
+{% block body %}
+
+    <h1 class="pageTitle mb-4 text-center">{{ pageModTitle }} de Contenu</h1>
+
+    <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
+        {% if pageModTitle == "Création" %}
+            {{ form_start(wordForm, {'action': path('add_content')} )}}
+        {% else %}
+            {{ form_start(wordForm, {'action': path('edit_content', {'id' : content.id }) }) }}
+        {% endif %}
+
+            <div class="row mt-4 mb-4">
+                <div class="col-md-6 mt-4">
+                    {{ form_row(wordForm.name)}}
+                </div>
+                <div class="col-md-6 mt-4">
+                    {{ form_row(wordForm.description)}}
+                </div>
+                <div class="col-md-6 mt-4">
+                    {{ form_row(wordForm.color)}}
+                </div>
+                <div class="col-md-6 mt-4">
+                    {{ form_row(wordForm.category)}}
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary mt-4">
+                {% if pageModTitle == "Création" %}
+                    Créer
+                {% else %}
+                    Editer
+                {% endif %}
+
+        {{ form_end(wordForm)}}
+    </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+@media (max-width: 991px){
+
+    .navbar.navbar-absolute {
+        position: fixed;
+    }
+
+    .close-layer {
+        position: fixed;
+    }
+}
+
+.dark-edition .sidebar {
+    background: #1f283e;
+    opacity: .94;
+}
+
+.dark-edition li.active>a {
+    background: linear-gradient(60deg, #f9ce31, #0073b6) !important;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(39, 81, 176, 0.4) !important;
+    color: #1f283e !important;
+}
+
+.dark-edition li.active>a p {
+    font-size: 1.2rem;
+}

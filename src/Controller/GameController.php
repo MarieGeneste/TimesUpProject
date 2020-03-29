@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class GameController extends AbstractController
 {
     /**
      * @Route("/", name="home")
@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     {
         $isCurentGame = false;
         
-        return $this->render('home/index.html.twig', [
+        return $this->render('game/index.html.twig', [
             'isCurentGame' => $isCurentGame,
         ]);
     }

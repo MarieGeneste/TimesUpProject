@@ -1,0 +1,20 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+
+            <div class="example-wrapper">
+                <h1>Hello {{ controller_name }}! ✅</h1>
+
+                This friendly message is coming from:
+                <ul>
+                    <li>Your controller at <code><a href="{{ '/home/marie/Documents/Projet_Perso/TimesUpProject/src/Controller/AdminController.php'|file_link(0) }}">src/Controller/AdminController.php</a></code></li>
+                    <li>Your template at <code><a href="{{ '/home/marie/Documents/Projet_Perso/TimesUpProject/templates/admin/index.html.twig'|file_link(0) }}">templates/admin/index.html.twig</a></code></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

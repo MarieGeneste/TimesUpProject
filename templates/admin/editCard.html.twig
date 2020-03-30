@@ -24,12 +24,13 @@
                     {{ form_row(cardForm.blueWord)}}
                 </div>
             </div>
-            <input type="submit" class="btn btn-primary mt-4">
+            <input type="submit" class="btn btn-primary mt-4" value="
                 {% if pageModTitle == "Création" %}
                     Créer
                 {% else %}
                     Editer
                 {% endif %}
+            ">
 
         {{ form_end(cardForm)}}
     </div>

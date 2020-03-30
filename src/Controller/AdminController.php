@@ -164,6 +164,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/editCard.html.twig', [
             'pageModTitle' => $pageModTitle,
+            'card' => $card, 
             'cardForm' => $cardForm->createView(),
         ]);
     }
@@ -211,6 +212,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/editCategory.html.twig', [
             'pageModTitle' => $pageModTitle,
+            'category' => $category, 
             'categoryForm' => $categoryForm->createView(),
         ]);
     }
@@ -258,6 +260,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/editEdition.html.twig', [
             'pageModTitle' => $pageModTitle,
+            'edition' => $edition, 
             'editionForm' => $editionForm->createView(),
         ]);
     }

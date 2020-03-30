@@ -40,11 +40,15 @@
 }
 
 .table-dark .yellow-card .color-card {
-    background-color: rgb(249, 206, 49, 0.2) !important;
+    background-color: rgba(249, 206, 49, 0.2) !important;
 }
 
 .table-dark .blue-card .color-card {
-    background-color: rgb(0, 115, 182, 0.2) !important;
+    background-color: rgba(0, 115, 182, 0.2) !important;
+}
+
+.table-dark .yellow-blue-card .color-card {
+    background: linear-gradient(60deg, rgba(249, 206, 49, 0.2), rgba(0, 115, 182, 0.2));
 }
 
 .table-dark .yellow-card td,
@@ -54,6 +58,10 @@
 
 .dark-edition .form-control, .is-focused .dark-edition .form-control {
     background-image: linear-gradient(to top, #0073b6 2px, rgba(156, 39, 176, 0) 2px), linear-gradient(to top, rgba(180, 180, 180, 0.1) 1px, rgba(180, 180, 180, 0) 1px);
+}
+
+.dark-edition .form-control option{
+    color: #1f283e !important;
 }
 
 .dark-edition .btn.btn-primary {
@@ -69,11 +77,21 @@
     border-color: #2992d0;
 }
 
-.dark-edition .is-focused [class*='bmd-label']{
-    color: #f9ce31;
+.dark-edition .is-focused [class*='bmd-label'],
+.yellow-col{
+    color: #f9ce31 !important;
 }
 
-.dark-edition .form-group input{
+.dark-edition .btn[type='submit']{
+    float: right;
+}
+
+.dark-edition .form-group input,
+.dark-edition .form-group .custom-select-wrapper
+{
     padding-top: 22px;
+    padding-bottom: 8px;
     height: 60px;
+    font-size: 16px;
+    width: 100%;
 }

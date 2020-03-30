@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CardRepository")
@@ -12,9 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Card
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var \Ramsey\Uuid\UuidInterface
+     * 
+     * @ORM\Id
+     * @ORM\Column(type="uuid",unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
 
@@ -25,24 +28,26 @@ class Card
     private $edition;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Word", inversedBy="card", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\YellowCard", inversedBy="cards")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $yellowWord;
+    private $yellowContent;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Word", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\BlueCard", inversedBy="cards")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $blueWord;
+    private $blueContent;
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-        $this->words = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    /**
+     * @return \Ramsey\Uuid\UuidInterface
+     */
+    public function getId()
     {
         return $this->id;
     }
@@ -59,26 +64,26 @@ class Card
         return $this;
     }
 
-    public function getYellowWord(): ?Word
+    public function getYellowContent(): ?YellowCard
     {
-        return $this->yellowWord;
+        return $this->yellowContent;
     }
 
-    public function setYellowWord(Word $yellowWord): self
+    public function setYellowContent(?YellowCard $yellowContent): self
     {
-        $this->yellowWord = $yellowWord;
+        $this->yellowContent = $yellowContent;
 
         return $this;
     }
 
-    public function getBlueWord(): ?Word
+    public function getBlueContent(): ?BlueCard
     {
-        return $this->blueWord;
+        return $this->blueContent;
     }
 
-    public function setBlueWord(Word $blueWord): self
+    public function setBlueContent(?BlueCard $blueContent): self
     {
-        $this->blueWord = $blueWord;
+        $this->blueContent = $blueContent;
 
         return $this;
     }

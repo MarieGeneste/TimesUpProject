@@ -14,25 +14,27 @@
         {% endif %}
 
             <div class="row mt-4 mb-4">
-                <div class="col-md-6 mt-4">
+                <div class="col-md-6 mt-4 form-group">
                     {{ form_row(wordForm.name)}}
                 </div>
-                <div class="col-md-6 mt-4">
+                <div class="col-md-6 mt-4 form-group">
                     {{ form_row(wordForm.description)}}
                 </div>
-                <div class="col-md-6 mt-4">
-                    {{ form_row(wordForm.color)}}
-                </div>
-                <div class="col-md-6 mt-4">
+                <div class="col-md-6 mt-4 form-group">
                     {{ form_row(wordForm.category)}}
                 </div>
+                {# <div class="col-md-6 mt-4 form-group">
+                    <label for="add-category">Créer une nouvelle catégorue</label>
+                    <input type="text" class="form-control" id="add-category" placeholder="">
+                </div> #}
             </div>
-            <input type="submit" class="btn btn-primary mt-4">
+            <input type="submit" class="btn btn-primary mt-4 text-right" value="
                 {% if pageModTitle == "Création" %}
                     Créer
                 {% else %}
                     Editer
                 {% endif %}
+            ">
 
         {{ form_end(wordForm)}}
     </div>

@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EditionRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\BlueCardRepository")
  */
-class Edition
+class BlueCard
 {
     /**
      * @var \Ramsey\Uuid\UuidInterface
@@ -19,27 +19,19 @@ class Edition
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $title;
-
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
-    private $color;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $logo;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Card", mappedBy="edition")
+     * @ORM\OneToMany(targetEntity="App\Entity\Card", mappedBy="blueContent")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $cards;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Word", inversedBy="blueCard")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $content;
 
     public function __construct()
     {
@@ -54,42 +46,6 @@ class Edition
         return $this->id;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getColor(): ?string
-    {
-        return $this->color;
-    }
-
-    public function setColor(?string $color): self
-    {
-        $this->color = $color;
-
-        return $this;
-    }
-
-    public function getLogo(): ?string
-    {
-        return $this->logo;
-    }
-
-    public function setLogo(?string $logo): self
-    {
-        $this->logo = $logo;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Card[]
      */
@@ -102,7 +58,7 @@ class Edition
     {
         if (!$this->cards->contains($card)) {
             $this->cards[] = $card;
-            $card->setEdition($this);
+            $card->setBlueContent($this);
         }
 
         return $this;
@@ -113,10 +69,22 @@ class Edition
         if ($this->cards->contains($card)) {
             $this->cards->removeElement($card);
             // set the owning side to null (unless already changed)
-            if ($card->getEdition() === $this) {
-                $card->setEdition(null);
+            if ($card->getBlueContent() === $this) {
+                $card->setBlueContent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getContent(): ?Word
+    {
+        return $this->content;
+    }
+
+    public function setContent(Word $content): self
+    {
+        $this->content = $content;
 
         return $this;
     }

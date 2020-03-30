@@ -7,7 +7,11 @@
     <h1 class="pageTitle mb-4 text-center">{{ pageModTitle }} d'une Catégorie</h1>
 
     <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
-        {{ form_start(categoryForm)}}
+        {% if pageModTitle == "Création" %}
+            {{ form_start(categoryForm, {'action': path('add_category')} )}}
+        {% else %}
+            {{ form_start(categoryForm, {'action': path('edit_category', {'id' : category.id }) }) }}
+        {% endif %}
 
             <div class="row mt-4 mb-4">
                 <div class="col-md-6 mt-4">
@@ -17,7 +21,13 @@
                     {{ form_row(categoryForm.description)}}
                 </div>
             </div>
-            <buton type="submit" class="btn btn-primary mt-4">Editer</buton>
+            <input type="submit" class="btn btn-primary mt-4" value="
+                {% if pageModTitle == "Création" %}
+                    Créer
+                {% else %}
+                    Editer
+                {% endif %}
+            ">
 
         {{ form_end(categoryForm)}}
     </div>

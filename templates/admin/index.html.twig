@@ -23,10 +23,10 @@
                     {% for card in allCards %}
                         <tr class="yellow-card">
                             <td rowspan="2">{{ card.id }} ({{ card.edition.title }})</td>
-                            <td class="color-card">{{ card.yellowWord.name }}</td>
-                            <td class="color-card">{{ card.yellowWord.description }}</td>
+                            <td class="color-card">{{ card.yellowContent.name }}</td>
+                            <td class="color-card">{{ card.yellowContent.description }}</td>
                             <td class="color-card">
-                                {% for category in card.yellowWord.category %}
+                                {% for category in card.yellowContent.category %}
                                     {% if loop.first %}
                                         {{ category.title }}
                                     {% else %}
@@ -37,10 +37,10 @@
                             <td class="text-center" rowspan="2"><span class="material-icons"><a href="{{ path('edit_card', {'id' : card.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
                         </tr>
                         <tr class="blue-card">
-                            <td class="color-card">{{ card.blueWord.name }}</td>
-                            <td class="color-card">{{ card.blueWord.description }}</td>
+                            <td class="color-card">{{ card.blueContent.name }}</td>
+                            <td class="color-card">{{ card.blueContent.description }}</td>
                             <td class="color-card">
-                                {% for category in card.blueWord.category %}
+                                {% for category in card.blueContent.category %}
                                     {% if loop.first %}
                                         {{ category.title }}
                                     {% else %}

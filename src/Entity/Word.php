@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\WordRepository")
@@ -12,9 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Word
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var \Ramsey\Uuid\UuidInterface
+     * 
+     * @ORM\Id
+     * @ORM\Column(type="uuid",unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
 
@@ -29,30 +32,34 @@ class Word
     private $description;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @param int 1 : Yellow
-     * @param int 2 : Blue
-     */
-    private $color;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="words")
      * @ORM\JoinColumn(nullable=true)
      */
     private $category;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Card", mappedBy="yellowWord", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\YellowCard", mappedBy="content", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $card;
+    private $yellowCard;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\BlueCard", mappedBy="content", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $blueCard;
 
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->yellowCard = null;
+        $this->blueCard = null;
     }
 
-    public function getId(): ?int
+    /**
+     * @return \Ramsey\Uuid\UuidInterface
+     */
+    public function getId()
     {
         return $this->id;
     }
@@ -77,22 +84,6 @@ class Word
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getColor(): ?int
-    {
-        return $this->color;
-    }
-
-    /**
-     * @param int 1 : Yellow
-     * @param int 2 : Blue
-     */
-    public function setColor(int $color): self
-    {
-        $this->color = $color;
 
         return $this;
     }
@@ -123,27 +114,36 @@ class Word
         return $this;
     }
 
-    public function getCard(): ?Card
+    public function getYellowCard(): ?YellowCard
     {
-        return $this->card;
+        return $this->yellowCard;
     }
 
-    public function setCard(Card $card): self
+    public function setYellowCard(YellowCard $yellowCard): self
     {
-        $this->card = $card;
+        $this->yellowCard = $yellowCard;
 
-        if ($this->color == 1) {
-            // set the owning side of the relation if necessary
-            if ($card->getYellowWord() !== $this) {
-                $card->setYellowWord($this);
-            }
-        } elseif ($this->color == 2) {
-            // set the owning side of the relation if necessary
-            if ($card->getBlueWord() !== $this) {
-                $card->setBlueWord($this);
-            }
+        // set the owning side of the relation if necessary
+        if ($yellowCard->getContent() !== $this) {
+            $yellowCard->setContent($this);
         }
 
+        return $this;
+    }
+
+    public function getBlueCard(): ?BlueCard
+    {
+        return $this->blueCard;
+    }
+
+    public function setBlueCard(BlueCard $blueCard): self
+    {
+        $this->blueCard = $blueCard;
+
+        // set the owning side of the relation if necessary
+        if ($blueCard->getContent() !== $this) {
+            $blueCard->setContent($this);
+        }
 
         return $this;
     }

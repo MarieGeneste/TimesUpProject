@@ -4,10 +4,13 @@ namespace App\Form;
 
 use App\Entity\Word;
 use App\Entity\Category;
+use App\Form\CategoryType;
+use App\Repository\CategoryRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class WordType extends AbstractType
@@ -17,16 +20,14 @@ class WordType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('color', ChoiceType::class, [
-                'choices' => [
-                    "-" => null,
-                    "Jaune" => 1,
-                    "Bleu" => 2
-                ]
-            ])
             ->add('category', EntityType::class, [
                 // looks for choices from this entity
                 'class' => Category::class,
+                // 'query_builder' => function (WordRepository $wordRep) {
+                //     return $wordRep->createQueryBuilder('w')
+                //         ->andWhere('w.color = :color')
+                //         ->setParameter('color', 1);
+                // },
                 "required" => false,
             
                 // uses the User.username property as the visible option string
@@ -35,6 +36,7 @@ class WordType extends AbstractType
                 // used to render a select box, check boxes or radios
                 'multiple' => true,
                 'expanded' => false,
+                'attr' => ['class' => "custom-select", 'placeholder' => 'choisir une catégorie']
             ])
         ;
     }
@@ -45,4 +47,14 @@ class WordType extends AbstractType
             'data_class' => Word::class,
         ]);
     }
+
+    // public function getCategoryChoices($catRep)
+    // {
+    //     $categories = $catRep->getAll();
+    //     $catChoices = [];
+    //     foreach ($categories as $category) {
+    //         $catChoices [$category->getTitle()] = $category->getId();
+    //     }
+    //     return $catChoices;
+    // }
 }

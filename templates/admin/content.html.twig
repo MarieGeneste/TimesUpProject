@@ -10,29 +10,35 @@
             <h2>Contenu du jeu <a href="{{ path('add_content') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
 
             <table class="table table-dark table-hover table-striped">
-                <thead class="text-center">
+                <thead>
                     <tr>
                         <th>Libellé</th>
                         <th>Descriptions</th>
-                        <th>Couleur</th>
-                        <th>Editer</th>
+                        <th>Catégorie</th>
+                        <th class="text-center">Editer</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for word in allWords %}
-                        {% if word.color == 1 %}
-                        <tr class="yellow-card">
-                        {% elseif word.color == 2 %}
-                        <tr class="blue-card">
+                        {% if word.yellowCard is not null and word.blueCard is not null %}
+                            <tr class="yellow-blue-card">
+                        {% elseif word.yellowCard is not null %}
+                            <tr class="yellow-card">
+                        {% elseif word.blueCard is not null %}
+                            <tr class="blue-card">
+                        {% else %}
+                            -
                         {% endif %}
-                            <td>{{ word.name }}</td>
+                            <td class="color-card">{{ word.name }}</td>
                             <td>{{ word.description }}</td>
-                            <td class="text-center">
-                            {% if word.color == 1 %}
-                                Jaune
-                            {% elseif word.color == 2 %}
-                                Bleu
-                            {% endif %}
+                            <td>
+                                {% for category in word.category %}
+                                    {% if loop.first %}
+                                        {{ category.title }}
+                                    {% else %}
+                                        - {{ category.title }}
+                                    {% endif %}
+                                {% endfor %}
                             </td>
                             <td class="text-center"><span class="material-icons"><a href="{{ path('edit_content', {'id' : word.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
                         </tr>

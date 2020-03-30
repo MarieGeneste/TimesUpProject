@@ -7,7 +7,11 @@
     <h1 class="pageTitle mb-4 text-center">{{ pageModTitle }} d'une Edition</h1>
 
     <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
-        {{ form_start(editionForm)}}
+        {% if pageModTitle == "Création" %}
+            {{ form_start(editionForm, {'action': path('add_edition')} )}}
+        {% else %}
+            {{ form_start(editionForm, {'action': path('edit_edition', {'id' : edition.id }) }) }}
+        {% endif %}
 
             <div class="row mt-4 mb-4">
                 <div class="col-md-4 mt-4">
@@ -20,7 +24,13 @@
                     {{ form_row(editionForm.logo)}}
                 </div>
             </div>
-            <buton type="submit" class="btn btn-primary mt-4">Editer</buton>
+            <input type="submit" class="btn btn-primary mt-4" value="
+                {% if pageModTitle == "Création" %}
+                    Créer
+                {% else %}
+                    Editer
+                {% endif %}
+            ">
 
         {{ form_end(editionForm)}}
     </div>

@@ -20,42 +20,68 @@
             </div>
 
             <div class="row mt-4 mb-4 form-group" id="yellow_card">
-                <legend class="col-form-label required">Coté jaune</legend>
-                <div class="form-group col-md-6 mt-4">
-                    <label for="yellow_card_name" class="required">Nom</label>
-                    <input type="text" id="yellow_card_name" name="card[yellowContent][name]" autofocus="autofocus" required="required" maxlength="255" class="form-control" />
-                </div>
-                <div class="form-group col-md-6 mt-4">
-                    <label for="yellow_card_category" class="col-12">Catégorie(s)</label>
-                    <select id="yellow_card_category" name="card[yellowContent][category]" data-width="100%" class="selectpicker" data-live-search="true" data-size="auto" multiple data-selected-text-format="count > 3" title="Rattacher une ou des catégories">
-                        {% for category in allCategories %}
-                            <option  style="background: {{ category.color }}; color: #fff;" value="{{ category.id }}">{{ category.title }}</option>
+                <h2>Coté jaune</h2>
+                <legend>Sélectionner une réponse existant OU en Créer une nouvelle</legend>
+                <div class="form-group col-12 mt-4">
+                    <label for="yellow_card_response" class="col-12">Sélectionner Réponse</label>
+                    <select id="blue_card_response" name="card[yellowResponse][id]" data-width="100%" class="selectpicker" data-live-search="true" data-size="auto" title="Rechercher une réponse">
+                            <option selected value=""></option>
+                        {% for response in allResponses %}
+                            <option value="{{ response.id }}">{{ response.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group col-md-12">
-                    <label for="yellow_card_description">Description</label>
-                    <textarea id="yellow_card_description" name="card[yellowContent][description]" maxlength="255" class="form-control" /></textarea>
+                <div class="form-group col-12 mt-4 jumbotron">
+                    <h3 class="text-center">Créer une Réponse</h3>
+                    <div class="form-group col-md-6 mt-4">
+                        <label for="yellow_card_name" class="required">Réponse</label>
+                        <input type="text" id="yellow_card_name" name="card[yellowContent][name]" autofocus="autofocus" required="required" maxlength="255" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-6 mt-4">
+                        <label for="yellow_card_category">Catégorie(s)</label>
+                        <select id="yellow_card_category" name="card[yellowContent][category]" data-width="100%" class="selectpicker" data-live-search="true" data-size="auto" multiple data-selected-text-format="count > 3" title="Rattacher une ou des catégories">
+                            {% for category in allCategories %}
+                                <option  style="background: {{ category.color }}; color: #fff;" value="{{ category.id }}">{{ category.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="yellow_card_description">Description</label>
+                        <textarea id="yellow_card_description" name="card[yellowContent][description]" maxlength="255" class="form-control" /></textarea>
+                    </div>
                 </div>
             </div>
 
             <div class="row mt-4 mb-4 form-group" id="blue_card">
-                <legend class="col-form-label required">Coté bleu</legend>
-                <div class="form-group col-md-6 mt-4">
-                    <label for="blue_card_name" class="required">Nom</label>
-                    <input type="text" id="blue_card_name" name="card[blueContent][name]" required="required" maxlength="255" class="form-control" />
-                </div>
-                <div class="form-group col-md-6 mt-4">
-                    <label for="blue_card_category" class="col-12">Catégorie(s)</label>
-                    <select id="blue_card_category" name="card[blueContent][category]" data-width="100%" class="selectpicker" data-live-search="true" data-size="auto" multiple data-selected-text-format="count > 3" title="Rattacher une ou des catégories">
-                        {% for category in allCategories %}
-                            <option  style="background: {{ category.color }}; color: #fff;" value="{{ category.id }}">{{ category.title }}</option>
+                <h2>Coté bleu</h2>
+                <legend>Sélectionner une réponse existant OU en Créer une nouvelle</legend>
+                <div class="form-group col-12 mt-4">
+                    <label for="blue_card_response" class="col-12">Sélectionner Réponse</label>
+                    <select id="blue_card_response" name="card[blueResponse][id]" data-width="100%" class="selectpicker" data-live-search="true" data-size="auto" title="Rechercher une réponse">
+                            <option selected value=""></option>
+                        {% for response in allResponses %}
+                            <option value="{{ response.id }}">{{ response.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group col-md-12">
-                    <label for="blue_card_description">Description</label>
-                    <textarea id="blue_card_description" name="card[blueContent][description]" maxlength="255" class="form-control" /></textarea>
+                <div class="form-group col-12 mt-4 jumbotron">
+                    <h3 class="text-center">Créer une Réponse</h3>
+                    <div class="form-group col-md-6 mt-4">
+                        <label for="blue_card_name" class="required">Réponse</label>
+                        <input type="text" id="blue_card_name" name="card[blueContent][name]" required="required" maxlength="255" class="form-control" />
+                    </div>
+                    <div class="form-group col-md-6 mt-4">
+                        <label for="blue_card_category">Catégorie(s)</label>
+                        <select id="blue_card_category" name="card[blueContent][category]" data-width="100%" class="selectpicker" data-live-search="true" data-size="auto" multiple data-selected-text-format="count > 3" title="Rattacher une ou des catégories">
+                            {% for category in allCategories %}
+                                <option  style="background: {{ category.color }}; color: #fff;" value="{{ category.id }}">{{ category.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="blue_card_description">Description</label>
+                        <textarea id="blue_card_description" name="card[blueContent][description]" maxlength="255" class="form-control" /></textarea>
+                    </div>
                 </div>
             </div>
             <div class="row mt-4 mb-4 form-group d-flex justify-content-center " id="blue_card">

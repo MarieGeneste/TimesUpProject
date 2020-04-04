@@ -21,10 +21,19 @@ class ResponseType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('category', CollectionType::class, array(
-                'entry_type'   => CategoryType::class,
-                'allow_add'    => true
-            ))
+            ->add('category', EntityType::class, [
+                // looks for choices from this entity
+                'class' => Category::class,
+                "required" => false,
+            
+                // uses the User.username property as the visible option string
+                'choice_label' => 'title',
+            
+                // used to render a select box, check boxes or radios
+                'multiple' => true,
+                'expanded' => false,
+            ])
+        ;
         ;
     }
 

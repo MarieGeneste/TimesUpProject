@@ -128,6 +128,7 @@ class AdminController extends AbstractController
     {
         $pageModTitle = "Création";
         $allCategories = $this->categoryRepo->findAll();
+        $allResponses = $this->responseRepo->findAll();
 
         $newCard = new Card();
         $cardForm = $this->createForm(CardType::class, $newCard);
@@ -150,6 +151,7 @@ class AdminController extends AbstractController
         return $this->render('admin/editCard.html.twig', [
             'pageModTitle' => $pageModTitle,
             'allCategories' => $allCategories,
+            'allResponses' => $allResponses,
             'cardForm' => $cardForm->createView(),
         ]);
     }
@@ -161,6 +163,8 @@ class AdminController extends AbstractController
     public function editCard(Card $card, Request $request)
     {
         $pageModTitle = "Edition";
+        $allCategories = $this->categoryRepo->findAll();
+        $allResponses = $this->responseRepo->findAll();
 
         $cardForm = $this->createForm(CardType::class, $card);
 
@@ -173,6 +177,8 @@ class AdminController extends AbstractController
 
         return $this->render('admin/editCard.html.twig', [
             'pageModTitle' => $pageModTitle,
+            'allCategories' => $allCategories,
+            'allResponses' => $allResponses,
             'card' => $card, 
             'cardForm' => $cardForm->createView(),
         ]);

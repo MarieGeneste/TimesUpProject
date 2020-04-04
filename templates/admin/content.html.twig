@@ -19,20 +19,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for word in allWords %}
-                        {% if word.yellowCard is not null and word.blueCard is not null %}
+                    {% for response in allResponses %}
+                        {% if response.yellowCard is not null and response.blueCard is not null %}
                             <tr class="yellow-blue-card">
-                        {% elseif word.yellowCard is not null %}
+                        {% elseif response.yellowCard is not null %}
                             <tr class="yellow-card">
-                        {% elseif word.blueCard is not null %}
+                        {% elseif response.blueCard is not null %}
                             <tr class="blue-card">
                         {% else %}
                             -
                         {% endif %}
-                            <td class="color-card">{{ word.name }}</td>
-                            <td>{{ word.description }}</td>
+                            <td class="color-card">{{ response.name }}</td>
+                            <td>{{ response.description }}</td>
                             <td>
-                                {% for category in word.category %}
+                                {% for category in response.category %}
                                     {% if loop.first %}
                                         {{ category.title }}
                                     {% else %}
@@ -40,7 +40,7 @@
                                     {% endif %}
                                 {% endfor %}
                             </td>
-                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_content', {'id' : word.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_content', {'id' : response.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
                         </tr>
                     {% endfor %}
                 </tbody>

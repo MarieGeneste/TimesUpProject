@@ -1,6 +1,6 @@
 {% extends 'adminBase.html.twig' %}
 
-{% block title %}Time's Up Admin - {{ pageModTitle }} de Contenu{% endblock %}
+{% block title %} - {{ pageModTitle }} de Contenu{% endblock %}
 
 {% block body %}
 
@@ -8,20 +8,20 @@
 
     <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
         {% if pageModTitle == "Création" %}
-            {{ form_start(wordForm, {'action': path('add_content')} )}}
+            {{ form_start(responseForm, {'action': path('add_content')} )}}
         {% else %}
-            {{ form_start(wordForm, {'action': path('edit_content', {'id' : content.id }) }) }}
+            {{ form_start(responseForm, {'action': path('edit_content', {'id' : content.id }) }) }}
         {% endif %}
 
             <div class="row mt-4 mb-4">
                 <div class="col-md-6 mt-4 form-group">
-                    {{ form_row(wordForm.name)}}
+                    {{ form_row(responseForm.name)}}
                 </div>
                 <div class="col-md-6 mt-4 form-group">
-                    {{ form_row(wordForm.description)}}
+                    {{ form_row(responseForm.description)}}
                 </div>
                 <div class="col-md-6 mt-4 form-group">
-                    {{ form_row(wordForm.category)}}
+                    {{ form_row(responseForm.category, {'attr': {'class': 'selectpicker'}})}}
                 </div>
                 {# <div class="col-md-6 mt-4 form-group">
                     <label for="add-category">Créer une nouvelle catégorue</label>
@@ -36,6 +36,6 @@
                 {% endif %}
             </div>
 
-        {{ form_end(wordForm)}}
+        {{ form_end(responseForm)}}
     </div>
 {% endblock %}

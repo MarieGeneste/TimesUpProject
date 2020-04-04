@@ -30,6 +30,7 @@
 
 body {
     background-color: #4b4c77;
+    color: white;
 }
 
 .dark-edition .sidebar h3,
@@ -108,4 +109,14 @@ h2 {
 
 .custom-file-label::after {
     content: "Rechercher";
+}
+
+.jumbotron {
+    background-color: #e9ecef40;
+}
+
+@media (min-width: 576px){
+    .jumbotron {
+        padding: 2rem 1rem;
+    }
 }

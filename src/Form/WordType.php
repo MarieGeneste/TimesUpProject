@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class WordType extends AbstractType
 {
@@ -20,24 +21,10 @@ class WordType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('category', EntityType::class, [
-                // looks for choices from this entity
-                'class' => Category::class,
-                // 'query_builder' => function (WordRepository $wordRep) {
-                //     return $wordRep->createQueryBuilder('w')
-                //         ->andWhere('w.color = :color')
-                //         ->setParameter('color', 1);
-                // },
-                "required" => false,
-            
-                // uses the User.username property as the visible option string
-                'choice_label' => 'title',
-            
-                // used to render a select box, check boxes or radios
-                'multiple' => true,
-                'expanded' => false,
-                'attr' => ['class' => "custom-select", 'placeholder' => 'choisir une catégorie']
-            ])
+            ->add('category', CollectionType::class, array(
+                'entry_type'   => CategoryType::class,
+                'allow_add'    => true
+            ))
         ;
     }
 

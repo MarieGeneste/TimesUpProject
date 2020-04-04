@@ -5,11 +5,14 @@ namespace App\Form;
 use App\Entity\Card;
 use App\Entity\Word;
 use App\Entity\Edition;
+use App\Form\BlueCardType;
+use App\Form\YellowCardType;
 use App\Repository\WordRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class CardType extends AbstractType
 {
@@ -23,40 +26,6 @@ class CardType extends AbstractType
             
                 // uses the User.username property as the visible option string
                 'choice_label' => 'title',
-            
-                // used to render a select box, check boxes or radios
-                'multiple' => false,
-                'expanded' => false,
-            ])
-            ->add('yellowWord', EntityType::class, [
-                // looks for choices from this entity
-                'class' => Word::class,
-                'query_builder' => function (WordRepository $wordRep) {
-                    return $wordRep->createQueryBuilder('w')
-                        ->andWhere('w.color = :color')
-                        ->setParameter('color', 1);
-                },
-                "required" => true,
-            
-                // uses the User.username property as the visible option string
-                'choice_label' => 'name',
-            
-                // used to render a select box, check boxes or radios
-                'multiple' => false,
-                'expanded' => false,
-            ])
-            ->add('blueWord', EntityType::class, [
-                // looks for choices from this entity
-                'class' => Word::class,
-                'query_builder' => function (WordRepository $wordRep) {
-                    return $wordRep->createQueryBuilder('w')
-                    ->andWhere('w.color = :color')
-                    ->setParameter('color', 2);
-                },
-                "required" => true,
-            
-                // uses the User.username property as the visible option string
-                'choice_label' => 'name',
             
                 // used to render a select box, check boxes or radios
                 'multiple' => false,

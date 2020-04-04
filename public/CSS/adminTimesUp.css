@@ -1,4 +1,4 @@
-@media (max-width: 991px){
+/* @media (max-width: 991px){
 
     .navbar.navbar-absolute {
         position: fixed;
@@ -26,6 +26,10 @@
 
 .dark-edition li.active>a p {
     font-size: 1.2rem;
+} */
+
+body {
+    background-color: #4b4c77;
 }
 
 .dark-edition .sidebar h3,
@@ -33,6 +37,11 @@
     background: -webkit-linear-gradient(60deg, #f9ce31, #0073b6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    margin-top: 1.5rem !important;
+}
+
+h2 {
+    color: #f9ce31;
 }
 
 .table-dark {
@@ -82,10 +91,6 @@
     color: #f9ce31 !important;
 }
 
-.dark-edition .btn[type='submit']{
-    float: right;
-}
-
 .dark-edition .form-group input,
 .dark-edition .form-group .custom-select-wrapper
 {
@@ -94,4 +99,9 @@
     height: 60px;
     font-size: 16px;
     width: 100%;
+}
+
+.dark-edition .btn[type='submit']{
+    float: right;
+    padding: 0px !important;
 }

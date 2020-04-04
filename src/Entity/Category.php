@@ -27,6 +27,11 @@ class Category
     private $title;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $color;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
@@ -36,10 +41,16 @@ class Category
      */
     private $words;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="categories")
+     */
+    private $ParentCategory;
+
     public function __construct()
     {
         $this->cards = new ArrayCollection();
         $this->words = new ArrayCollection();
+        $this->ParentCategory = new ArrayCollection();
     }
 
     /**
@@ -58,6 +69,18 @@ class Category
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }
@@ -97,6 +120,32 @@ class Category
         if ($this->words->contains($word)) {
             $this->words->removeElement($word);
             $word->removeCategory($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getParentCategory(): Collection
+    {
+        return $this->ParentCategory;
+    }
+
+    public function addParentCategory(self $parentCategory): self
+    {
+        if (!$this->ParentCategory->contains($parentCategory)) {
+            $this->ParentCategory[] = $parentCategory;
+        }
+
+        return $this;
+    }
+
+    public function removeParentCategory(self $parentCategory): self
+    {
+        if ($this->ParentCategory->contains($parentCategory)) {
+            $this->ParentCategory->removeElement($parentCategory);
         }
 
         return $this;

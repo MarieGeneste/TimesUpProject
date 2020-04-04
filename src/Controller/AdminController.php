@@ -127,6 +127,7 @@ class AdminController extends AbstractController
     public function addCard(Request $request)
     {
         $pageModTitle = "Création";
+        $allCategories = $this->categoryRepo->findAll();
 
         $newCard = new Card();
         $cardForm = $this->createForm(CardType::class, $newCard);
@@ -141,6 +142,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/editCard.html.twig', [
             'pageModTitle' => $pageModTitle,
+            'allCategories' => $allCategories,
             'cardForm' => $cardForm->createView(),
         ]);
     }
@@ -263,5 +265,73 @@ class AdminController extends AbstractController
             'edition' => $edition, 
             'editionForm' => $editionForm->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/ajout-Category", name="card_category_add")
+     */
+    public function addCardCategory(Request $request)
+    {
+        $yellowCat = $request->request->get('card')['yellowContent']['category']['title'];
+        $yellowCatCol = $request->request->get('card')['yellowContent']['category']['color'];
+
+        $blueCat = $request->request->get('card')['blueContent']['category']['title'];
+        $blueCatCol = $request->request->get('card')['blueContent']['category']['color'];
+
+
+        $selectedCat = array();
+
+        if (!empty($yellowCat)) {
+            $yellowCat = $this->cleanDataPost($yellowCat);
+            $catFound = $this->categoryRepo->findOneBy(['title' => $yellowCat]);
+
+            if (empty($catFound)) {
+                $newCat = new Category;
+                $newCat->setTitle($yellowCat);
+
+                $this->em->persist($newCat);
+
+                $electedCat['yellowCat'] = $newCat;
+            } else {
+                $electedCat['yellowCat'] = $catFound;
+            }
+
+            if (!empty($yellowCatCol)) {
+                $yellowCatCol = $this->cleanDataPost($yellowCatCol);
+                $electedCat['yellowCat']->setColor($yellowCatCol);
+            }
+
+            $this->em->flush();
+
+        } elseif (!empty($blueCat)){
+            $blueCat = $this->cleanDataPost($blueCat);
+            $catFound = $this->categoryRepo->findOneBy(['title' => $blueCat]);
+
+            if (empty($catFound)) {
+                $newCat = new Category;
+                $newCat->setTitle($blueCat);
+                
+                $this->em->persist($newCat);
+                $this->em->flush();
+
+                $electedCat['blueCat'] = $newCat;
+            } else {
+                $electedCat['blueCat'] = $catFound;
+            }
+
+            if (!empty($blueCatCol)) {
+                $blueCatCol = $this->cleanDataPost($blueCatCol);
+                $electedCat['blueCat']->setColor($blueCatCol);
+            }
+
+            $this->em->flush();
+        }
+    }
+
+    private function cleanDataPost($data){
+        // $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
     }
 }

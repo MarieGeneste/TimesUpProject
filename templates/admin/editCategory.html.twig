@@ -1,6 +1,6 @@
 {% extends 'adminBase.html.twig' %}
 
-{% block title %}Time's Up Admin - {{ pageModTitle }} d'une Catégorie{% endblock %}
+{% block title %} - {{ pageModTitle }} d'une Catégorie{% endblock %}
 
 {% block body %}
 
@@ -20,14 +20,20 @@
                 <div class="col-md-6 mt-4">
                     {{ form_row(categoryForm.description)}}
                 </div>
+                <div class="col-md-6 mt-4">
+                    {{ form_row(categoryForm.color, {'attr': {'class': 'colorpicker'}})}}
+                </div>
+                <div class="col-md-6 mt-4">
+                    {{ form_row(categoryForm.parentCategory, {'attr': {'class': 'selectpicker'}})}}
+                </div>
             </div>
-            <input type="submit" class="btn btn-primary mt-4" value="
+            <div class="row mt-4 mb-4 form-group d-flex justify-content-center " id="blue_card">
                 {% if pageModTitle == "Création" %}
-                    Créer
+                    <input type="submit" class="btn btn-primary btn-lg" value="Créer">
                 {% else %}
-                    Editer
+                    <input type="submit" class="btn btn-primary btn-lg" value="Editer">
                 {% endif %}
-            ">
+            </div>
 
         {{ form_end(categoryForm)}}
     </div>

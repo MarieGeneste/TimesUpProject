@@ -1,6 +1,6 @@
 {% extends 'adminBase.html.twig' %}
 
-{% block title %}Time's Up Admin - {{ pageModTitle }} d'une Edition{% endblock %}
+{% block title %} - {{ pageModTitle }} d'une Edition{% endblock %}
 
 {% block body %}
 
@@ -24,13 +24,13 @@
                     {{ form_row(editionForm.logo)}}
                 </div>
             </div>
-            <input type="submit" class="btn btn-primary mt-4" value="
+            <div class="row mt-4 mb-4 form-group d-flex justify-content-center " id="blue_card">
                 {% if pageModTitle == "Création" %}
-                    Créer
+                    <input type="submit" class="btn btn-primary btn-lg" value="Créer">
                 {% else %}
-                    Editer
+                    <input type="submit" class="btn btn-primary btn-lg" value="Editer">
                 {% endif %}
-            ">
+            </div>
 
         {{ form_end(editionForm)}}
     </div>

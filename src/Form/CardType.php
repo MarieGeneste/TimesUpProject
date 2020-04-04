@@ -3,11 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Card;
-use App\Entity\Word;
+use App\Entity\Response;
 use App\Entity\Edition;
 use App\Form\BlueCardType;
 use App\Form\YellowCardType;
-use App\Repository\WordRepository;
+use App\Repository\ResponseRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

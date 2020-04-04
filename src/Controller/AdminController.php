@@ -3,15 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Card;
-use App\Entity\Word;
+use App\Entity\Response;
 use App\Form\CardType;
-use App\Form\WordType;
+use App\Form\ResponseType;
 use App\Entity\Edition;
 use App\Entity\Category;
 use App\Form\EditionType;
 use App\Form\CategoryType;
 use App\Repository\CardRepository;
-use App\Repository\WordRepository;
+use App\Repository\ResponseRepository;
 use App\Repository\EditionRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,15 +23,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
     private $em;
-    private $wordRepo;
+    private $responseRepo;
     private $cardRepo;
     private $editionRepo;
     private $categoryRepo;
 
-    public function __construct(WordRepository $wordRepo, CardRepository $cardRepo, EditionRepository $editionRepo, CategoryRepository $categoryRepo, EntityManagerInterface $em)
+    public function __construct(ResponseRepository $responseRepo, CardRepository $cardRepo, EditionRepository $editionRepo, CategoryRepository $categoryRepo, EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->wordRepo = $wordRepo;
+        $this->responseRepo = $responseRepo;
         $this->cardRepo = $cardRepo;
         $this->editionRepo = $editionRepo;
         $this->categoryRepo = $categoryRepo;
@@ -59,15 +59,15 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/contenu", name="admin_content")
      */
-    public function shohAllWords()
+    public function shohAllResponses()
     {
         $pageModTitle = "content";
 
-        $allWords = $this->wordRepo->findAll();
+        $allResponses = $this->responseRepo->findAll();
 
         return $this->render('admin/content.html.twig', [
             'pageModTitle' => $pageModTitle,
-            'allWords' => $allWords
+            'allResponses' => $allResponses
         ]);
     }
 
@@ -79,12 +79,12 @@ class AdminController extends AbstractController
     {
         $pageModTitle = "Création";
 
-        $newContent = new Word();
-        $wordForm = $this->createForm(WordType::class, $newContent);
+        $newContent = new Response();
+        $responseForm = $this->createForm(ResponseType::class, $newContent);
 
-        $wordForm->handleRequest($request);
+        $responseForm->handleRequest($request);
 
-        if ($wordForm->isSubmitted() and $wordForm->isValid()) {
+        if ($responseForm->isSubmitted() and $responseForm->isValid()) {
             $this->em->persist($newContent);
             $this->em->flush();
             return $this->redirectToRoute('admin_content');
@@ -92,23 +92,23 @@ class AdminController extends AbstractController
 
         return $this->render('admin/editContent.html.twig', [
             'pageModTitle' => $pageModTitle,
-            'wordForm' => $wordForm->createView(),
+            'responseForm' => $responseForm->createView(),
         ]);
     }
 
     /**
      * @Route("/admin/edition-Contenu/{id}", name="edit_content")
-     * @param Word $content
+     * @param Response $content
      */
-    public function editContent (Word $content, Request $request)
+    public function editContent (Response $content, Request $request)
     {
         $pageModTitle = "Edition";
 
-        $wordForm = $this->createForm(WordType::class, $content);
+        $responseForm = $this->createForm(ResponseType::class, $content);
 
-        $wordForm->handleRequest($request);
+        $responseForm->handleRequest($request);
 
-        if ($wordForm->isSubmitted() and $wordForm->isValid()) {
+        if ($responseForm->isSubmitted() and $responseForm->isValid()) {
             $this->em->flush();
             return $this->redirectToRoute('admin_content');
         }
@@ -116,7 +116,7 @@ class AdminController extends AbstractController
         return $this->render('admin/editContent.html.twig', [
             'pageModTitle' => $pageModTitle,
             'content' => $content, 
-            'wordForm' => $wordForm->createView(),
+            'responseForm' => $responseForm->createView(),
         ]);
     }
 
@@ -134,7 +134,14 @@ class AdminController extends AbstractController
 
         $cardForm->handleRequest($request);
 
-        if ($cardForm->isSubmitted() and $cardForm->isValid()) {
+        if ($cardForm->isSubmitted()) {
+
+            // $yellowContent = $this->cleanDataPost($request->request->get('card')['yellowContent']['name']);
+            // $yellowDesc = $this->cleanDataPost($request->request->get('card')['yellowContent']['description']);
+            // $yellowDesc = $this->cleanDataPost($request->request->get('card')['yellowContent']['category']);
+
+            dump($request);
+            exit;
             $this->em->persist($newCard);
             $this->em->flush();
             return $this->redirectToRoute('admin');
@@ -267,66 +274,66 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/admin/ajout-Category", name="card_category_add")
-     */
-    public function addCardCategory(Request $request)
-    {
-        $yellowCat = $request->request->get('card')['yellowContent']['category']['title'];
-        $yellowCatCol = $request->request->get('card')['yellowContent']['category']['color'];
+    // /**
+    //  * @Route("/admin/ajout-Category", name="card_category_add")
+    //  */
+    // public function addCardCategory(Request $request)
+    // {
+    //     $yellowCat = $request->request->get('card')['yellowContent']['category']['title'];
+    //     $yellowCatCol = $request->request->get('card')['yellowContent']['category']['color'];
 
-        $blueCat = $request->request->get('card')['blueContent']['category']['title'];
-        $blueCatCol = $request->request->get('card')['blueContent']['category']['color'];
+    //     $blueCat = $request->request->get('card')['blueContent']['category']['title'];
+    //     $blueCatCol = $request->request->get('card')['blueContent']['category']['color'];
 
 
-        $selectedCat = array();
+    //     $selectedCat = array();
 
-        if (!empty($yellowCat)) {
-            $yellowCat = $this->cleanDataPost($yellowCat);
-            $catFound = $this->categoryRepo->findOneBy(['title' => $yellowCat]);
+    //     if (!empty($yellowCat)) {
+    //         $yellowCat = $this->cleanDataPost($yellowCat);
+    //         $catFound = $this->categoryRepo->findOneBy(['title' => $yellowCat]);
 
-            if (empty($catFound)) {
-                $newCat = new Category;
-                $newCat->setTitle($yellowCat);
+    //         if (empty($catFound)) {
+    //             $newCat = new Category;
+    //             $newCat->setTitle($yellowCat);
 
-                $this->em->persist($newCat);
+    //             $this->em->persist($newCat);
 
-                $electedCat['yellowCat'] = $newCat;
-            } else {
-                $electedCat['yellowCat'] = $catFound;
-            }
+    //             $electedCat['yellowCat'] = $newCat;
+    //         } else {
+    //             $electedCat['yellowCat'] = $catFound;
+    //         }
 
-            if (!empty($yellowCatCol)) {
-                $yellowCatCol = $this->cleanDataPost($yellowCatCol);
-                $electedCat['yellowCat']->setColor($yellowCatCol);
-            }
+    //         if (!empty($yellowCatCol)) {
+    //             $yellowCatCol = $this->cleanDataPost($yellowCatCol);
+    //             $electedCat['yellowCat']->setColor($yellowCatCol);
+    //         }
 
-            $this->em->flush();
+    //         $this->em->flush();
 
-        } elseif (!empty($blueCat)){
-            $blueCat = $this->cleanDataPost($blueCat);
-            $catFound = $this->categoryRepo->findOneBy(['title' => $blueCat]);
+    //     } elseif (!empty($blueCat)){
+    //         $blueCat = $this->cleanDataPost($blueCat);
+    //         $catFound = $this->categoryRepo->findOneBy(['title' => $blueCat]);
 
-            if (empty($catFound)) {
-                $newCat = new Category;
-                $newCat->setTitle($blueCat);
+    //         if (empty($catFound)) {
+    //             $newCat = new Category;
+    //             $newCat->setTitle($blueCat);
                 
-                $this->em->persist($newCat);
-                $this->em->flush();
+    //             $this->em->persist($newCat);
+    //             $this->em->flush();
 
-                $electedCat['blueCat'] = $newCat;
-            } else {
-                $electedCat['blueCat'] = $catFound;
-            }
+    //             $electedCat['blueCat'] = $newCat;
+    //         } else {
+    //             $electedCat['blueCat'] = $catFound;
+    //         }
 
-            if (!empty($blueCatCol)) {
-                $blueCatCol = $this->cleanDataPost($blueCatCol);
-                $electedCat['blueCat']->setColor($blueCatCol);
-            }
+    //         if (!empty($blueCatCol)) {
+    //             $blueCatCol = $this->cleanDataPost($blueCatCol);
+    //             $electedCat['blueCat']->setColor($blueCatCol);
+    //         }
 
-            $this->em->flush();
-        }
-    }
+    //         $this->em->flush();
+    //     }
+    // }
 
     private function cleanDataPost($data){
         // $data = trim($data);

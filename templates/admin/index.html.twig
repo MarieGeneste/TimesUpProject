@@ -64,17 +64,30 @@
                 <thead>
                     <tr>
                         <th>Catégories</th>
+                        <th>Catégorie parente</th>
                         <th>Descriptions</th>
+                        <th class="text-center">Couleur</th>
                         <th class="text-center">Editer</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for category in allCategories %}
+                    {% for category in allCategories | sortbyfield('title') %}
                         <tr>
                             <td>{{ category.title }}</td>
+                            <td>
+                                {% for parentCat in category.parentCategory %}
+                                    {% if loop.first %}
+                                        {{ parentCat.title }}
+                                    {% else %}
+                                        - {{ parentCat.title }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
                             <td>{{ category.description }}</td>
+                            <td class="text-center"><span class="fa fa-circle" style="color : {{ category.color }}"></span></td>
                             <td class="text-center"><span class="material-icons"><a href="{{ path('edit_category', {'id' : category.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
                         </tr>
+                    
                     {% endfor %}
                 </tbody>
             </table>
@@ -87,7 +100,7 @@
                 <thead>
                     <tr>
                         <th>Editions</th>
-                        <th>Logos</th>
+                        <th class="text-center">Logos</th>
                         <th class="text-center">Editer</th>
                     </tr>
                 </thead>
@@ -95,7 +108,13 @@
                     {% for edition in allEditions %}
                         <tr>
                             <td>{{ edition.title }}</td>
-                            <td>{{ edition.logo }}</td>
+                            <td class="text-center">
+                                {% if edition.logo is empty %}
+                                    <span class="fa fa-circle" style="color : {{ edition.color }}"></span>
+                                {% else %}
+                                    <span style="color : {{ edition.color }}">{{ edition.logo }}</span>
+                                {% endif %}
+                            </td>
                             <td class="text-center"><span class="material-icons"><a href="{{ path('edit_edition', {'id' : edition.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
                         </tr>
                     {% endfor %}

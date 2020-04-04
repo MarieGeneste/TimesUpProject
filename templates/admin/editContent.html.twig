@@ -28,13 +28,13 @@
                     <input type="text" class="form-control" id="add-category" placeholder="">
                 </div> #}
             </div>
-            <input type="submit" class="btn btn-primary mt-4 text-right" value="
+            <div class="row mt-4 mb-4 form-group d-flex justify-content-center " id="blue_card">
                 {% if pageModTitle == "Création" %}
-                    Créer
+                    <input type="submit" class="btn btn-primary btn-lg" value="Créer">
                 {% else %}
-                    Editer
+                    <input type="submit" class="btn btn-primary btn-lg" value="Editer">
                 {% endif %}
-            ">
+            </div>
 
         {{ form_end(wordForm)}}
     </div>

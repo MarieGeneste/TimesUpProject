@@ -28,7 +28,7 @@ class BlueCard
     private $cards;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Word", inversedBy="blueCard")
+     * @ORM\OneToOne(targetEntity="App\Entity\Response", inversedBy="blueCard")
      * @ORM\JoinColumn(nullable=false)
      */
     private $content;
@@ -77,12 +77,12 @@ class BlueCard
         return $this;
     }
 
-    public function getContent(): ?Word
+    public function getContent(): ?Response
     {
         return $this->content;
     }
 
-    public function setContent(Word $content): self
+    public function setContent(Response $content): self
     {
         $this->content = $content;
 

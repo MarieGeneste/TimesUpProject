@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\WordRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ResponseRepository")
  */
-class Word
+class Response
 {
     /**
      * @var \Ramsey\Uuid\UuidInterface
@@ -32,7 +32,7 @@ class Word
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="words")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="responses")
      * @ORM\JoinColumn(nullable=true)
      */
     private $category;

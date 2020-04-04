@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Word;
+use App\Entity\Response;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Word|null find($id, $lockMode = null, $lockVersion = null)
- * @method Word|null findOneBy(array $criteria, array $orderBy = null)
- * @method Word[]    findAll()
- * @method Word[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Response|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Response|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Response[]    findAll()
+ * @method Response[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class WordRepository extends ServiceEntityRepository
+class ResponseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Word::class);
+        parent::__construct($registry, Response::class);
     }
 
     // /**
-    //  * @return Word[] Returns an array of Word objects
+    //  * @return Response[] Returns an array of Response objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class WordRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Word
+    public function findOneBySomeField($value): ?Response
     {
         return $this->createQueryBuilder('w')
             ->andWhere('w.exampleField = :val')

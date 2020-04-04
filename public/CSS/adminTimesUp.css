@@ -105,3 +105,7 @@ h2 {
     float: right;
     padding: 0px !important;
 }
+
+.custom-file-label::after {
+    content: "Rechercher";
+}

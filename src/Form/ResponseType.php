@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Word;
+use App\Entity\Response;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class WordType extends AbstractType
+class ResponseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -31,7 +31,7 @@ class WordType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Word::class,
+            'data_class' => Response::class,
         ]);
     }
 

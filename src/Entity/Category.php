@@ -27,7 +27,7 @@ class Category
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $color;
 
@@ -37,9 +37,9 @@ class Category
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Word", mappedBy="category")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Response", mappedBy="category")
      */
-    private $words;
+    private $responses;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="categories")
@@ -49,7 +49,7 @@ class Category
     public function __construct()
     {
         $this->cards = new ArrayCollection();
-        $this->words = new ArrayCollection();
+        $this->responses = new ArrayCollection();
         $this->ParentCategory = new ArrayCollection();
     }
 
@@ -98,28 +98,28 @@ class Category
     }
 
     /**
-     * @return Collection|Word[]
+     * @return Collection|Response[]
      */
-    public function getWords(): Collection
+    public function getResponses(): Collection
     {
-        return $this->words;
+        return $this->responses;
     }
 
-    public function addWord(Word $word): self
+    public function addResponse(Response $response): self
     {
-        if (!$this->words->contains($word)) {
-            $this->words[] = $word;
-            $word->addCategory($this);
+        if (!$this->responses->contains($response)) {
+            $this->responses[] = $response;
+            $response->addCategory($this);
         }
 
         return $this;
     }
 
-    public function removeWord(Word $word): self
+    public function removeResponse(Response $response): self
     {
-        if ($this->words->contains($word)) {
-            $this->words->removeElement($word);
-            $word->removeCategory($this);
+        if ($this->responses->contains($response)) {
+            $this->responses->removeElement($response);
+            $response->removeCategory($this);
         }
 
         return $this;

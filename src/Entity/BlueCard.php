@@ -28,7 +28,7 @@ class BlueCard
     private $cards;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Response", inversedBy="blueCard")
+     * @ORM\OneToOne(targetEntity="App\Entity\Response", inversedBy="blueCard", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $content;

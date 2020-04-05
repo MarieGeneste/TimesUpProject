@@ -10,7 +10,7 @@
         {% if pageModTitle == "Création" %}
             {{ form_start(responseForm, {'action': path('add_content')} )}}
         {% else %}
-            {{ form_start(responseForm, {'action': path('edit_content', {'id' : content.id }) }) }}
+            {{ form_start(responseForm, {'action': path('edit_content', {'content' : content.id }) }) }}
         {% endif %}
 
             <div class="row mt-4 mb-4">

@@ -1,0 +1,44 @@
+{# Gestion des messages d'alert #}
+
+
+<div class="row connection-alert">
+
+        {% if loginError is defined and loginError %}
+            <div class="col s6 offset-s3 mb-40">
+                <div class="alert danger-border" role="alert">
+                    <i class="fa fa-times-circle"></i>
+                    Problème de connexion : <strong> {{ loginError.messageKey | trans(loginError.messagedata, 'security') }}</strong>
+                </div>
+            </div>
+
+        {% endif %}
+        
+
+        {% for alert_message in app.flashes('success')%}
+        <div class="col s6 offset-s3 mb-40">
+            <div class="alert success-border" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <i class="fa fa-thumbs-o-up"></i> {{ alert_message|raw }}
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for alert_message in app.flashes('error')%}
+        <div class="col s6 offset-s3 mb-40">
+            <div class="alert danger-border" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <i class="fa fa-times-circle"></i> {{ alert_message|raw }}
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for alert_message in app.flashes('warning')%}
+        <div class="col s6 offset-s3 mb-40">
+            <div class="alert warning-border" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <i class="fa fa-times-circle"></i> {{ alert_message|raw }}
+            </div>
+        </div>
+        {% endfor %}
+
+</div>

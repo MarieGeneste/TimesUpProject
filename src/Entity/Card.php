@@ -28,13 +28,13 @@ class Card
     private $edition;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\YellowCard", inversedBy="cards")
+     * @ORM\ManyToOne(targetEntity="App\Entity\YellowCard", inversedBy="cards", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $yellowContent;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\BlueCard", inversedBy="cards")
+     * @ORM\ManyToOne(targetEntity="App\Entity\BlueCard", inversedBy="cards", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $blueContent;

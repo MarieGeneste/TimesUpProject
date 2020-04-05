@@ -1,5 +1,7 @@
 {% extends 'adminBase.html.twig' %}
 
+{% block title %} - {{ pageModTitle }} Contenu{% endblock %}
+
 {% block body %}
 
     <h1 class="pageTitle mb-4 text-center">Contenu du jeu</h1>
@@ -16,6 +18,7 @@
                         <th>Descriptions</th>
                         <th>Catégorie</th>
                         <th class="text-center">Editer</th>
+                        <th class="text-center">Supprimer</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +43,8 @@
                                     {% endif %}
                                 {% endfor %}
                             </td>
-                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_content', {'id' : response.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_content', {'content' : response.id }) }}"><i class="fas fa-edit"></i></a></span>
+                            <td class="text-center"><span class="material-icons"><a class="col-red" onclick="return confirm('Etes-vous sûre de vouloir supprimer cette ligne ?')" href="{{ path('delete_content', {'content' : response.id }) }}"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
                         </tr>
                     {% endfor %}
                 </tbody>

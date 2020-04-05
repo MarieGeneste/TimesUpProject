@@ -3,17 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Card;
-use App\Entity\Response;
 use App\Form\CardType;
-use App\Form\ResponseType;
 use App\Entity\Edition;
+use App\Entity\BlueCard;
 use App\Entity\Category;
+use App\Entity\Response;
 use App\Form\EditionType;
+use App\Entity\YellowCard;
 use App\Form\CategoryType;
+use App\Form\ResponseType;
 use App\Repository\CardRepository;
-use App\Repository\ResponseRepository;
 use App\Repository\EditionRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\ResponseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -97,7 +99,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/edition-Contenu/{id}", name="edit_content")
+     * @Route("/admin/edition-Contenu/{content}", name="edit_content")
      * @param Response $content
      */
     public function editContent (Response $content, Request $request)
@@ -120,6 +122,24 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/suppression-Contenu/{content}", name="delete_content")
+     * @param Response $content
+     */
+    public function deleteContent (Response $content, Request $request)
+    {
+        $deleteName = $content->getName();
+        dump($content);
+        if (!empty($content->getBlueCard()) || !empty($content->getYellowCard())) {
+            $this->addFlash('error', 'La ligne "' . $deleteName .'" ne peut pas être supprimée car elle est rattachée à une carte.');
+        } else {
+            $this->em->remove($content);
+            $this->em->flush();
+        }
+
+        return $this->redirectToRoute('admin_content');
+    }
+
 
     /**
      * @Route("/admin/ajout-Carte", name="add_card")
@@ -137,14 +157,83 @@ class AdminController extends AbstractController
 
         if ($cardForm->isSubmitted()) {
 
-            // $yellowContent = $this->cleanDataPost($request->request->get('card')['yellowContent']['name']);
-            // $yellowDesc = $this->cleanDataPost($request->request->get('card')['yellowContent']['description']);
-            // $yellowDesc = $this->cleanDataPost($request->request->get('card')['yellowContent']['category']);
+            // dump($request);
+            // exit;
+            
 
-            dump($request);
-            exit;
-            $this->em->persist($newCard);
-            $this->em->flush();
+            $yellowResonseId = $this->cleanDataPost($request->request->get('card')['yellowResponse']['id']);
+            if (!empty($yellowResonseId)) {
+                $yellowResp = $this->responseRepo->find($yellowResonseId);
+            }
+            $blueResonseId = $this->cleanDataPost($request->request->get('card')['blueResponse']['id']);
+            if (!empty($blueResonseId)) {
+                $blueResp = $this->responseRepo->find($blueResonseId);
+            }
+
+            $yellowContent = $this->cleanDataPost($request->request->get('card')['yellowContent']['name']);
+            $yellowDesc = $this->cleanDataPost($request->request->get('card')['yellowContent']['description']);
+
+            $blueContent = $this->cleanDataPost($request->request->get('card')['blueContent']['name']);
+            $blueDesc = $this->cleanDataPost($request->request->get('card')['blueContent']['description']);
+
+            if (!empty($newCard->getEdition()) && (!empty($yellowResp) || !empty($yellowContent)) && (!empty($yellowResp) || !empty($blueContent)) ) {
+                $yellowCard = new YellowCard();
+                $blueCard = new BlueCard();
+
+                if (!empty($yellowResp)) {
+                    $yellowCard->setContent($yellowResp);
+                } else {
+                    $newYellowResp = new Response;
+                    $newYellowResp->setName($yellowContent)
+                                    ->setDescription($yellowDesc);
+                    
+                    $yellowCatsId = !empty($request->request->get('card')['yellowContent']['category']) ? $request->request->get('card')['yellowContent']['category'] : null;
+                    if (!empty($yellowCats)) {
+                        foreach ($yellowCatsId as $yellowCatId) {
+                            $yellowCat = $this->categoryRepo->find($yellowCatId);
+                            $newYellowResp->addCategory($yellowCat);
+                        }
+                    }
+                    
+                    $this->em->persist($newYellowResp);
+                    $this->em->flush();
+
+                    $newYellowResp->setYellowCard($yellowCard);
+                }
+
+                if (!empty($blueResp)) {
+                    $blueCard->setContent($blueResp);
+                } else {
+                    $newBlueResp = new Response;
+                    $newBlueResp->setName($blueContent)
+                                    ->setDescription($blueDesc);
+                    
+                    $blueCatsId = !empty($request->request->get('card')['blueContent']['category']) ? $request->request->get('card')['blueContent']['category'] : null;
+                    if (!empty($blueCats)) {
+                        foreach ($blueCatsId as $blueCatId) {
+                            $blueCat = $this->categoryRepo->find($blueCatId);
+                            $newBlueResp->addCategory($blueCat);
+                        }
+                    }
+                    
+                    $this->em->persist($newBlueResp);
+                    $this->em->flush();
+
+                    $newBlueResp->setBlueCard($blueCard);
+                }
+
+                $newCard->setYellowContent($yellowCard)
+                        ->setBlueContent($blueCard);
+     
+                $this->em->persist($newCard);
+                $this->em->flush();
+
+                $this->addFlash('success', "La nouvelle carte a bien été crée");
+
+            } else {
+                $this->addFlash('error', "L'édition, ainsi que les réponses jaune et bleue sont des obligatoires");
+            }
+
             return $this->redirectToRoute('admin');
         }
 

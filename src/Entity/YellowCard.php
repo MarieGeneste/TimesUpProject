@@ -28,7 +28,7 @@ class YellowCard
     private $cards;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\response", inversedBy="yellowCard")
+     * @ORM\OneToOne(targetEntity="App\Entity\response", inversedBy="yellowCard", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $content;

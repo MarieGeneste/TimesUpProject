@@ -12,21 +12,20 @@
             <table class="table table-dark table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>Numéros</th>
                         <th>Contenu</th>
                         <th>Descriptions</th>
                         <th>Categories</th>
+                        <th class="text-center">Edition</th>
                         <th class="text-center">Editer</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for card in allCards %}
                         <tr class="yellow-card">
-                            <td rowspan="2">{{ card.id }} ({{ card.edition.title }})</td>
-                            <td class="color-card">{{ card.yellowContent.name }}</td>
-                            <td class="color-card">{{ card.yellowContent.description }}</td>
+                            <td class="color-card">{{ card.yellowContent.content.name }}</td>
+                            <td class="color-card">{{ card.yellowContent.content.description }}</td>
                             <td class="color-card">
-                                {% for category in card.yellowContent.category %}
+                                {% for category in card.yellowContent.content.category %}
                                     {% if loop.first %}
                                         {{ category.title }}
                                     {% else %}
@@ -34,13 +33,14 @@
                                     {% endif %}
                                 {% endfor %}
                             </td>
-                            <td class="text-center" rowspan="2"><span class="material-icons"><a href="{{ path('edit_card', {'id' : card.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                            <td rowspan="2" class="text-center align-middle">({{ card.edition.title }})</td>
+                            <td class="text-center align-middle" rowspan="2"><span class="material-icons"><a href="{{ path('edit_card', {'id' : card.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
                         </tr>
                         <tr class="blue-card">
-                            <td class="color-card">{{ card.blueContent.name }}</td>
-                            <td class="color-card">{{ card.blueContent.description }}</td>
+                            <td class="color-card">{{ card.blueContent.content.name }}</td>
+                            <td class="color-card">{{ card.blueContent.content.description }}</td>
                             <td class="color-card">
-                                {% for category in card.blueContent.category %}
+                                {% for category in card.blueContent.content.category %}
                                     {% if loop.first %}
                                         {{ category.title }}
                                     {% else %}

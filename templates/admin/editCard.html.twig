@@ -27,7 +27,11 @@
                     <select id="yellow_card_response" name="card[yellowResponse][id]" data-width="100%" class="selectpicker" data-live-search="true" data-size="auto" title="Rechercher une réponse">
                             <option class="no-yellow-response-selected" selected value=""></option>
                         {% for response in allResponses %}
+                            {% if card is defined and response == card.yellowContent.content %}
+                            <option class="yellow-response-selected" selected value="{{ response.id }}">{{ response.name }}</option>
+                            {% else %}
                             <option class="yellow-response-selected" value="{{ response.id }}">{{ response.name }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>
@@ -60,7 +64,11 @@
                     <select id="blue_card_response" name="card[blueResponse][id]" data-width="100%" class="selectpicker" data-live-search="true" data-size="auto" title="Rechercher une réponse">
                             <option class="no-blue-response-selected" selected value=""></option>
                         {% for response in allResponses %}
+                            {% if card is defined and response == card.blueContent.content %}
+                            <option class="blue-response-selected" selected value="{{ response.id }}">{{ response.name }}</option>
+                            {% else %}
                             <option class="blue-response-selected" value="{{ response.id }}">{{ response.name }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>
@@ -86,10 +94,11 @@
             </div>
             <div class="row mt-4 mb-4 form-group d-flex justify-content-center " id="blue_card">
                 {% if pageModTitle == "Création" %}
-                    <input type="submit" class="btn btn-primary btn-lg" value="Créer">
+                    <input type="submit" class="btn btn-primary btn-lg m-2" value="Créer">
                 {% else %}
-                    <input type="submit" class="btn btn-primary btn-lg" value="Editer">
+                    <input type="submit" class="btn btn-primary btn-lg m-2" value="Editer">
                 {% endif %}
+                    <a href="{{ path('admin') }}" class="btn btn-danger btn-lg m-2">Annuler</a>
             </div>
 
         {{ form_end(cardForm)}}

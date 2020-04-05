@@ -28,10 +28,15 @@ class BlueCard
     private $cards;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Response", inversedBy="blueCard", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\Response", inversedBy="blueCard", cascade={"persist", "remove"})
      */
     private $content;
+
+    // /**
+    //  * @ORM\OneToOne(targetEntity="App\Entity\Response", inversedBy="blueCard", cascade={"persist")
+    //  * @ORM\JoinColumn(nullable=true)
+    //  */
+    // private $content;
 
     public function __construct()
     {
@@ -82,7 +87,7 @@ class BlueCard
         return $this->content;
     }
 
-    public function setContent(Response $content): self
+    public function setContent(?Response $content): self
     {
         $this->content = $content;
 

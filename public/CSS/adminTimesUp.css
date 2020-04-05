@@ -124,3 +124,15 @@ h2 {
 .col-red{
     color: red;
 }
+
+.col-white{
+    color: white;
+}
+
+.fa-edit{
+    color: white;
+}
+
+.fa-edit:hover {
+    color: #0056b3;
+}

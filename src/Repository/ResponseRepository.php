@@ -22,6 +22,19 @@ class ResponseRepository extends ServiceEntityRepository
     // /**
     //  * @return Response[] Returns an array of Response objects
     //  */
+    public function findByCategory($cat)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere(":cat MEMBER OF r.category")
+            ->setParameter("cat", $cat)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    // /**
+    //  * @return Response[] Returns an array of Response objects
+    //  */
     /*
     public function findByExampleField($value)
     {

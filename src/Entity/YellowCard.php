@@ -28,8 +28,7 @@ class YellowCard
     private $cards;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\response", inversedBy="yellowCard", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\Response", inversedBy="yellowCard", cascade={"persist", "remove"})
      */
     private $content;
 
@@ -77,12 +76,12 @@ class YellowCard
         return $this;
     }
 
-    public function getContent(): ?response
+    public function getContent(): ?Response
     {
         return $this->content;
     }
 
-    public function setContent(response $content): self
+    public function setContent(?Response $content): self
     {
         $this->content = $content;
 

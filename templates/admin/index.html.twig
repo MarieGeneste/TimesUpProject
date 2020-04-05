@@ -20,9 +20,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for card in allCards %}
+                    {% for card in allCards | sortbyfield('edition') %}
                         <tr class="yellow-card">
-                            <td class="color-card">{{ card.yellowContent.content.name }}</td>
+                            <td class="color-card"><a class="col-white" href="{{ path('edit_content', {'content' : card.yellowContent.content.id }) }}">{{ card.yellowContent.content.name }}</a></td>
                             <td class="color-card">{{ card.yellowContent.content.description }}</td>
                             <td class="color-card">
                                 {% for category in card.yellowContent.content.category %}
@@ -33,11 +33,11 @@
                                     {% endif %}
                                 {% endfor %}
                             </td>
-                            <td rowspan="2" class="text-center align-middle">({{ card.edition.title }})</td>
-                            <td class="text-center align-middle" rowspan="2"><span class="material-icons"><a href="{{ path('edit_card', {'id' : card.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                            <td rowspan="2" class="text-center align-middle" ><span class="fa fa-circle mr-2" style="color : {{ card.edition.color }}"></span>{{ card.edition.title }}</td>
+                            <td rowspan="2" class="text-center align-middle"><span class="material-icons"><a href="{{ path('edit_card', {'id' : card.id }) }}"><i class="fas fa-edit"></i></a></span>
                         </tr>
                         <tr class="blue-card">
-                            <td class="color-card">{{ card.blueContent.content.name }}</td>
+                            <td class="color-card"><a class="col-white" href="{{ path('edit_content', {'content' : card.yellowContent.content.id }) }}">{{ card.blueContent.content.name }}</a></td>
                             <td class="color-card">{{ card.blueContent.content.description }}</td>
                             <td class="color-card">
                                 {% for category in card.blueContent.content.category %}
@@ -56,7 +56,7 @@
     </div>
 
     <div class="row mt-4 d-flex flex-wrap justify-content-between">
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-7 col-md-12">
 
             <h2>Les Catégories <a href="{{ path('add_category') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
 
@@ -68,6 +68,7 @@
                         <th>Descriptions</th>
                         <th class="text-center">Couleur</th>
                         <th class="text-center">Editer</th>
+                        <th class="text-center">Supprimer</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,14 +86,15 @@
                             </td>
                             <td>{{ category.description }}</td>
                             <td class="text-center"><span class="fa fa-circle" style="color : {{ category.color }}"></span></td>
-                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_category', {'id' : category.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_category', {'category' : category.id }) }}"><i class="fas fa-edit"></i></a></span>
+                            <td class="text-center"><span class="material-icons"><a class="col-red" onclick="return confirm('Etes-vous sûre de vouloir supprimer la catégorie {{ category.title }} ?')" href="{{ path('delete_category', {'category' : category.id }) }}"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
                         </tr>
                     
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-5 col-md-12">
 
             <h2>Les Editions <a href="{{ path('add_edition') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
 
@@ -102,10 +104,11 @@
                         <th>Editions</th>
                         <th class="text-center">Logos</th>
                         <th class="text-center">Editer</th>
+                        <th class="text-center">Supprimer</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for edition in allEditions %}
+                    {% for edition in allEditions | sortbyfield('title') %}
                         <tr>
                             <td>{{ edition.title }}</td>
                             <td class="text-center">
@@ -115,7 +118,8 @@
                                     <span style="color : {{ edition.color }}">{{ edition.logo }}</span>
                                 {% endif %}
                             </td>
-                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_edition', {'id' : edition.id }) }}"><img src="{{asset('IMG/create-white-18dp.svg')}}" alt="éditer"></a></span>
+                            <td class="text-center"><span class="material-icons"><a href="{{ path('edit_edition', {'edition' : edition.id }) }}"><i class="fas fa-edit"></i></a></span>
+                            <td class="text-center"><span class="material-icons"><a class="col-red" onclick="return confirm('Etes-vous sûre de vouloir supprimer l'Edition {{ edition.title }} ?')" href="{{ path('delete_edition', {'edition' : edition.id }) }}"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
                         </tr>
                     {% endfor %}
                 </tbody>

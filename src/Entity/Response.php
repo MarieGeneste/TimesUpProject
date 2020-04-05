@@ -38,16 +38,14 @@ class Response
     private $category;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\YellowCard", mappedBy="content", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $yellowCard;
-
-    /**
      * @ORM\OneToOne(targetEntity="App\Entity\BlueCard", mappedBy="content", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $blueCard;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\YellowCard", mappedBy="content", cascade={"persist", "remove"})
+     */
+    private $yellowCard;
 
     public function __construct()
     {
@@ -114,35 +112,53 @@ class Response
         return $this;
     }
 
-    public function getYellowCard(): ?YellowCard
-    {
-        return $this->yellowCard;
-    }
-
-    public function setYellowCard(YellowCard $yellowCard): self
-    {
-        $this->yellowCard = $yellowCard;
-
-        // set the owning side of the relation if necessary
-        if ($yellowCard->getContent() !== $this) {
-            $yellowCard->setContent($this);
-        }
-
-        return $this;
-    }
-
     public function getBlueCard(): ?BlueCard
     {
         return $this->blueCard;
     }
 
-    public function setBlueCard(BlueCard $blueCard): self
+    public function setBlueCard(?BlueCard $blueCard, $action = null): self
     {
-        $this->blueCard = $blueCard;
+        if ($action == "remove") {
+            $this->blueCard = null;
+    
+            if ($blueCard->getContent() !== null) {
+                $blueCard->setContent(null);
+            }
+        } else {
+            $this->blueCard = $blueCard;
+    
+            // set (or unset) the owning side of the relation if necessary
+            $newContent = null === $blueCard ? null : $this;
+            if ($blueCard->getContent() !== $newContent) {
+                $blueCard->setContent($newContent);
+            }
+        }
 
-        // set the owning side of the relation if necessary
-        if ($blueCard->getContent() !== $this) {
-            $blueCard->setContent($this);
+        return $this;
+    }
+
+    public function getYellowCard(): ?YellowCard
+    {
+        return $this->yellowCard;
+    }
+
+    public function setYellowCard(?YellowCard $yellowCard, $action = null): self
+    {
+        if ($action == "remove") {
+            $this->yellowCard = null;
+    
+            if ($yellowCard->getContent() !== null) {
+                $yellowCard->setContent(null);
+            }
+        } else {
+            $this->yellowCard = $yellowCard;
+
+            // set (or unset) the owning side of the relation if necessary
+            $newContent = null === $yellowCard ? null : $this;
+            if ($yellowCard->getContent() !== $newContent) {
+                $yellowCard->setContent($newContent);
+            }
         }
 
         return $this;

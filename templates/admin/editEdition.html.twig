@@ -10,7 +10,7 @@
         {% if pageModTitle == "Création" %}
             {{ form_start(editionForm, {'action': path('add_edition')} )}}
         {% else %}
-            {{ form_start(editionForm, {'action': path('edit_edition', {'id' : edition.id }) }) }}
+            {{ form_start(editionForm, {'action': path('edit_edition', {'edition' : edition.id }) }) }}
         {% endif %}
 
             <div class="row mt-4 mb-4">
@@ -26,10 +26,11 @@
             </div>
             <div class="row mt-4 mb-4 form-group d-flex justify-content-center " id="blue_card">
                 {% if pageModTitle == "Création" %}
-                    <input type="submit" class="btn btn-primary btn-lg" value="Créer">
+                    <input type="submit" class="btn btn-primary btn-lg m-2" value="Créer">
                 {% else %}
-                    <input type="submit" class="btn btn-primary btn-lg" value="Editer">
+                    <input type="submit" class="btn btn-primary btn-lg m-2" value="Editer">
                 {% endif %}
+                    <a href="{{ path('admin') }}" class="btn btn-danger btn-lg m-2">Annuler</a>
             </div>
 
         {{ form_end(editionForm)}}

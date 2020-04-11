@@ -40,8 +40,8 @@ body {
     cursor: pointer;
 }
 
-#authentication {
-    padding-top: calc(73px + 4rem);
+#front_content {
+    /* padding-top: 73px; */
     min-height: calc(100vh - 72px);
 }
 

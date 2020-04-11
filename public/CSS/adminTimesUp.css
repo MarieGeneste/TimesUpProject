@@ -112,13 +112,3 @@ table.dataTable thead .sorting_asc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:after{
     content: "";
 }
-
-.dataTables_length,
-.dataTables_filter,
-.dataTables_info {
-    color: white !important;
-}
-
-.page-item{
-    padding: 0 !important;
-}

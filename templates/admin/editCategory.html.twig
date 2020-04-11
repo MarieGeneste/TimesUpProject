@@ -8,9 +8,9 @@
 
     <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
         {% if pageModTitle == "Création" %}
-            {{ form_start(categoryForm, {'action': path('add_category')} )}}
+            {{ form_start(categoryForm, {'action': path('admin_add_category')} )}}
         {% else %}
-            {{ form_start(categoryForm, {'action': path('edit_category', {'category' : category.id }) }) }}
+            {{ form_start(categoryForm, {'action': path('admin_edit_category', {'category' : category.id }) }) }}
         {% endif %}
 
             <div class="row mt-4 mb-4">
@@ -33,7 +33,7 @@
                 {% else %}
                     <input type="submit" class="btn btn-primary btn-lg m-2" value="Editer">
                 {% endif %}
-                    <a href="{{ path('admin') }}" class="btn btn-danger btn-lg m-2">Annuler</a>
+                    <a href="{{ path('admin_dashboard') }}" class="btn btn-danger btn-lg m-2">Annuler</a>
             </div>
 
         {{ form_end(categoryForm)}}

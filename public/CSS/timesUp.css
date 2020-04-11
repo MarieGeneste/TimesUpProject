@@ -1,3 +1,8 @@
+
+body {
+    height: 100%;
+}
+
 .portfolio-item .game-mod {
     width: 100%;
     padding: 10px;
@@ -33,4 +38,49 @@
 
 #connexion {
     cursor: pointer;
+}
+
+#authentication {
+    padding-top: calc(73px + 4rem);
+    min-height: calc(100vh - 72px);
+}
+
+@media (min-width: 992px){
+
+    #mainNav{
+        height: 88px;
+    }
+    
+    #authentication {
+        padding-top: calc(88px + 4rem);
+        min-height: calc(100vh - 72px);
+    }
+}
+
+.jumbotron {
+    background-color: #e9ecef40;
+    margin-bottom: 0;
+}
+
+.col-red{
+    color: red;
+}
+
+.col-white{
+    color: white;
+}
+
+.fa-edit{
+    color: white;
+}
+
+.fa-edit:hover {
+    color: #0056b3;
+}
+
+.form-check-input{
+    width:20px;
+    margin-top: 1px;
+    height: 20px;
+    margin-left: -2.75rem;
 }

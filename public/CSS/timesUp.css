@@ -44,6 +44,11 @@ body {
     /* padding-top: 73px; */
     min-height: calc(100vh - 72px);
 }
+    
+#authentication {
+    padding-top: calc(73px + 4rem);
+    min-height: calc(100vh - 72px);
+}
 
 @media (min-width: 992px){
 

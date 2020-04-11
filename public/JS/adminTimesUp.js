@@ -43,6 +43,7 @@
                     "next":       "Suivant",
                     "previous":   "Précédent"
                 },
+                "infoFiltered": " - Résultat(s) sur _MAX_ réponses"
             }
           } );
         $('.dataTables_length').addClass('bs-select');
@@ -66,6 +67,7 @@
                     "next":       "Suivant",
                     "previous":   "Précédent"
                 },
+                "infoFiltered": " - Résultat(s) sur _MAX_ catégories"
             }
           } );
         $('.dataTables_length').addClass('bs-select');

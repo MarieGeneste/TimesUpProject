@@ -1,0 +1,40 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block body %}
+
+    <h1 class="pageTitle mb-4 text-center">Tableau de bord</h1>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <h2>Les Editions <a href="{{ path('admin_add_edition') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
+
+            <table class="table table-dark table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Editions</th>
+                        <th class="text-center">Logos</th>
+                        <th class="text-center">Editer</th>
+                        <th class="text-center">Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for edition in allEditions | sortbyfield('title') %}
+                        <tr>
+                            <td>{{ edition.title }}</td>
+                            <td class="text-center">
+                                {% if edition.logo is empty %}
+                                    <span class="fa fa-circle" style="color : {{ edition.color }}"></span>
+                                {% else %}
+                                    <span style="color : {{ edition.color }}">{{ edition.logo }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center"><span class="material-icons"><a href="{{ path('admin_edit_edition', {'edition' : edition.id }) }}"><i class="fas fa-edit"></i></a></span>
+                            <td class="text-center"><span class="material-icons"><a class="col-red" onclick="return confirm('Etes-vous sûre de vouloir supprimer l'Edition {{ edition.title }} ?')" href="{{ path('admin_delete_edition', {'edition' : edition.id }) }}"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

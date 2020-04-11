@@ -40,16 +40,16 @@ body {
     cursor: pointer;
 }
 
-#authentication {
-    padding-top: calc(73px + 4rem);
+#front_content {
+    /* padding-top: 73px; */
     min-height: calc(100vh - 72px);
 }
 
 @media (min-width: 992px){
 
-    #mainNav{
+    /* #mainNav{
         height: 88px;
-    }
+    } */
     
     #authentication {
         padding-top: calc(88px + 4rem);
@@ -63,11 +63,7 @@ body {
 }
 
 .col-red{
-    color: red;
-}
-
-.col-white{
-    color: white;
+    color: red !important;
 }
 
 .fa-edit{

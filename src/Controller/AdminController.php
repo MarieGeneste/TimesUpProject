@@ -56,20 +56,58 @@ class AdminController extends AbstractController
     {
         $pageModTitle = "dashboard";
 
-        $allCards = $this->cardRepo->findAll();
-        $allEditions = $this->editionRepo->findAll();
-        $allCategories = $this->categoryRepo->findAll();
-
         return $this->render('admin/index.html.twig', [
             'pageModTitle' => $pageModTitle,
-            'allCards' => $allCards,
-            'allEditions' => $allEditions,
+        ]);
+    }
+
+    /**
+     * @Route("/Cartes", name="show_cards")
+     */
+    public function showCards()
+    {
+        $pageModTitle = "Cartes";
+
+        $allCards = $this->cardRepo->findAll();
+
+        return $this->render('admin/showCards.html.twig', [
+            'pageModTitle' => $pageModTitle,
+            'allCards' => $allCards
+        ]);
+    }
+
+    /**
+     * @Route("/Categories", name="show_categories")
+     */
+    public function showCategories()
+    {
+        $pageModTitle = "Catégories";
+
+        $allCategories = $this->categoryRepo->findAll();
+
+        return $this->render('admin/showCategories.html.twig', [
+            'pageModTitle' => $pageModTitle,
             'allCategories' => $allCategories
         ]);
     }
 
     /**
-     * @Route("/admin/contenu", name="content")
+     * @Route("/Editions", name="show_editions")
+     */
+    public function showEditions()
+    {
+        $pageModTitle = "Editions";
+;
+        $allEditions = $this->editionRepo->findAll();
+
+        return $this->render('admin/showEditions.html.twig', [
+            'pageModTitle' => $pageModTitle,
+            'allEditions' => $allEditions,
+        ]);
+    }
+
+    /**
+     * @Route("/contenu", name="show_content")
      */
     public function shohAllResponses()
     {
@@ -77,7 +115,7 @@ class AdminController extends AbstractController
 
         $allResponses = $this->responseRepo->findAll();
 
-        return $this->render('admin/content.html.twig', [
+        return $this->render('admin/showContent.html.twig', [
             'pageModTitle' => $pageModTitle,
             'allResponses' => $allResponses
         ]);
@@ -85,7 +123,7 @@ class AdminController extends AbstractController
 
 
     /**
-     * @Route("/admin/ajout-Contenu", name="add_content")
+     * @Route("/ajout-Contenu", name="add_content")
      */
     public function addContent(Request $request)
     {
@@ -109,7 +147,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/edition-Contenu/{content}", name="edit_content")
+     * @Route("/edition-Contenu/{content}", name="edit_content")
      * @param Response $content
      */
     public function editContent (Response $content, Request $request)
@@ -133,7 +171,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/suppression-Contenu/{content}", name="delete_content")
+     * @Route("/suppression-Contenu/{content}", name="delete_content")
      * @param Response $content
      */
     public function deleteContent (Response $content, Request $request)
@@ -169,7 +207,7 @@ class AdminController extends AbstractController
 
 
     /**
-     * @Route("/admin/ajout-Carte", name="add_card")
+     * @Route("/ajout-Carte", name="add_card")
      */
     public function addCard(Request $request)
     {
@@ -186,7 +224,7 @@ class AdminController extends AbstractController
 
             $this->updateCard($request, $newCard, "crée");
 
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
 
         }
 
@@ -199,7 +237,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/edition-Carte/{id}", name="edit_card")
+     * @Route("/edition-Carte/{id}", name="edit_card")
      * @param Card $card
      */
     public function editCard(Card $card, Request $request)
@@ -218,7 +256,7 @@ class AdminController extends AbstractController
     
                 $this->updateCard($request, $card, "modifiée");
 
-                return $this->redirectToRoute('admin');
+                return $this->redirectToRoute('admin_dashboard');
     
             }
         }
@@ -233,7 +271,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/ajout-Categorie", name="add_category")
+     * @Route("/ajout-Categorie", name="add_category")
      */
     public function addCategory(Request $request)
     {
@@ -247,7 +285,7 @@ class AdminController extends AbstractController
         if ($categoryForm->isSubmitted() and $categoryForm->isValid()) {
             $this->em->persist($newCategory);
             $this->em->flush();
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         return $this->render('admin/editCategory.html.twig', [
@@ -257,7 +295,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/edition-Categorie/{category}", name="edit_category")
+     * @Route("/edition-Categorie/{category}", name="edit_category")
      * @param Category $category
      */
     public function editCategory(Category $category, Request $request)
@@ -270,7 +308,7 @@ class AdminController extends AbstractController
 
         if ($categoryForm->isSubmitted() and $categoryForm->isValid()) {
             $this->em->flush();
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         return $this->render('admin/editCategory.html.twig', [
@@ -281,7 +319,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/suppression-Categorie/{category}", name="delete_category")
+     * @Route("/suppression-Categorie/{category}", name="delete_category")
      * @param Category $category
      */
     public function deleteCategory(Category $category, Request $request)
@@ -300,11 +338,11 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'La Categorie "' . $deleteName .'" a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin_dashboard');
     }
 
     /**
-     * @Route("/admin/ajout-Edition", name="add_edition")
+     * @Route("/ajout-Edition", name="add_edition")
      */
     public function addEdition(Request $request)
     {
@@ -318,7 +356,7 @@ class AdminController extends AbstractController
         if ($editionForm->isSubmitted() and $editionForm->isValid()) {
             $this->em->persist($newEdition);
             $this->em->flush();
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         return $this->render('admin/editEdition.html.twig', [
@@ -328,7 +366,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/edition-Edition/{edition}", name="edit_edition")
+     * @Route("/edition-Edition/{edition}", name="edit_edition")
      * @param Edition $edition
      */
     public function editEdition(Edition $edition, Request $request)
@@ -341,7 +379,7 @@ class AdminController extends AbstractController
 
         if ($editionForm->isSubmitted() and $editionForm->isValid()) {
             $this->em->flush();
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         return $this->render('admin/editEdition.html.twig', [
@@ -352,7 +390,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/suppression-Edition/{edition}", name="delete_edition")
+     * @Route("/suppression-Edition/{edition}", name="delete_edition")
      * @param Edition $edition
      */
     public function deleteEdition(Edition $edition, Request $request)
@@ -371,12 +409,12 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'L\'Edition "' . $deleteName .'" a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin_dashboard');
     }
 
 
     /**
-     * @Route("/admin/update-Carte", name="update_card")
+     * @Route("/update-Carte", name="update_card")
      */
     public function updateCard(Request $request, $card, $flashAction)
     {
@@ -472,7 +510,7 @@ class AdminController extends AbstractController
             $this->addFlash('error', "L'édition, ainsi que les réponses jaune et bleue sont des obligatoires");
         }
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin_dashboard');
     }
 
     // /**

@@ -5,15 +5,15 @@
 {% block body %}
 
 <section class="page-section authentication d-flex align-items-center" id="authentication">
-    <div class="container d-flex flex-column jumbotron col-white">
+    <div class="container d-flex flex-column jumbotron text-white">
         <form method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
             {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                <div class="mb-4 text-center font-weight-bold">
+                    Vous êtes connecté en tant que <span class="text-warning">{{ app.user.username }}</span>, <a href="{{ path('app_logout') }}" onclick="return confirm('Etes-vous sûre de vouloir vous déconnecter ?')">Se déconnecter ?</a>
                 </div>
             {% endif %}
 

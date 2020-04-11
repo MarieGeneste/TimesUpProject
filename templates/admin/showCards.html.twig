@@ -1,0 +1,57 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block body %}
+
+    <h1 class="pageTitle mb-4 text-center">Tableau de bord</h1>
+
+    <div class="row">
+        <div class="col-12">
+
+            <h2>Les cartes <a href="{{ path('admin_add_card') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
+
+            <table id="card_table" class="table table-dark table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Contenu</th>
+                        <th>Descriptions</th>
+                        <th>Categories</th>
+                        <th class="text-center">Edition</th>
+                        <th class="text-center">Editer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for card in allCards | sortbyfield('edition') %}
+                        <tr class="yellow-card">
+                            <td class="color-card"><a class="text-white" href="{{ path('admin_edit_content', {'content' : card.yellowContent.content.id }) }}">{{ card.yellowContent.content.name }}</a></td>
+                            <td class="color-card">{{ card.yellowContent.content.description }}</td>
+                            <td class="color-card">
+                                {% for category in card.yellowContent.content.category %}
+                                    {% if loop.first %}
+                                        {{ category.title }}
+                                    {% else %}
+                                        - {{ category.title }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td rowspan="2" class="text-center align-middle" ><span class="fa fa-circle mr-2" style="color : {{ card.edition.color }}"></span>{{ card.edition.title }}</td>
+                            <td rowspan="2" class="text-center align-middle"><span class="material-icons"><a href="{{ path('admin_edit_card', {'id' : card.id }) }}"><i class="fas fa-edit"></i></a></span>
+                        </tr>
+                        <tr class="blue-card">
+                            <td class="color-card"><a class="text-white" href="{{ path('admin_edit_content', {'content' : card.yellowContent.content.id }) }}">{{ card.blueContent.content.name }}</a></td>
+                            <td class="color-card">{{ card.blueContent.content.description }}</td>
+                            <td class="color-card">
+                                {% for category in card.blueContent.content.category %}
+                                    {% if loop.first %}
+                                        {{ category.title }}
+                                    {% else %}
+                                        - {{ category.title }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

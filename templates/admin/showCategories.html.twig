@@ -1,0 +1,47 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block body %}
+
+    <h1 class="pageTitle mb-4 text-center">Tableau de bord</h1>
+
+    <div class="row">
+        <div class="col-12">
+
+            <h2>Les Catégories <a href="{{ path('admin_add_category') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
+
+            <table id="categories_table" class="table table-dark table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Catégories</th>
+                        <th>Catégorie parente</th>
+                        <th>Descriptions</th>
+                        <th class="text-center">Couleur</th>
+                        <th class="text-center">Editer</th>
+                        <th class="text-center">Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in allCategories | sortbyfield('title') %}
+                        <tr>
+                            <td>{{ category.title }}</td>
+                            <td>
+                                {% for parentCat in category.parentCategory %}
+                                    {% if loop.first %}
+                                        {{ parentCat.title }}
+                                    {% else %}
+                                        - {{ parentCat.title }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ category.description }}</td>
+                            <td class="text-center"><span class="fa fa-circle" style="color : {{ category.color }}"></span></td>
+                            <td class="text-center"><span class="material-icons"><a href="{{ path('admin_edit_category', {'category' : category.id }) }}"><i class="fas fa-edit"></i></a></span>
+                            <td class="text-center"><span class="material-icons"><a class="col-red" onclick="return confirm('Etes-vous sûre de vouloir supprimer la catégorie {{ category.title }} ?')" href="{{ path('admin_delete_category', {'category' : category.id }) }}"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
+                        </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

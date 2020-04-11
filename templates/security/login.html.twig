@@ -5,7 +5,7 @@
 {% block body %}
 
 <section class="page-section authentication d-flex align-items-center" id="authentication">
-    <div class="container d-flex flex-column jumbotron col-white">
+    <div class="container d-flex flex-column jumbotron text-white">
         <form method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

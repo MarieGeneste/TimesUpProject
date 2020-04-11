@@ -4,126 +4,60 @@
 
     <h1 class="pageTitle mb-4 text-center">Tableau de bord</h1>
 
-    <div class="row">
-        <div class="col-lg-12">
-
-            <h2>Les cartes <a href="{{ path('admin_add_card') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
-
-            <table class="table table-dark table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>Contenu</th>
-                        <th>Descriptions</th>
-                        <th>Categories</th>
-                        <th class="text-center">Edition</th>
-                        <th class="text-center">Editer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for card in allCards | sortbyfield('edition') %}
-                        <tr class="yellow-card">
-                            <td class="color-card"><a class="col-white" href="{{ path('admin_edit_content', {'content' : card.yellowContent.content.id }) }}">{{ card.yellowContent.content.name }}</a></td>
-                            <td class="color-card">{{ card.yellowContent.content.description }}</td>
-                            <td class="color-card">
-                                {% for category in card.yellowContent.content.category %}
-                                    {% if loop.first %}
-                                        {{ category.title }}
-                                    {% else %}
-                                        - {{ category.title }}
-                                    {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td rowspan="2" class="text-center align-middle" ><span class="fa fa-circle mr-2" style="color : {{ card.edition.color }}"></span>{{ card.edition.title }}</td>
-                            <td rowspan="2" class="text-center align-middle"><span class="material-icons"><a href="{{ path('admin_edit_card', {'id' : card.id }) }}"><i class="fas fa-edit"></i></a></span>
-                        </tr>
-                        <tr class="blue-card">
-                            <td class="color-card"><a class="col-white" href="{{ path('admin_edit_content', {'content' : card.yellowContent.content.id }) }}">{{ card.blueContent.content.name }}</a></td>
-                            <td class="color-card">{{ card.blueContent.content.description }}</td>
-                            <td class="color-card">
-                                {% for category in card.blueContent.content.category %}
-                                    {% if loop.first %}
-                                        {{ category.title }}
-                                    {% else %}
-                                        - {{ category.title }}
-                                    {% endif %}
-                                {% endfor %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <main>
+        <div class="row">
+            <h2 class="mt-4 col-12">Contenu</h2>
+            <div class="col-md-6">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_content') }}">Toutes les Réponses</a></div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white" href="{{ path('admin_add_content') }}">Ajouter une Réponse</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_categories') }}">Toutes les Catégories</a></div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white" href="{{ path('admin_add_category') }}">Ajouter une Catégorie</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="row mt-4 d-flex flex-wrap justify-content-between">
-        <div class="col-lg-7 col-md-12">
-
-            <h2>Les Catégories <a href="{{ path('admin_add_category') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
-
-            <table class="table table-dark table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>Catégories</th>
-                        <th>Catégorie parente</th>
-                        <th>Descriptions</th>
-                        <th class="text-center">Couleur</th>
-                        <th class="text-center">Editer</th>
-                        <th class="text-center">Supprimer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for category in allCategories | sortbyfield('title') %}
-                        <tr>
-                            <td>{{ category.title }}</td>
-                            <td>
-                                {% for parentCat in category.parentCategory %}
-                                    {% if loop.first %}
-                                        {{ parentCat.title }}
-                                    {% else %}
-                                        - {{ parentCat.title }}
-                                    {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>{{ category.description }}</td>
-                            <td class="text-center"><span class="fa fa-circle" style="color : {{ category.color }}"></span></td>
-                            <td class="text-center"><span class="material-icons"><a href="{{ path('admin_edit_category', {'category' : category.id }) }}"><i class="fas fa-edit"></i></a></span>
-                            <td class="text-center"><span class="material-icons"><a class="col-red" onclick="return confirm('Etes-vous sûre de vouloir supprimer la catégorie {{ category.title }} ?')" href="{{ path('admin_delete_category', {'category' : category.id }) }}"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
-                        </tr>
-                    
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="row">
+            <h2 class="mt-4 col-12">Jeux</h2>
+            <div class="col-md-6">
+                <div class="card bg-success text-white mb-4">
+                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_cards') }}">Toutes les Cartes Time's Up</a></div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white" href="{{ path('admin_add_card') }}">Ajouter une carte Time's Up</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-primary text-white mb-4">
+                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_editions') }}">Toutes les Editions</a></div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white" href="{{ path('admin_add_edition') }}">Ajouter une Edition</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-5 col-md-12">
-
-            <h2>Les Editions <a href="{{ path('admin_add_edition') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2>
-
-            <table class="table table-dark table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>Editions</th>
-                        <th class="text-center">Logos</th>
-                        <th class="text-center">Editer</th>
-                        <th class="text-center">Supprimer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for edition in allEditions | sortbyfield('title') %}
-                        <tr>
-                            <td>{{ edition.title }}</td>
-                            <td class="text-center">
-                                {% if edition.logo is empty %}
-                                    <span class="fa fa-circle" style="color : {{ edition.color }}"></span>
-                                {% else %}
-                                    <span style="color : {{ edition.color }}">{{ edition.logo }}</span>
-                                {% endif %}
-                            </td>
-                            <td class="text-center"><span class="material-icons"><a href="{{ path('admin_edit_edition', {'edition' : edition.id }) }}"><i class="fas fa-edit"></i></a></span>
-                            <td class="text-center"><span class="material-icons"><a class="col-red" onclick="return confirm('Etes-vous sûre de vouloir supprimer l'Edition {{ edition.title }} ?')" href="{{ path('admin_delete_edition', {'edition' : edition.id }) }}"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="row">
+            <h2 class="mt-4 col-12">Administration</h2>
+            <div class="col-12">
+                <div class="card bg-warning text-white mb-4">
+                    <div class="card-body"><a class="text-white font-weight-bold" href="">Tous les Utilisateurs</a></div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white" href="#">Ajouter un Utilisateur</a>
+                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
 {% endblock %}

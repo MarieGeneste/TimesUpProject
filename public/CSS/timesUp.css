@@ -47,9 +47,9 @@ body {
 
 @media (min-width: 992px){
 
-    #mainNav{
+    /* #mainNav{
         height: 88px;
-    }
+    } */
     
     #authentication {
         padding-top: calc(88px + 4rem);
@@ -63,11 +63,7 @@ body {
 }
 
 .col-red{
-    color: red;
-}
-
-.col-white{
-    color: white;
+    color: red !important;
 }
 
 .fa-edit{

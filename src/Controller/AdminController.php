@@ -224,7 +224,7 @@ class AdminController extends AbstractController
 
             $this->updateCard($request, $newCard, "crée");
 
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
 
         }
 
@@ -256,7 +256,7 @@ class AdminController extends AbstractController
     
                 $this->updateCard($request, $card, "modifiée");
 
-                return $this->redirectToRoute('admin');
+                return $this->redirectToRoute('admin_dashboard');
     
             }
         }
@@ -285,7 +285,7 @@ class AdminController extends AbstractController
         if ($categoryForm->isSubmitted() and $categoryForm->isValid()) {
             $this->em->persist($newCategory);
             $this->em->flush();
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         return $this->render('admin/editCategory.html.twig', [
@@ -308,7 +308,7 @@ class AdminController extends AbstractController
 
         if ($categoryForm->isSubmitted() and $categoryForm->isValid()) {
             $this->em->flush();
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         return $this->render('admin/editCategory.html.twig', [
@@ -338,7 +338,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'La Categorie "' . $deleteName .'" a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin_dashboard');
     }
 
     /**
@@ -356,7 +356,7 @@ class AdminController extends AbstractController
         if ($editionForm->isSubmitted() and $editionForm->isValid()) {
             $this->em->persist($newEdition);
             $this->em->flush();
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         return $this->render('admin/editEdition.html.twig', [
@@ -379,7 +379,7 @@ class AdminController extends AbstractController
 
         if ($editionForm->isSubmitted() and $editionForm->isValid()) {
             $this->em->flush();
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         return $this->render('admin/editEdition.html.twig', [
@@ -409,7 +409,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'L\'Edition "' . $deleteName .'" a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin_dashboard');
     }
 
 
@@ -510,7 +510,7 @@ class AdminController extends AbstractController
             $this->addFlash('error', "L'édition, ainsi que les réponses jaune et bleue sont des obligatoires");
         }
 
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin_dashboard');
     }
 
     // /**

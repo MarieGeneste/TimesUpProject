@@ -8,9 +8,9 @@
 
     <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
         {% if pageModTitle == "Création" %}
-            {{ form_start(responseForm, {'action': path('add_content')} )}}
+            {{ form_start(responseForm, {'action': path('admin_add_content')} )}}
         {% else %}
-            {{ form_start(responseForm, {'action': path('edit_content', {'content' : content.id }) }) }}
+            {{ form_start(responseForm, {'action': path('admin_edit_content', {'content' : content.id }) }) }}
         {% endif %}
 
             <div class="row mt-4 mb-4">

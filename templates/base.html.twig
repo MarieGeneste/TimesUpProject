@@ -15,9 +15,9 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"> #}
 
         <!-- Theme CSS -->
-        <link href="CSS/freelancer.css" rel="stylesheet" type="text/css">
-        <link href="CSS/login.css" rel="stylesheet" type="text/css">
-        <link href="CSS/timesUp.css" rel="stylesheet" type="text/css">
+        <link href="{{asset('CSS/freelancer.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('CSS/login.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('CSS/timesUp.css')}}" rel="stylesheet" type="text/css">
 
         <title>{% block title %}Time's Up !{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
@@ -36,12 +36,19 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mx-0 mx-lg-1">
-                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Scores</a>
-                    </li>
-                    <li class="nav-item mx-0 mx-lg-1">
-                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" id="connexion">Connexion</a>
-                    </li>
+                    {% if app.user %}
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Scores</a>
+                        </li>
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onclick="return confirm('Etes-vous sûre de vouloir vous déconnecter ?')" href="{{ path('app_logout') }}" id="connexion">Se déconnecter</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{{ path('app_login') }}" id="connexion">Connexion</a>
+                        </li>
+                    {% endif %}
+                    
                     {# <li class="nav-item mx-0 mx-lg-1">
                         <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
                     </li> #}
@@ -53,52 +60,12 @@
             {% block body %}{% endblock %}
             {% block javascripts %}{% endblock %}
 
-            {# <!-- Footer -->
-            <footer class="footer text-center">
-                <div class="container">
-                <div class="row">
-
-                    <!-- Footer Location -->
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Location</h4>
-                    <p class="lead mb-0">2215 John Daniel Drive
-                        <br>Clark, MO 65243</p>
-                    </div>
-
-                    <!-- Footer Social Icons -->
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Around the Web</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#">
-                        <i class="fab fa-fw fa-facebook-f"></i>
-                    </a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#">
-                        <i class="fab fa-fw fa-twitter"></i>
-                    </a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#">
-                        <i class="fab fa-fw fa-linkedin-in"></i>
-                    </a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#">
-                        <i class="fab fa-fw fa-dribbble"></i>
-                    </a>
-                    </div>
-
-                    <!-- Footer About Text -->
-                    <div class="col-lg-4">
-                    <h4 class="text-uppercase mb-4">About Freelancer</h4>
-                    <p class="lead mb-0">Freelance is a free to use, MIT licensed Bootstrap theme created by
-                        <a href="http://startbootstrap.com">Start Bootstrap</a>.</p>
-                    </div>
-
-                </div>
-                </div>
-            </footer> #}
-
             <!-- Copyright Section -->
-            <section class="copyright py-4 text-center text-white">
+            <footer class="copyright py-4 text-center text-white">
                 <div class="container">
                 <small>Copyright &copy; By Miss Libellule</small>
                 </div>
-            </section>
+            </footer>
 
             <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
             <div class="scroll-to-top d-lg-none position-fixed ">
@@ -110,7 +77,7 @@
 
 
         <!-- Modale Login -->
-        <div id="loginModal" class="wrapper ">
+        {# <div id="loginModal" class="wrapper ">
             <div id="formContent">
                 <!-- Tabs Titles -->
 
@@ -135,7 +102,7 @@
                 </div>
 
             </div>
-        </div>
+        </div> #}
 
         <!-- Bootstrap core JavaScript -->
         <script src="JS/jquery/jquery.min.js"></script>

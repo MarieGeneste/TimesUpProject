@@ -24,6 +24,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+/**
+ * @Route("/admin", name="admin_")
+ */
 class AdminController extends AbstractController
 {
     private $em;
@@ -46,7 +50,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/", name="dashboard")
      */
     public function index()
     {
@@ -65,7 +69,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/contenu", name="admin_content")
+     * @Route("/admin/contenu", name="content")
      */
     public function shohAllResponses()
     {

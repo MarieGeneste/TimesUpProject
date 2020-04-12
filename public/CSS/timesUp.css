@@ -45,7 +45,7 @@ body {
     min-height: calc(100vh - 72px);
 }
     
-#authentication {
+.simple-page {
     padding-top: calc(73px + 4rem);
     min-height: calc(100vh - 72px);
 }
@@ -56,7 +56,7 @@ body {
         height: 88px;
     } */
     
-    #authentication {
+    .simple-page {
         padding-top: calc(88px + 4rem);
         min-height: calc(100vh - 72px);
     }
@@ -84,4 +84,11 @@ body {
     margin-top: 1px;
     height: 20px;
     margin-left: -2.75rem;
+}
+
+#front_content .connection-alert{
+    position: absolute;
+    top: 100px;
+    width: 96%;
+    margin-left: 2%;
 }

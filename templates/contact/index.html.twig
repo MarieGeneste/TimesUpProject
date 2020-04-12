@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+
+<section class="page-section simple-page d-flex align-items-center">
+    <div class="container d-flex flex-column jumbotron text-white">
+
+            <h1 class="h3 mb-3 font-weight-normal ">Contact</h1>
+
+            {{ form_start(contactForm) }}
+
+            <div class="row mt-4 mb-4">
+                <div class="col-md-6 mb-4">
+                    {% if app.user %}
+                        {{ form_row(contactForm.nom, { 'attr': {'value': app.user.username,  } }) }}
+                    {% else %}
+                        {{ form_row(contactForm.nom) }}
+                    {% endif %}
+                </div>
+                <div class="col-md-6 mb-4">
+                    {% if app.user %}
+                        {{ form_row(contactForm.email, { 'attr': {'value': app.user.email } }) }}
+                    {% else %}
+                        {{ form_row(contactForm.email) }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mt-4 mb-4">
+                <div class="col-12 mb-4">
+                    {{ form_row(contactForm.message) }}
+                </div>
+            </div>
+
+            <div class="row m-4 form-group d-flex flex-column justify-content-center align-items-center">
+                {{ form_rest(contactForm) }}
+                {{ form_row(contactForm.submit, {'label': 'Envoyer'}) }}
+            </div>
+    </div>
+</section>
+
+{% endblock %}

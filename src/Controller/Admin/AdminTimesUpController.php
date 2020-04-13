@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
-use App\Entity\Card;
+use App\Entity\TimesUpCard;
 use App\Entity\User;
 use App\Service\FrontSecurityService;
-use App\Form\CardType;
+use App\Form\TimesUpCardType;
 use App\Form\UserType;
 use App\Entity\Edition;
 use App\Entity\BlueCard;
@@ -15,7 +15,7 @@ use App\Form\EditionType;
 use App\Entity\YellowCard;
 use App\Form\CategoryType;
 use App\Form\ResponseType;
-use App\Repository\CardRepository;
+use App\Repository\TimesUpCardRepository;
 use App\Repository\UserRepository;
 use App\Repository\EditionRepository;
 use App\Repository\BlueCardRepository;
@@ -32,7 +32,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/admin", name="admin_")
  */
-class AdminController extends AbstractController
+class AdminTimesUpController extends AbstractController
 {
     private $em;
     private $userRepo;
@@ -46,7 +46,7 @@ class AdminController extends AbstractController
 
     public function __construct(ResponseRepository $responseRepo, 
                                 UserRepository $userRepo, 
-                                CardRepository $cardRepo, 
+                                TimesUpCardRepository $cardRepo, 
                                 EditionRepository $editionRepo, 
                                 CategoryRepository $categoryRepo, 
                                 BlueCardRepository $blueCardRepo, 
@@ -66,33 +66,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/", name="dashboard")
-     */
-    public function index()
-    {
-        $pageModTitle = "dashboard";
-
-        return $this->render('admin/index.html.twig', [
-            'pageModTitle' => $pageModTitle,
-        ]);
-    }
-
-    /**
-     * @Route("/Utilisateurs", name="show_users")
-     */
-    public function showUsers()
-    {
-        $pageModTitle = "Utilisateurs";
-
-        $allUsers = $this->userRepo->findAll();
-
-        return $this->render('admin/showUsers.html.twig', [
-            'pageModTitle' => $pageModTitle,
-            'allUsers' => $allUsers
-        ]);
-    }
-
-    /**
      * @Route("/Cartes", name="show_cards")
      */
     public function showCards()
@@ -104,21 +77,6 @@ class AdminController extends AbstractController
         return $this->render('admin/showCards.html.twig', [
             'pageModTitle' => $pageModTitle,
             'allCards' => $allCards
-        ]);
-    }
-
-    /**
-     * @Route("/Categories", name="show_categories")
-     */
-    public function showCategories()
-    {
-        $pageModTitle = "Catégories";
-
-        $allCategories = $this->categoryRepo->findAll();
-
-        return $this->render('admin/showCategories.html.twig', [
-            'pageModTitle' => $pageModTitle,
-            'allCategories' => $allCategories
         ]);
     }
 
@@ -138,147 +96,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/contenu", name="show_content")
-     */
-    public function shohAllResponses()
-    {
-        $pageModTitle = "content";
-
-        $allResponses = $this->responseRepo->findAll();
-
-        return $this->render('admin/showContent.html.twig', [
-            'pageModTitle' => $pageModTitle,
-            'allResponses' => $allResponses
-        ]);
-    }
-
-    /**
-     * @Route("/edition-Utilisateur/{user}", name="edit_user")
-     * @param User $user
-     */
-    public function editUser (User $user, Request $request)
-    {
-        $pageModTitle = "Edition";
-
-        $userForm = $this->createForm(UserType::class, $user);
-        $user->setPlainPassword($user->getPassword());
-
-        $userForm->handleRequest($request);
-
-        if ($userForm->isSubmitted() and $userForm->isValid()) {
-            $this->em->flush();
-            return $this->redirectToRoute('admin_show_users');
-        }
-
-        return $this->render('admin/editUser.html.twig', [
-            'pageModTitle' => $pageModTitle,
-            'user' => $user, 
-            'userForm' => $userForm->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/suppression-Utilisateur/{user}", name="delete_user")
-     * @param User $user
-     */
-    public function deleteUser(User $user, Request $request)
-    {
-        $deleteName = $user->getUsername();
-
-        $this->em->remove($user);
-        $this->em->flush();
-
-        $this->addFlash('success', 'L\'Utilisateur "' . $deleteName .'" a bien été supprimée.');
-
-        return $this->redirectToRoute('admin_show_users');
-    }
-
-
-    /**
-     * @Route("/ajout-Contenu", name="add_content")
-     */
-    public function addContent(Request $request)
-    {
-        $pageModTitle = "Création";
-
-        $newContent = new Response();
-        $responseForm = $this->createForm(ResponseType::class, $newContent);
-
-        $responseForm->handleRequest($request);
-
-        if ($responseForm->isSubmitted() and $responseForm->isValid()) {
-            $this->em->persist($newContent);
-            $this->em->flush();
-            return $this->redirectToRoute('admin_show_content');
-        }
-
-        return $this->render('admin/editContent.html.twig', [
-            'pageModTitle' => $pageModTitle,
-            'responseForm' => $responseForm->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/edition-Contenu/{content}", name="edit_content")
-     * @param Response $content
-     */
-    public function editContent (Response $content, Request $request)
-    {
-        $pageModTitle = "Edition";
-
-        $responseForm = $this->createForm(ResponseType::class, $content);
-
-        $responseForm->handleRequest($request);
-
-        if ($responseForm->isSubmitted() and $responseForm->isValid()) {
-            $this->em->flush();
-            return $this->redirectToRoute('admin_show_content');
-        }
-
-        return $this->render('admin/editContent.html.twig', [
-            'pageModTitle' => $pageModTitle,
-            'content' => $content, 
-            'responseForm' => $responseForm->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/suppression-Contenu/{content}", name="delete_content")
-     * @param Response $content
-     */
-    public function deleteContent (Response $content, Request $request)
-    {
-        $deleteName = $content->getName();
-
-        $foundYellowCard = $this->yellowCardRepo->findOneBy(['content' => $content]);
-        $foundBlueCard = $this->blueCardRepo->findOneBy(['content' => $content]);
-
-        $isYellowCard = ($this->cardRepo->findBy(["yellowContent" => $foundYellowCard])) ? $this->cardRepo->findBy(["yellowContent" => $foundYellowCard]) : null;
-        $isBlueCard = ($this->cardRepo->findBy(["blueContent" => $foundBlueCard])) ? $this->cardRepo->findBy(["blueContent" => $foundBlueCard]) : null;
-
-        if (!empty($isYellowCard) || !empty($isBlueCard)) {
-            $this->addFlash('error', 'La ligne "' . $deleteName .'" ne peut pas être supprimée car elle est rattachée à une carte.');
-        } else {
-            
-            if(!empty($foundYellowCard) && empty($isYellowCard)){
-                $content->setYellowCard($foundYellowCard, "remove");
-                $this->em->remove($foundYellowCard);
-            } elseif(!empty($foundBlueCard) && empty($isBlueCard)){
-                $content->setBlueCard($foundBlueCard, "remove");
-                $this->em->remove($foundBlueCard);
-            }
-
-            $this->em->remove($content);
-            $this->em->flush();
-
-            $this->addFlash('success', 'La ligne "' . $deleteName .'" a bien été supprimée.');
-        }
-
-        return $this->redirectToRoute('admin_show_content');
-    }
-
-
-    /**
      * @Route("/ajout-Carte", name="add_card")
      */
     public function addCard(Request $request)
@@ -287,8 +104,8 @@ class AdminController extends AbstractController
         $allCategories = $this->categoryRepo->findAll();
         $allResponses = $this->responseRepo->findAll();
 
-        $newCard = new Card();
-        $cardForm = $this->createForm(CardType::class, $newCard);
+        $newCard = new TimesUpCard();
+        $cardForm = $this->createForm(TimesUpCardType::class, $newCard);
 
         $cardForm->handleRequest($request);
 
@@ -310,15 +127,15 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/edition-Carte/{id}", name="edit_card")
-     * @param Card $card
+     * @param TimesUpCard $card
      */
-    public function editCard(Card $card, Request $request)
+    public function editCard(TimesUpCard $card, Request $request)
     {
         $pageModTitle = "Edition";
         $allCategories = $this->categoryRepo->findAll();
         $allResponses = $this->responseRepo->findAll();
 
-        $cardForm = $this->createForm(CardType::class, $card);
+        $cardForm = $this->createForm(TimesUpCardType::class, $card);
 
         $cardForm->handleRequest($request);
 
@@ -340,77 +157,6 @@ class AdminController extends AbstractController
             'card' => $card, 
             'cardForm' => $cardForm->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/ajout-Categorie", name="add_category")
-     */
-    public function addCategory(Request $request)
-    {
-        $pageModTitle = "Création";
-
-        $newCategory = new Category();
-        $categoryForm = $this->createForm(CategoryType::class, $newCategory);
-
-        $categoryForm->handleRequest($request);
-
-        if ($categoryForm->isSubmitted() and $categoryForm->isValid()) {
-            $this->em->persist($newCategory);
-            $this->em->flush();
-            return $this->redirectToRoute('admin_show_categories');
-        }
-
-        return $this->render('admin/editCategory.html.twig', [
-            'pageModTitle' => $pageModTitle,
-            'categoryForm' => $categoryForm->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/edition-Categorie/{category}", name="edit_category")
-     * @param Category $category
-     */
-    public function editCategory(Category $category, Request $request)
-    {
-        $pageModTitle = "Edition";
-
-        $categoryForm = $this->createForm(CategoryType::class, $category);
-
-        $categoryForm->handleRequest($request);
-
-        if ($categoryForm->isSubmitted() and $categoryForm->isValid()) {
-            $this->em->flush();
-            return $this->redirectToRoute('admin_show_categories');
-        }
-
-        return $this->render('admin/editCategory.html.twig', [
-            'pageModTitle' => $pageModTitle,
-            'category' => $category, 
-            'categoryForm' => $categoryForm->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/suppression-Categorie/{category}", name="delete_category")
-     * @param Category $category
-     */
-    public function deleteCategory(Category $category, Request $request)
-    {
-        $deleteName = $category->getTitle();
-
-        $categoryResponseFound = $this->responseRepo->findByCategory($category);
-
-        if (!empty($categoryResponseFound)) {
-            $this->addFlash('error', 'La Categorie "' . $deleteName .'" ne peut pas être supprimée car au moins une carte y est rattachée.');
-        } else {
-
-            $this->em->remove($category);
-            $this->em->flush();
-
-            $this->addFlash('success', 'La Categorie "' . $deleteName .'" a bien été supprimée.');
-        }
-
-        return $this->redirectToRoute('admin_show_categories');
     }
 
     /**

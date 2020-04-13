@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -67,11 +69,18 @@ class User implements UserInterface
      */
     private $activation_token;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="users", cascade={"persist", "remove"})
+     */
+    private $friends;
+
 
     public function __construct()
     {
         $this->isActive = false;
         $this->roles = ["ROLE_USER"];
+        $this->friends = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
 
@@ -106,16 +115,6 @@ class User implements UserInterface
 
         return $this;
     }
-
-    // /**
-    //  * A visual identifier that represents this user.
-    //  *
-    //  * @see UserInterface
-    //  */
-    // public function getUsername(): string
-    // {
-    //     return (string) $this->email;
-    // }
 
     /**
      * @see UserInterface
@@ -212,6 +211,34 @@ class User implements UserInterface
     public function setActivationToken(?string $activation_token): self
     {
         $this->activation_token = $activation_token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getFriends(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function addFriend(self $friend): self
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends[] = $friend;
+            $friend->addFriend($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(self $friend): self
+    {
+        if ($this->friends->contains($friend)) {
+            $this->friends->removeElement($friend);
+            $friend->removeFriend($this);
+        }
 
         return $this;
     }

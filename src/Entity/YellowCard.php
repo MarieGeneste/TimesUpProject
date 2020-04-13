@@ -22,7 +22,7 @@ class YellowCard
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Card", mappedBy="yellowContent")
+     * @ORM\OneToMany(targetEntity="App\Entity\TimesUpCard", mappedBy="yellowContent")
      * @ORM\JoinColumn(nullable=true)
      */
     private $cards;
@@ -46,14 +46,14 @@ class YellowCard
     }
 
     /**
-     * @return Collection|Card[]
+     * @return Collection|TimesUpCard[]
      */
     public function getCards(): Collection
     {
         return $this->cards;
     }
 
-    public function addCard(Card $card): self
+    public function addCard(TimesUpCard $card): self
     {
         if (!$this->cards->contains($card)) {
             $this->cards[] = $card;
@@ -63,7 +63,7 @@ class YellowCard
         return $this;
     }
 
-    public function removeCard(Card $card): self
+    public function removeCard(TimesUpCard $card): self
     {
         if ($this->cards->contains($card)) {
             $this->cards->removeElement($card);

@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CardRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TimesUpCardRepository")
  */
-class Card
+class TimesUpCard
 {
     /**
      * @var \Ramsey\Uuid\UuidInterface

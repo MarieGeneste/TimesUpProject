@@ -52,6 +52,12 @@
                         <li class="nav-item mx-0 mx-lg-1">
                             <a class="nav-link p-3 rounded js-scroll-trigger" href="#portfolio">Scores</a>
                         </li>
+                        {% if "ROLE_ADMIN" in app.user.roles %}
+                            <li class="nav-item mx-0 mx-lg-1">
+                                <a class="bg-primary nav-link p-3 rounded js-scroll-trigger" href="{{ path('admin_dashboard') }}">Admin</a>
+                            </li>
+                        {% endif %}
+                        
                         <li class="nav-item mx-0 mx-lg-1">
                             <a class="bg-warning col-red nav-link p-3 rounded js-scroll-trigger" onclick="return confirm('Etes-vous sûre de vouloir vous déconnecter ?')" href="{{ path('app_logout') }}" id="connexion">Se déconnecter</a>
                         </li>

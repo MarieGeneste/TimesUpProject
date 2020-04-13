@@ -51,13 +51,16 @@ class RegistrationController extends AbstractController
                     );
             
             $mailer->send($message);
+            $this->addFlash('success', 'Un email de validation a bien été envoyé. Merci de cliquer sur le lien pour activer votre compte.');
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            return $this->redirectToRoute('home');
+
+            // return $guardHandler->authenticateUserAndHandleSuccess(
+            //     $user,
+            //     $request,
+            //     $authenticator,
+            //     'main' // firewall name in security.yaml
+            // );
         }
 
         return $this->render('registration/register.html.twig', [

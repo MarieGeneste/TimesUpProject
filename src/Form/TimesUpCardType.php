@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Card;
+use App\Entity\TimesUpCard;
 use App\Entity\Response;
 use App\Entity\Edition;
 use App\Form\BlueCardType;
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class CardType extends AbstractType
+class TimesUpCardType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -37,7 +37,7 @@ class CardType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Card::class,
+            'data_class' => TimesUpCard::class,
         ]);
     }
 }

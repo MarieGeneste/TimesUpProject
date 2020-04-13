@@ -47,11 +47,22 @@ class Response
      */
     private $yellowCard;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\IKnowCard", mappedBy="response", cascade={"persist", "remove"})
+     */
+    private $iKnowCard;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="responses")
+     */
+    private $games;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
         $this->yellowCard = null;
         $this->blueCard = null;
+        $this->games = new ArrayCollection();
     }
 
     /**
@@ -159,6 +170,51 @@ class Response
             if ($yellowCard->getContent() !== $newContent) {
                 $yellowCard->setContent($newContent);
             }
+        }
+
+        return $this;
+    }
+
+    public function getIKnowCard(): ?IKnowCard
+    {
+        return $this->iKnowCard;
+    }
+
+    public function setIKnowCard(IKnowCard $iKnowCard): self
+    {
+        $this->iKnowCard = $iKnowCard;
+
+        // set the owning side of the relation if necessary
+        if ($iKnowCard->getResponse() !== $this) {
+            $iKnowCard->setResponse($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->addResponse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->contains($game)) {
+            $this->games->removeElement($game);
+            $game->removeResponse($this);
         }
 
         return $this;

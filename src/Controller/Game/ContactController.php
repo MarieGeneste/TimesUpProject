@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Game;
 
 use App\Form\ContactType;
 use Symfony\Component\HttpFoundation\Request;

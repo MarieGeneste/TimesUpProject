@@ -37,7 +37,7 @@ class Edition
     private $logo;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Card", mappedBy="edition")
+     * @ORM\OneToMany(targetEntity="App\Entity\TimesUpCard", mappedBy="edition")
      */
     private $cards;
 
@@ -91,14 +91,14 @@ class Edition
     }
 
     /**
-     * @return Collection|Card[]
+     * @return Collection|TimesUpCard[]
      */
     public function getCards(): Collection
     {
         return $this->cards;
     }
 
-    public function addCard(Card $card): self
+    public function addCard(TimesUpCard $card): self
     {
         if (!$this->cards->contains($card)) {
             $this->cards[] = $card;
@@ -108,7 +108,7 @@ class Edition
         return $this;
     }
 
-    public function removeCard(Card $card): self
+    public function removeCard(TimesUpCard $card): self
     {
         if ($this->cards->contains($card)) {
             $this->cards->removeElement($card);

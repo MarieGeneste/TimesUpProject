@@ -73,6 +73,16 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
             throw new CustomUserMessageAuthenticationException("Il n'existe aucun compte avec cette adresse Email.");
         }
 
+        if ($user && !$user->getIsActive()) {
+            // Si le compte n'est pas actif
+            throw new CustomUserMessageAuthenticationException("Votre compte n'est pas ou plus actif.");
+
+        } elseif ($user && !empty($user->getActivationToken())){
+
+            $user->setActivationToken(null);
+            $this->entityManager->flush();
+        }
+
         return $user;
     }
 

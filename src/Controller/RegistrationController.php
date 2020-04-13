@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
-            $message = (new \Swift_Message('activation de votre compte Visio Game Party'))
+            $message = (new \Swift_Message('activation de votre compte - Visio Game Party'))
                     ->setFrom('MissLibellule19@gmail.com')
                     ->setTo($user->getEmail())
                     ->setBody(

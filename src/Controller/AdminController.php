@@ -152,32 +152,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-
-    // /**
-    //  * @Route("/ajout-Utilisateur", name="add_user")
-    //  */
-    // public function addUser(Request $request)
-    // {
-    //     $pageModTitle = "Création";
-    //     $allUsers = $this->userRepo->findAll();
-
-    //     $newUser = new User();
-    //     $userForm = $this->createForm(UserType::class, $newUser);
-
-    //     $userForm->handleRequest($request);
-
-    //     if ($userForm->isSubmitted() and $userForm->isValid()) {
-    //         $this->em->flush();
-    //         return $this->redirectToRoute('admin_show_users');
-    //     }
-
-    //     return $this->render('admin/editUser.html.twig', [
-    //         'pageModTitle' => $pageModTitle,
-    //         'allUsers' => $allUsers,
-    //         'userForm' => $userForm->createView(),
-    //     ]);
-    // }
-
     /**
      * @Route("/edition-Utilisateur/{user}", name="edit_user")
      * @param User $user

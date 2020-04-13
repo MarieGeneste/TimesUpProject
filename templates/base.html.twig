@@ -27,25 +27,27 @@
         {# <div class="container-fluid"> #}
 
             <!-- Navigation -->
-                    
-    {% if app.user %}
-        <nav class="navbar bg-secondary text-uppercase fixed-top" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="{{ path('home') }}">Visio Game Party !</a>
-                <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    {{ app.user.username }}
-                    <i class="ml-2 fas fa-bars"></i>
-                </button>
-    {% else %}
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
                 <a class="navbar-brand js-scroll-trigger" href="{{ path('home') }}">Visio Game Party !</a>
-                <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold text-white rounded">
-                    <a class="text-white font-weight-bold" href="{{ path('app_login') }}" id="connexion">Connexion</a>
-                </button>
-    {% endif %}
+                    
+                {% if app.user %}
+                    <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                        {{ app.user.username }}
+                        <i class="ml-2 fas fa-bars"></i>
+                    </button>
+                {% else %}
+                    <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                        Menu
+                        <i class="ml-2 fas fa-bars"></i>
+                    </button>
+                {% endif %}
+                
                 <div class="collapse navbar-collapse text-center" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{{ path('contact') }}" id="contact">Contact</a>
+                        </li>
                     {% if app.user %}
                         <li class="nav-item mx-0 mx-lg-1">
                             <a class="nav-link p-3 rounded js-scroll-trigger" href="#portfolio">Scores</a>
@@ -57,10 +59,10 @@
                         <li class="nav-item mx-0 mx-lg-1">
                             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{{ path('app_login') }}" id="connexion">Connexion</a>
                         </li>
-                    {% endif %}
                         <li class="nav-item mx-0 mx-lg-1">
-                            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{{ path('contact') }}" id="contact">Contact</a>
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{{ path('app_register') }}" id="connexion">Inscription</a>
                         </li>
+                    {% endif %}
                     
                     {# <li class="nav-item mx-0 mx-lg-1">
                         <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
@@ -75,7 +77,6 @@
                 {% include "flashMessages.html.twig" %}
                 
                 {% block body %}{% endblock %}
-                {% block javascripts %}{% endblock %}
             </div>
 
             <!-- Copyright Section -->
@@ -136,6 +137,7 @@
         <!-- Custom scripts for this template -->
         <script src="JS/freelancer.min.js"></script>
         <script src="JS/timesUp.js"></script>
+        {% block javascripts %}{% endblock %}
 
     </body>
 </html>

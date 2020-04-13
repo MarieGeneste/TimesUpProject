@@ -54,11 +54,11 @@
             <h2 class="mt-4 col-12">Administration</h2>
             <div class="col-12">
                 <div class="card bg-transparent text-white mb-4">
-                    <div class="card-body"><a class="text-white font-weight-bold" href="">Tous les Utilisateurs</a></div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white" href="#">Ajouter un Utilisateur</a>
+                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_users') }}">Tous les Utilisateurs</a></div>
+                    {# <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a class="small text-white" href="{{ path('admin_add_user') }}">Ajouter un Utilisateur</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
+                    </div> #}
                 </div>
             </div>
         </div>

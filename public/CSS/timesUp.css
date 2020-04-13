@@ -67,8 +67,17 @@ body {
     margin-bottom: 0;
 }
 
-.col-red{
+.col-red {
     color: red !important;
+}
+
+.col-yellow,
+.col-yellow-hov:hover {
+    color: #fdc40f !important;
+}
+
+.col-blue {
+    color: #0056b3 !important;
 }
 
 .fa-edit{
@@ -91,4 +100,17 @@ body {
     top: 100px;
     width: 96%;
     margin-left: 2%;
+}
+
+label.required:after {
+    content: " *";
+    color: red;
+}
+
+#forgetPwd {
+    display: none;
+}
+
+#connexion {
+    display: block;
 }

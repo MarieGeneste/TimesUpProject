@@ -6,7 +6,7 @@
 
 <section class="page-section simple-page authentication d-flex align-items-center" id="authentication">
     <div class="container d-flex flex-column jumbotron text-white">
-        <form method="post">
+        <form method="post" id="connexion">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
@@ -29,29 +29,65 @@
                 </div>
             </div>
 
-            <input type="hidden" name="_csrf_token"
-                value="{{ csrf_token('authenticate') }}"
-            >
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            {#
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html
+            
+                {# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                See https://symfony.com/doc/current/security/remember_me.html #}
 
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
-                    </label>
-                </div>
-            #}
+            {# <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div> #}
+           
 
-            <div class="row m-4 form-group d-flex flex-column justify-content-center align-items-center">
-                <button class="btn btn-lg btn-primary m-4" type="submit">
+            <div class="row mt-4 mb-0 form-group d-flex flex-column justify-content-center align-items-center">
+                <button class="btn btn-lg btn-primary" type="submit">
                     Se connecter
                 </button>
-                <a href="{{ path('app_register') }}" class="btn btn-outline-light btn-lg mr-4 ml-4">S'inscrire</a>
+                <div class="col-12 d-flex flex-wrap justify-content-between align-items-center mt-4 w-100">
+                    <div><a id="openForgetPwd" class="col-yellow-hov col-blue font-weight-bold">Mot de passe oublié...</a></div>
+                    <div><a href="{{ path('app_register') }}" class="btn btn-outline-light font-weight-bold text-white">S'inscrire</a></div>
+                </div>
             </div>
         </form>
+
+        {# {{ form_start(emailForm, {'action': path('app_forget_pwd')} )}} #}
+        <form method="post" action="{{ path('app_forget_pwd') }}" id="forgetPwd" class="fadeOut">
+
+            <h1 class="h3 mb-3 font-weight-normal ">Mot de passe oublié</h1>
+
+            <div class="row mt-4 mb-4 form-group d-flex flex-wrap justify-content-center align-items-end">
+                <div class="col-md-6 mt-4 mb-4">
+                    <label for="forgetEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="forgetEmail" id="forgetEmail" class="form-control" required>
+                </div>
+
+                {# <div class="row mt-4 mb-4">
+                    <div class="col-md-6 mt-4 mb-4">
+                        {{ form_row(emailForm.email, {'attr': {'required': true}})}}
+                    </div>
+                </div> #}
+
+                {# <div class="col-md-6 form-group d-flex flex-column justify-content-center align-items-center"> #}
+                <div class="col-md-6 d-flex flex-wrap justify-content-around mb-4 mt-4">
+                    <button class="btn btn-lg btn-primary" type="submit">
+                        Valider
+                    </button>
+                    <button id="returnToLogin" class="btn btn-lg btn-danger" type="button">
+                        Annuler
+                    </button>
+                </div>
+            </div>
+        </form>
+        {# {{ form_end(emailForm)}} #}
     </div>
 </section>
+
+
+{% block javascripts %}
+    <script src="JS/login.js"></script>
+{% endblock %}
 
 {% endblock %}

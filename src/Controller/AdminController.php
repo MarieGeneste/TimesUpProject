@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Card;
+use App\Entity\User;
+use App\Service\FrontSecurityService;
 use App\Form\CardType;
+use App\Form\UserType;
 use App\Entity\Edition;
 use App\Entity\BlueCard;
 use App\Entity\Category;
@@ -13,6 +16,7 @@ use App\Entity\YellowCard;
 use App\Form\CategoryType;
 use App\Form\ResponseType;
 use App\Repository\CardRepository;
+use App\Repository\UserRepository;
 use App\Repository\EditionRepository;
 use App\Repository\BlueCardRepository;
 use App\Repository\CategoryRepository;
@@ -31,22 +35,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
     private $em;
+    private $userRepo;
     private $responseRepo;
     private $cardRepo;
     private $editionRepo;
     private $categoryRepo;
     private $yellowCardRepo;
     private $blueCardRepo;
+    private $securityService;
 
-    public function __construct(ResponseRepository $responseRepo, CardRepository $cardRepo, EditionRepository $editionRepo, CategoryRepository $categoryRepo, BlueCardRepository $blueCardRepo, YellowCardRepository $yellowCardRepo, EntityManagerInterface $em)
+    public function __construct(ResponseRepository $responseRepo, 
+                                UserRepository $userRepo, 
+                                CardRepository $cardRepo, 
+                                EditionRepository $editionRepo, 
+                                CategoryRepository $categoryRepo, 
+                                BlueCardRepository $blueCardRepo, 
+                                YellowCardRepository $yellowCardRepo, 
+                                EntityManagerInterface $em, 
+                                FrontSecurityService $securityService)
     {
         $this->em = $em;
+        $this->userRepo = $userRepo;
         $this->responseRepo = $responseRepo;
         $this->cardRepo = $cardRepo;
         $this->editionRepo = $editionRepo;
         $this->categoryRepo = $categoryRepo;
         $this->yellowCardRepo = $yellowCardRepo;
         $this->blueCardRepo = $blueCardRepo;
+        $this->securityService = $securityService;
     }
 
     /**
@@ -58,6 +74,21 @@ class AdminController extends AbstractController
 
         return $this->render('admin/index.html.twig', [
             'pageModTitle' => $pageModTitle,
+        ]);
+    }
+
+    /**
+     * @Route("/Utilisateurs", name="show_users")
+     */
+    public function showUsers()
+    {
+        $pageModTitle = "Utilisateurs";
+
+        $allUsers = $this->userRepo->findAll();
+
+        return $this->render('admin/showUsers.html.twig', [
+            'pageModTitle' => $pageModTitle,
+            'allUsers' => $allUsers
         ]);
     }
 
@@ -122,6 +153,73 @@ class AdminController extends AbstractController
     }
 
 
+    // /**
+    //  * @Route("/ajout-Utilisateur", name="add_user")
+    //  */
+    // public function addUser(Request $request)
+    // {
+    //     $pageModTitle = "Création";
+    //     $allUsers = $this->userRepo->findAll();
+
+    //     $newUser = new User();
+    //     $userForm = $this->createForm(UserType::class, $newUser);
+
+    //     $userForm->handleRequest($request);
+
+    //     if ($userForm->isSubmitted() and $userForm->isValid()) {
+    //         $this->em->flush();
+    //         return $this->redirectToRoute('admin_show_users');
+    //     }
+
+    //     return $this->render('admin/editUser.html.twig', [
+    //         'pageModTitle' => $pageModTitle,
+    //         'allUsers' => $allUsers,
+    //         'userForm' => $userForm->createView(),
+    //     ]);
+    // }
+
+    /**
+     * @Route("/edition-Utilisateur/{user}", name="edit_user")
+     * @param User $user
+     */
+    public function editUser (User $user, Request $request)
+    {
+        $pageModTitle = "Edition";
+
+        $userForm = $this->createForm(UserType::class, $user);
+        $user->setPlainPassword($user->getPassword());
+
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() and $userForm->isValid()) {
+            $this->em->flush();
+            return $this->redirectToRoute('admin_show_users');
+        }
+
+        return $this->render('admin/editUser.html.twig', [
+            'pageModTitle' => $pageModTitle,
+            'user' => $user, 
+            'userForm' => $userForm->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/suppression-Utilisateur/{user}", name="delete_user")
+     * @param User $user
+     */
+    public function deleteUser(User $user, Request $request)
+    {
+        $deleteName = $user->getUsername();
+
+        $this->em->remove($user);
+        $this->em->flush();
+
+        $this->addFlash('success', 'L\'Utilisateur "' . $deleteName .'" a bien été supprimée.');
+
+        return $this->redirectToRoute('admin_show_users');
+    }
+
+
     /**
      * @Route("/ajout-Contenu", name="add_content")
      */
@@ -137,7 +235,7 @@ class AdminController extends AbstractController
         if ($responseForm->isSubmitted() and $responseForm->isValid()) {
             $this->em->persist($newContent);
             $this->em->flush();
-            return $this->redirectToRoute('admin_content');
+            return $this->redirectToRoute('admin_show_content');
         }
 
         return $this->render('admin/editContent.html.twig', [
@@ -160,7 +258,7 @@ class AdminController extends AbstractController
 
         if ($responseForm->isSubmitted() and $responseForm->isValid()) {
             $this->em->flush();
-            return $this->redirectToRoute('admin_content');
+            return $this->redirectToRoute('admin_show_content');
         }
 
         return $this->render('admin/editContent.html.twig', [
@@ -202,7 +300,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'La ligne "' . $deleteName .'" a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('admin_content');
+        return $this->redirectToRoute('admin_show_content');
     }
 
 
@@ -224,7 +322,7 @@ class AdminController extends AbstractController
 
             $this->updateCard($request, $newCard, "crée");
 
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin_show_cards');
 
         }
 
@@ -256,7 +354,7 @@ class AdminController extends AbstractController
     
                 $this->updateCard($request, $card, "modifiée");
 
-                return $this->redirectToRoute('admin_dashboard');
+                return $this->redirectToRoute('admin_show_cards');
     
             }
         }
@@ -285,7 +383,7 @@ class AdminController extends AbstractController
         if ($categoryForm->isSubmitted() and $categoryForm->isValid()) {
             $this->em->persist($newCategory);
             $this->em->flush();
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin_show_categories');
         }
 
         return $this->render('admin/editCategory.html.twig', [
@@ -308,7 +406,7 @@ class AdminController extends AbstractController
 
         if ($categoryForm->isSubmitted() and $categoryForm->isValid()) {
             $this->em->flush();
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin_show_categories');
         }
 
         return $this->render('admin/editCategory.html.twig', [
@@ -338,7 +436,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'La Categorie "' . $deleteName .'" a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('admin_dashboard');
+        return $this->redirectToRoute('admin_show_categories');
     }
 
     /**
@@ -356,7 +454,7 @@ class AdminController extends AbstractController
         if ($editionForm->isSubmitted() and $editionForm->isValid()) {
             $this->em->persist($newEdition);
             $this->em->flush();
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin_show_editions');
         }
 
         return $this->render('admin/editEdition.html.twig', [
@@ -379,7 +477,7 @@ class AdminController extends AbstractController
 
         if ($editionForm->isSubmitted() and $editionForm->isValid()) {
             $this->em->flush();
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin_show_editions');
         }
 
         return $this->render('admin/editEdition.html.twig', [
@@ -409,7 +507,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'L\'Edition "' . $deleteName .'" a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('admin_dashboard');
+        return $this->redirectToRoute('admin_show_editions');
     }
 
 
@@ -419,20 +517,20 @@ class AdminController extends AbstractController
     public function updateCard(Request $request, $card, $flashAction)
     {
         dump($request);
-        $yellowResonseId = $this->cleanDataPost($request->request->get('card')['yellowResponse']['id']);
+        $yellowResonseId = $this->securityService->cleanPostData($request->request->get('card')['yellowResponse']['id']);
         if (!empty($yellowResonseId)) {
             $yellowResp = $this->responseRepo->find($yellowResonseId);
         }
-        $blueResonseId = $this->cleanDataPost($request->request->get('card')['blueResponse']['id']);
+        $blueResonseId = $this->securityService->cleanPostData($request->request->get('card')['blueResponse']['id']);
         if (!empty($blueResonseId)) {
             $blueResp = $this->responseRepo->find($blueResonseId);
         }
 
-        $yellowContent = $this->cleanDataPost($request->request->get('card')['yellowContent']['name']);
-        $yellowDesc = $this->cleanDataPost($request->request->get('card')['yellowContent']['description']);
+        $yellowContent = $this->securityService->cleanPostData($request->request->get('card')['yellowContent']['name']);
+        $yellowDesc = $this->securityService->cleanPostData($request->request->get('card')['yellowContent']['description']);
 
-        $blueContent = $this->cleanDataPost($request->request->get('card')['blueContent']['name']);
-        $blueDesc = $this->cleanDataPost($request->request->get('card')['blueContent']['description']);
+        $blueContent = $this->securityService->cleanPostData($request->request->get('card')['blueContent']['name']);
+        $blueDesc = $this->securityService->cleanPostData($request->request->get('card')['blueContent']['description']);
 
         if (!empty($card->getEdition()) && (!empty($yellowResp) || !empty($yellowContent)) && (!empty($yellowResp) || !empty($blueContent)) ) {
             $yellowCard = new YellowCard();
@@ -510,74 +608,6 @@ class AdminController extends AbstractController
             $this->addFlash('error', "L'édition, ainsi que les réponses jaune et bleue sont des obligatoires");
         }
 
-        return $this->redirectToRoute('admin_dashboard');
-    }
-
-    // /**
-    //  * @Route("/admin/ajout-Category", name="card_category_add")
-    //  */
-    // public function addCardCategory(Request $request)
-    // {
-    //     $yellowCat = $request->request->get('card')['yellowContent']['category']['title'];
-    //     $yellowCatCol = $request->request->get('card')['yellowContent']['category']['color'];
-
-    //     $blueCat = $request->request->get('card')['blueContent']['category']['title'];
-    //     $blueCatCol = $request->request->get('card')['blueContent']['category']['color'];
-
-
-    //     $selectedCat = array();
-
-    //     if (!empty($yellowCat)) {
-    //         $yellowCat = $this->cleanDataPost($yellowCat);
-    //         $catFound = $this->categoryRepo->findOneBy(['title' => $yellowCat]);
-
-    //         if (empty($catFound)) {
-    //             $newCat = new Category;
-    //             $newCat->setTitle($yellowCat);
-
-    //             $this->em->persist($newCat);
-
-    //             $electedCat['yellowCat'] = $newCat;
-    //         } else {
-    //             $electedCat['yellowCat'] = $catFound;
-    //         }
-
-    //         if (!empty($yellowCatCol)) {
-    //             $yellowCatCol = $this->cleanDataPost($yellowCatCol);
-    //             $electedCat['yellowCat']->setColor($yellowCatCol);
-    //         }
-
-    //         $this->em->flush();
-
-    //     } elseif (!empty($blueCat)){
-    //         $blueCat = $this->cleanDataPost($blueCat);
-    //         $catFound = $this->categoryRepo->findOneBy(['title' => $blueCat]);
-
-    //         if (empty($catFound)) {
-    //             $newCat = new Category;
-    //             $newCat->setTitle($blueCat);
-                
-    //             $this->em->persist($newCat);
-    //             $this->em->flush();
-
-    //             $electedCat['blueCat'] = $newCat;
-    //         } else {
-    //             $electedCat['blueCat'] = $catFound;
-    //         }
-
-    //         if (!empty($blueCatCol)) {
-    //             $blueCatCol = $this->cleanDataPost($blueCatCol);
-    //             $electedCat['blueCat']->setColor($blueCatCol);
-    //         }
-
-    //         $this->em->flush();
-    //     }
-    // }
-
-    private function cleanDataPost($data){
-        // $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
+        return $this->redirectToRoute('admin_show_cards');
     }
 }

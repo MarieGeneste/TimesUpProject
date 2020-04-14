@@ -69,7 +69,7 @@ class SecurityController extends AbstractController
             $url = $this->generateUrl('reset_password', ['token'=> $token], UrlGeneratorInterface::ABSOLUTE_URL);
     
             // do anything else you need here, like send an email
-            $message = (new \Swift_Message('Réinitialisation de votre mot de passe - Visio Game Party'))
+            $message = (new \Swift_Message('Réinitialisation de votre mot de passe - VisioGames'))
                     ->setFrom('MissLibellule19@gmail.com')
                     ->setTo($user->getEmail())
                     ->setBody(

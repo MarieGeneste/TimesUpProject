@@ -74,6 +74,11 @@ class User implements UserInterface
      */
     private $friends;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $friendRequest = [];
+
 
     public function __construct()
     {
@@ -239,6 +244,18 @@ class User implements UserInterface
             $this->friends->removeElement($friend);
             $friend->removeFriend($this);
         }
+
+        return $this;
+    }
+
+    public function getFriendRequest(): ?array
+    {
+        return $this->friendRequest;
+    }
+
+    public function setFriendRequest(?array $friendRequest): self
+    {
+        $this->friendRequest = $friendRequest;
 
         return $this;
     }

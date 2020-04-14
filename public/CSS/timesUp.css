@@ -114,3 +114,9 @@ label.required:after {
 #connexion {
     display: block;
 }
+
+/* Page de recherche d'amis */
+#friendFound,
+#friendNotFound {
+    display: none;
+}

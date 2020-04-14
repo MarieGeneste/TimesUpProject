@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - Inscription{% endblock %}
+
+{% block body %}
+
+<section class="page-section simple-page authentication d-flex align-items-center" id="authentication">
+    <div class="container d-flex flex-column jumbotron text-white">
+
+        <h1>Mes Amis</h1>
+
+        {{ form_start(friendForm, { 'attr': {'class': 'friendSearch w-100 '} }) }}
+            <div class="row mr-4 ml-4 form-group d-flex flex-wrap align-items-center justify-content-between">
+                <h2 class="col-12">Rechercher un Ami</h2>
+                <div class="col-md-6 row">
+                    {{ form_row(friendForm.username) }}
+                </div>
+
+                <button class="btn btn-lg btn-primary mt-2 ">
+                    Rechercher
+                </button>
+        </div>
+        {{ form_end(friendForm) }}
+
+        <div class="row" id="friendFound">
+            <h2 class="col-12">Résultat de votre recherche</h2>
+            <form method="POST" action=""  class="row form-group d-flex flex-column align-items-center justify-content-center">
+                <div class="row">
+                    <div class="mt-4 mb-4 friendUsername">
+                        {# // Ajax friendFound username #}
+                    </div>
+                    <input type="hidden" name="friendId" />
+                </div>
+
+                <button class="btn btn-lg btn-primary mt-2 ">
+                    Lui envoyer une demande d'ami
+                </button>
+            </form>
+        </div>
+
+        <div class="row" id="friendNotFound">
+            <h2 class="col-12">Résultat de votre recherche</h2>
+                <div class="alert alert-danger align-items-center justify-content-center m-0 row">
+                    Aucun utilisateur possédant cet identifiant n'a été trouvé...
+                </div>
+            </form>
+        </div>
+
+        {% if app.user.friends is not empty or app.user.friendRequest is not empty %}
+        
+            <div class="row mt-4 mb-4 d-flex flex-column">
+                {% for friend in app.user.friends %}
+                    <h2 class="col-12">Mes Amis</h2>
+                    <div class="m-2">
+                        <div class="col-md-6">
+                            <strong>{{ friend.username }}</strong>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-lg btn-danger mt-4">
+                                Supprimer
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                {% for friendUsername in app.user.friendRequest %}
+                    <h2 class="col-12">Demandes d'amis en attente</h2>
+                    <div class="m-2">
+                        <div class="col-md-6">
+                            <strong>{{ friendUsername }}</strong>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-lg btn-danger mt-4">
+                                Supprimer
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+</section>
+
+{% block javascripts %}
+{% endblock %}
+
+{% endblock %}

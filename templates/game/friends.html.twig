@@ -24,7 +24,7 @@
 
         <div class="row" id="friendFound">
             <h2 class="col-12">Résultat de votre recherche</h2>
-            <form method="POST" action=""  class="row form-group d-flex flex-column align-items-center justify-content-center">
+            <form method="POST" action="{{ path('account_friend_invitation') }}"  class="row form-group d-flex flex-column align-items-center justify-content-center">
                 <div class="row">
                     <div class="mt-4 mb-4 friendUsername">
                         {# // Ajax friendFound username #}
@@ -46,34 +46,32 @@
             </form>
         </div>
 
-        {% if app.user.friends is not empty or app.user.friendRequest is not empty %}
+        {% if app.user.friends|length >0  %}
         
             <div class="row mt-4 mb-4 d-flex flex-column">
+                <h2 class="col-12">Mes Amis</h2>
                 {% for friend in app.user.friends %}
-                    <h2 class="col-12">Mes Amis</h2>
-                    <div class="m-2">
-                        <div class="col-md-6">
+                    <div class="align-items-center col-12 d-flex justify-content-between m-2 row">
+                        <div class="">
                             <strong>{{ friend.username }}</strong>
                         </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-lg btn-danger mt-4">
-                                Supprimer
-                            </button>
-                        </div>
+                        <button class="btn btn-lg btn-danger">
+                            Supprimer
+                        </button>
                     </div>
                 {% endfor %}
+        {% endif %}
 
-                {% for friendUsername in app.user.friendRequest %}
-                    <h2 class="col-12">Demandes d'amis en attente</h2>
-                    <div class="m-2">
-                        <div class="col-md-6">
+        {% if app.user.friendRequests|length >0 %}
+            <h2 class="col-12">Demandes d'amis en attente</h2>
+                {% for friendUsername in app.user.friendRequests %}
+                    <div class="align-items-center col-12 d-flex justify-content-between m-2 row">
+                        <div>
                             <strong>{{ friendUsername }}</strong>
                         </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-lg btn-danger mt-4">
-                                Supprimer
-                            </button>
-                        </div>
+                        <button class="btn btn-lg btn-danger">
+                            Supprimer
+                        </button>
                     </div>
                 {% endfor %}
             </div>

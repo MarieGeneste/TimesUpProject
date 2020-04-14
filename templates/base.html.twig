@@ -45,7 +45,7 @@
                 
                 <div class="collapse navbar-collapse text-center" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        {% if "ROLE_ADMIN" in app.user.roles %}
+                        {% if app.user and "ROLE_ADMIN" in app.user.roles %}
                         {% else %}
                             <li class="nav-item mx-0 mx-lg-1">
                                 <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{{ path('contact') }}" id="contact">Contact</a>
@@ -56,7 +56,7 @@
                             <a class="nav-link p-3 rounded js-scroll-trigger" href="#portfolio">Mes Scores</a>
                         </li>
                         <li class="nav-item mx-0 mx-lg-1">
-                            <a class="nav-link p-3 rounded js-scroll-trigger" href="{{ path('friend_search') }}">Mes Amis</a>
+                            <a class="nav-link p-3 rounded js-scroll-trigger" href="{{ path('account_friend_search') }}">Mes Amis</a>
                         </li>
                         {% if "ROLE_ADMIN" in app.user.roles %}
                             <li class="nav-item mx-0 mx-lg-1">
@@ -136,20 +136,20 @@
         </div> #}
 
         <!-- Bootstrap core JavaScript -->
-        <script src="JS/jquery/jquery.min.js"></script>
-        <script src="JS/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('JS/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('JS/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
         <!-- Plugin JavaScript -->
-        <script src="JS/jquery-easing/jquery.easing.min.js"></script>
+        <script src="{{ asset('JS/jquery-easing/jquery.easing.min.js') }}"></script>
 
         <!-- Contact Form JavaScript -->
-        <script src="JS/jqBootstrapValidation.js"></script>
-        {# <script src="js/contact_me.js"></script> #}
+        <script src="{{ asset('JS/jqBootstrapValidation.js') }}"></script>
+        {# <script src="{{ asset('js/contact_me.js') }}"></script> #}
 
         <!-- Custom scripts for this template -->
-        <script src="JS/freelancer.min.js"></script>
-        <script src="JS/timesUp.js"></script>
-        <script src="AJAX/friendSearch.js"></script>
+        <script src="{{ asset('JS/freelancer.min.js') }}"></script>
+        <script src="{{ asset('JS/timesUp.js') }}"></script>
+        <script src="{{ asset('AJAX/friendSearch.js') }}"></script>
         
         {% block javascripts %}{% endblock %}
 

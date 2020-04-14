@@ -36,6 +36,30 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function alreadyHaveThisFriend(User $askingUser, User $friend) : ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :askingUserId')
+            ->setParameter('askingUserId', $askingUser->getId())
+            ->andWhere(':friend MEMBER OF u.friends')
+            ->setParameter('friend', $friend)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function alreadyAskThisFriend(User $askingUser, User $friend) : ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :askingUserId')
+            ->setParameter('askingUserId', $askingUser->getId())
+            ->andWhere(':friend MEMBER OF u.friendRequest')
+            ->setParameter('friend', $friend->getUsername())
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

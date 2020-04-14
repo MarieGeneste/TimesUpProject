@@ -236,12 +236,11 @@ class AdminTimesUpController extends AbstractController
      */
     public function updateCard(Request $request, $card, $flashAction)
     {
-        dump($request);
-        $yellowResonseId = $this->securityService->cleanPostData($request->request->get('card')['yellowResponse']['id']);
+        $yellowResonseId = $this->securityService->cleanTrimPostData($request->request->get('card')['yellowResponse']['id']);
         if (!empty($yellowResonseId)) {
             $yellowResp = $this->responseRepo->find($yellowResonseId);
         }
-        $blueResonseId = $this->securityService->cleanPostData($request->request->get('card')['blueResponse']['id']);
+        $blueResonseId = $this->securityService->cleanTrimPostData($request->request->get('card')['blueResponse']['id']);
         if (!empty($blueResonseId)) {
             $blueResp = $this->responseRepo->find($blueResonseId);
         }

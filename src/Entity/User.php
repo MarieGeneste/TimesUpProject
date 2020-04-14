@@ -248,15 +248,52 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getFriendRequest(): ?array
+    public function getFriendRequests(): ?array
     {
         return $this->friendRequest;
     }
 
-    public function setFriendRequest(?array $friendRequest): self
+    public function addFriendRequest(?string $friendRequest)
     {
-        $this->friendRequest = $friendRequest;
+        array_push($this->friendRequest, $friendRequest);
 
         return $this;
     }
+
+    public function removeFriendRequest($friendRequest)
+    {
+        $keyFound = array_search($friendRequest, $this->getFriendRequests());
+        if ($keyFound !== false) {
+            unset($this->friendRequest[$keyFound]);
+        }
+        return $this;
+    }
+
+    
+    // public function getFriendRequests()
+    // {
+    //     return $this->friendRequests;
+    // }
+
+    // public function addFriendRequest(string $friendRequest)
+    // {
+
+    //     dump($friendRequest);
+    //     if (!$this->friendRequests->contains($friendRequest)) {
+    //         $this->friendRequests[] = $friendRequest;
+    //         dump($this->friendRequests);
+    //         // exit;
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeFriendRequest(string $friendRequest)
+    // {
+    //     if ($this->friendRequests->contains($friendRequest)) {
+    //         $this->friendRequests->removeElement($friendRequest);
+    //     }
+
+    //     return $this;
+    // }
 }

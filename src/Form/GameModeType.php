@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\GameMode;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,8 +15,10 @@ class GameModeType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('rules')
-            ->add('tag')
+            ->add('rules', TextareaType::class, [
+                "label" => "Règles du Jeu",
+            ])
+            ->add('tag', TextType::class)
         ;
     }
 
@@ -22,6 +26,7 @@ class GameModeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => GameMode::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

@@ -7,11 +7,11 @@
     <h1 class="pageTitle mb-4 text-center">{{ pageModTitle }} d'un Mode de Jeu</h1>
 
     <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
-        {# {% if pageModTitle == "Création" %}
+        {% if pageModTitle == "Création" %}
             {{ form_start(gameModeForm, {'action': path('admin_add_game_mode')} )}}
-        {% else %} #}
+        {% else %}
             {{ form_start(gameModeForm, {'action': path('admin_edit_game_mode', {'gameMode' : gameMode.id }) }) }}
-        {# {% endif %} #}
+        {% endif %}
 
             <div class="row mt-4 mb-4">
                 <div class="col-md-6 mt-4">
@@ -20,18 +20,16 @@
                 <div class="col-md-6 mt-4">
                     {{ form_row(gameModeForm.tag)}}
                 </div>
-            </div>
-            <div class="row m-4 d-flex flex-wrap align-items-center justify-content-around">
                 <div class="col-12 mt-4">
-                    {{ form_row(gameModeForm.rules)}}
+                {{ form_row(gameModeForm.rules)}}
                 </div>
             </div>
             <div class="row m-4 form-group d-flex justify-content-center " id="game_mode">
-                {# {% if pageModTitle == "Création" %}
+                {% if pageModTitle == "Création" %}
                     <input type="submit" class="btn btn-primary btn-lg m-2" value="Créer">
-                {% else %} #}
+                {% else %}
                     <input type="submit" class="btn btn-primary btn-lg m-2" value="Editer">
-                {# {% endif %} #}
+                {% endif %}
                 <a href="{{ path('admin_show_game_modes') }}" class="btn btn-danger btn-lg m-2">Annuler</a>
             </div>
 

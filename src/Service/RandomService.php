@@ -44,7 +44,7 @@ class RandomService extends AbstractController
 
     public function timesUpGameMode() {
 
-        $timesUpCameMode = $this->gameModeRepo->findOneBy(['tag' => 'TimesUp']);
+        $timesUpCameMode = $this->gameModeRepo->findOneBy(['tag' => 'Times-Up']);
         return $timesUpCameMode;
     }
 }

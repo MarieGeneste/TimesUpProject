@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\GameRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\GameModeRepository")
  */
-class Game
+class GameMode
 {
     /**
      * @var \Ramsey\Uuid\UuidInterface

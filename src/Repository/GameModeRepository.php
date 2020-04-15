@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Game;
+use App\Entity\GameMode;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Game|null find($id, $lockMode = null, $lockVersion = null)
- * @method Game|null findOneBy(array $criteria, array $orderBy = null)
- * @method Game[]    findAll()
- * @method Game[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method GameMode|null find($id, $lockMode = null, $lockVersion = null)
+ * @method GameMode|null findOneBy(array $criteria, array $orderBy = null)
+ * @method GameMode[]    findAll()
+ * @method GameMode[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GameRepository extends ServiceEntityRepository
+class GameModeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Game::class);
+        parent::__construct($registry, GameMode::class);
     }
 
     // /**
-    //  * @return Game[] Returns an array of Game objects
+    //  * @return GameMode[] Returns an array of GameMode objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class GameRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Game
+    public function findOneBySomeField($value): ?GameMode
     {
         return $this->createQueryBuilder('g')
             ->andWhere('g.exampleField = :val')

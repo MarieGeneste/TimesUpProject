@@ -22,6 +22,7 @@ use App\Repository\BlueCardRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\YellowCardRepository;
+use App\Service\RandomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -250,7 +251,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/ajout-Categorie", name="add_category")
      */
-    public function addCategory(Request $request)
+    public function addCategory(Request $request, RandomService $randomServ)
     {
         $pageModTitle = "Création";
 
@@ -260,6 +261,11 @@ class AdminController extends AbstractController
         $categoryForm->handleRequest($request);
 
         if ($categoryForm->isSubmitted() and $categoryForm->isValid()) {
+            if ($newCategory->getColor() == "#000000") {
+                $randomColor = $randomServ->getRandomColor();
+                $newCategory->setColor($randomColor);
+            }
+
             $this->em->persist($newCategory);
             $this->em->flush();
             return $this->redirectToRoute('admin_show_categories');

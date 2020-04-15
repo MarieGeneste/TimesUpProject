@@ -2,29 +2,25 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\TimesUpCard;
-use App\Entity\User;
-use App\Service\FrontSecurityService;
-use App\Form\TimesUpCardType;
-use App\Form\UserType;
 use App\Entity\Edition;
 use App\Entity\BlueCard;
 use App\Entity\Category;
 use App\Entity\Response;
 use App\Form\EditionType;
 use App\Entity\YellowCard;
-use App\Form\CategoryType;
-use App\Form\ResponseType;
-use App\Repository\TimesUpCardRepository;
+use App\Entity\TimesUpCard;
+use App\Form\TimesUpCardType;
+use App\Service\RandomService;
 use App\Repository\UserRepository;
 use App\Repository\EditionRepository;
+use App\Service\FrontSecurityService;
 use App\Repository\BlueCardRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\YellowCardRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TimesUpCardRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -328,5 +324,63 @@ class AdminTimesUpController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_show_cards');
+    }
+
+    /**
+     * @Route("/creation-carte-category", name="add_card_category")
+     */
+    public function addCardCategory(Request $request, CategoryRepository $catRep, RandomService $randomServ)
+    {
+        $catTitles = $request->request->get('add-category');
+        $newYellowCardCatTitle = $this->securityService->cleanPostData($catTitles[0]);
+        $newBlueCardCatTitle = $this->securityService->cleanPostData($catTitles[1]);
+
+        $data["newCategoryTitle"] = null;
+        $data["newCategoryId"] = null;
+        $data["newCategoryColor"] = null;
+        $data["newCategoryFound"] = false;
+        $data["isNewCat"] = false;
+        $data["isYellowCard"] = true;
+        
+        if (!empty($newYellowCardCatTitle) || !empty($newBlueCardCatTitle)) {
+
+            // S'il s'agit d'une catégorie a rattacher à la réponse bleue
+            if (!empty($newBlueCardCatTitle)) {
+                $data["isYellowCard"] = false;
+
+                $newCatTitle = $newBlueCardCatTitle;
+            } else {
+
+                $newCatTitle = $newYellowCardCatTitle;
+            }
+
+            $data["isNewCat"] = true;
+            $catExist = $catRep->findOneBy(['title' => $newCatTitle]);
+
+            if (!empty($catExist)) {
+                $data["newCategoryFound"] = true;
+                $data["newCategoryTitle"] = $catExist->getTitle();
+                $data["newCategoryId"] = $catExist->getId();
+            } else {
+                $newCategory = new Category();
+                $newCategory->setTitle($newCatTitle);
+                
+                $randomColor = $randomServ->getRandomColor();
+                $newCategory->setColor($randomColor);
+    
+                $this->em->persist($newCategory);
+                $this->em->flush();
+                dump($newCategory);
+
+                $data["newCategoryTitle"] = $newCategory->getTitle();
+                $data["newCategoryId"] = $newCategory->getId();
+                $data["newCategoryColor"] = $newCategory->getColor();
+            }
+        }
+
+        dump($data);
+        // exit;
+
+        return $this->json($data);
     }
 }

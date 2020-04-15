@@ -4,5 +4,6 @@ twig:
     strict_variables: '%kernel.debug%'
     exception_controller: null
     globals:
-        securityService: '@App\Service\FrontSecurityService'
+        SecurityService: '@App\Service\FrontSecurityService'
+        RandomService: '@App\Service\RandomService'
     form_themes: ['bootstrap_4_layout.html.twig']

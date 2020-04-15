@@ -53,7 +53,7 @@ class Response
     private $iKnowCard;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Game", mappedBy="responses")
+     * @ORM\ManyToMany(targetEntity="App\Entity\GameMode", mappedBy="responses")
      */
     private $games;
 
@@ -193,14 +193,14 @@ class Response
     }
 
     /**
-     * @return Collection|Game[]
+     * @return Collection|GameMode[]
      */
     public function getGames(): Collection
     {
         return $this->games;
     }
 
-    public function addGame(Game $game): self
+    public function addGame(GameMode $game): self
     {
         if (!$this->games->contains($game)) {
             $this->games[] = $game;
@@ -210,7 +210,7 @@ class Response
         return $this;
     }
 
-    public function removeGame(Game $game): self
+    public function removeGame(GameMode $game): self
     {
         if ($this->games->contains($game)) {
             $this->games->removeElement($game);

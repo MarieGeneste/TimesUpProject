@@ -25,7 +25,8 @@ class CategoryType extends AbstractType
                 'required' => false
             ))
             ->add('color', ColorType::class, array(
-                'required' => false
+                'required' => false,
+                'empty_data' => null,
             ))
             ->add('parentCategory', EntityType::class, [
                 // looks for choices from this entity

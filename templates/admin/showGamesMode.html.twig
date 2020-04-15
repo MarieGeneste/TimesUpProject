@@ -1,0 +1,40 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %} - Modes de Jeux{% endblock %}
+
+{% block body %}
+
+    <h1 class="pageTitle mb-4 text-center">Modes de Jeux</h1>
+
+    <div class="row">
+        <div class="col-12">
+
+            {# <h2>Les Utilisateurs <a href="{{ path('admin_add_user') }}"><img class="ml-2" src="{{asset('IMG/add_circle_outline-white-24dp.svg')}}" alt="ajouter"></a></h2> #}
+            <h2>Les Modes de Jeux</h2>
+
+            <table id="utilisateurs_table" class="table table-dark table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Modes</th>
+                        <th>Règles</th>
+                        <th class="text-center">Nombre de Parties</th>
+                        <th class="text-center">Editer</th>
+                        <th class="text-center">Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gameMode in allGames | sortbyfield('name') %}
+                        <tr>
+                            <td>{{ gameMode.name }}</td>
+                            <td>{{ gameMode.rules | truncate(50) | raw }}</td>
+                            <td class="text-center">0</td>
+                            <td class="text-center"><span class="material-icons"><a href="{{ path('admin_edit_game_mode', {'gameMode' : gameMode.id }) }}"><i class="fas fa-edit"></i></a></span>
+                            <td class="text-center"><span class="material-icons"><a class="col-red" onclick="return confirm('Etes-vous sûre de vouloir supprimer l'utilisateur {{ gameMode.name }} ?')" href="{{ path('admin_delete_game_mode', {'gameMode' : gameMode.id }) }}"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
+                        </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

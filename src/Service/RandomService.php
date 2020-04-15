@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Repository\GameModeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -9,6 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class RandomService extends AbstractController
 {
+
+    private $gameModeRepo;
+
+    public function __construct(GameModeRepository $gameModeRepo) {
+
+        $this->gameModeRepo = $gameModeRepo;
+    }
 
     // Permet de nettoyer les données envoyées en post
 
@@ -32,5 +40,11 @@ class RandomService extends AbstractController
 
         $rgbColor = "#". $result['hex'];
         return $rgbColor;
+    }
+
+    public function timesUpGameMode() {
+
+        $timesUpCameMode = $this->gameModeRepo->findOneBy(['tag' => 'TimesUp']);
+        return $timesUpCameMode;
     }
 }

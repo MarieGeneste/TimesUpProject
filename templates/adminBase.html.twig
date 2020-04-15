@@ -71,7 +71,7 @@
                         <div class="sb-sidenav-menu-heading">Jeux</div>
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTimesUp" aria-expanded="false" aria-controls="collapseTimesUp">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Time's Up
+                            {{ RandomService.timesUpGameMode().name }}
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseTimesUp" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
@@ -84,6 +84,10 @@
                         <a class="nav-link" href="{{ path('admin_show_users') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Les Utilisateurs
+                        </a>
+                        <a class="nav-link" href="{{ path('admin_show_game_modes') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Les Modes de Jeux
                         </a>
                         {# <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
@@ -125,7 +129,7 @@
 
         <div id="layoutSidenav_content">
             <main>
-                <div class="container-fluid">
+                <div class="container-fluid admin-content">
         
                     {% include "flashMessages.html.twig" %}
 

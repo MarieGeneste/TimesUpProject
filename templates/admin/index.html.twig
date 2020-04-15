@@ -9,7 +9,7 @@
             <h2 class="mt-4 col-12">Contenu</h2>
             <div class="col-md-6">
                 <div class="card bg-transparent text-white mb-4">
-                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_content') }}">Toutes les Réponses</a></div>
+                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_content') }}">Les Réponses</a></div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white" href="{{ path('admin_add_content') }}">Ajouter une Réponse</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-6">
                 <div class="card bg-transparent text-white mb-4">
-                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_categories') }}">Toutes les Catégories</a></div>
+                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_categories') }}">Les Catégories</a></div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white" href="{{ path('admin_add_category') }}">Ajouter une Catégorie</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -28,20 +28,24 @@
         </div>
         <div class="row">
             <h2 class="mt-4 col-12">Jeux</h2>
-            <div class="col-12 ml-0 p-4 row">
-                <h3 class="col-12">Time's Up</h3>
+            <div class="col-12 ml-0 p-4 row jumbotron">
+                <h3 class="col-12 text-white text-center mb-4">{{ RandomService.timesUpGameMode().name }}<span class="material-icons">
+                    {# <a href="{{ path('admin_game_mode_edit', {'ig' : RandomService.timesUpGameMode().id  }) }}">
+                        <i class="fas fa-edit"></i>
+                    </a> #}
+                </h3>
                 <div class="col-md-6">
                     <div class="card bg-transparent text-white mb-4">
-                        <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_cards') }}">Toutes les Cartes Time's Up</a></div>
+                        <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_cards') }}">Les Cartes</a></div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white" href="{{ path('admin_add_card') }}">Ajouter une carte Time's Up</a>
+                            <a class="small text-white" href="{{ path('admin_add_card') }}">Ajouter une carte {{ RandomService.timesUpGameMode().name }}</a>
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card bg-transparent text-white mb-4">
-                        <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_editions') }}">Toutes les Editions</a></div>
+                        <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_editions') }}">Les Editions</a></div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white" href="{{ path('admin_add_edition') }}">Ajouter une Edition</a>
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -54,7 +58,7 @@
             <h2 class="mt-4 col-12">Administration</h2>
             <div class="col-12">
                 <div class="card bg-transparent text-white mb-4">
-                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_users') }}">Tous les Utilisateurs</a></div>
+                    <div class="card-body"><a class="text-white font-weight-bold" href="{{ path('admin_show_users') }}">Les Utilisateurs</a></div>
                     {# <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="small text-white" href="{{ path('admin_add_user') }}">Ajouter un Utilisateur</a>
                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>

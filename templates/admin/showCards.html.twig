@@ -1,8 +1,10 @@
 {% extends 'adminBase.html.twig' %}
 
+{% block title %} - {{ RandomService.timesUpGameMode().name }} - Cartes{% endblock %}
+
 {% block body %}
 
-    <h1 class="pageTitle mb-4 text-center">Tableau de bord</h1>
+    <h1 class="pageTitle mb-4 text-center">Cartes {{ RandomService.timesUpGameMode().name }}</h1>
 
     <div class="row">
         <div class="col-12">

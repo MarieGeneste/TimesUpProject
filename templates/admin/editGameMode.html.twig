@@ -1,43 +1,40 @@
 {% extends 'adminBase.html.twig' %}
 
-{% block title %} - {{ pageModTitle }} d'un Utilisateur{% endblock %}
+{% block title %} - {{ pageModTitle }} d'un Mode de Jeu{% endblock %}
 
 {% block body %}
 
-    <h1 class="pageTitle mb-4 text-center">{{ pageModTitle }} d'un Utilisateur</h1>
+    <h1 class="pageTitle mb-4 text-center">{{ pageModTitle }} d'un Mode de Jeu</h1>
 
     <div class="d-flex flex-column flex-wrap m-2 mt-4 row">
         {# {% if pageModTitle == "Création" %}
-            {{ form_start(userForm, {'action': path('admin_add_user')} )}}
+            {{ form_start(gameModeForm, {'action': path('admin_add_game_mode')} )}}
         {% else %} #}
-            {{ form_start(userForm, {'action': path('admin_edit_user', {'user' : user.id }) }) }}
+            {{ form_start(gameModeForm, {'action': path('admin_edit_game_mode', {'gameMode' : gameMode.id }) }) }}
         {# {% endif %} #}
 
             <div class="row mt-4 mb-4">
                 <div class="col-md-6 mt-4">
-                    {{ form_row(userForm.username)}}
+                    {{ form_row(gameModeForm.name)}}
                 </div>
                 <div class="col-md-6 mt-4">
-                    {{ form_row(userForm.email)}}
+                    {{ form_row(gameModeForm.tag)}}
                 </div>
             </div>
             <div class="row m-4 d-flex flex-wrap align-items-center justify-content-around">
-                <div class="col-md-4 mt-4">
-                    {{ form_row(userForm.roles)}}
-                </div>
-                <div class="col-md-4 mt-4">
-                    {{ form_row(userForm.isActive)}}
+                <div class="col-12 mt-4">
+                    {{ form_row(gameModeForm.rules)}}
                 </div>
             </div>
-            <div class="row m-4 form-group d-flex justify-content-center " id="user">
+            <div class="row m-4 form-group d-flex justify-content-center " id="game_mode">
                 {# {% if pageModTitle == "Création" %}
                     <input type="submit" class="btn btn-primary btn-lg m-2" value="Créer">
                 {% else %} #}
                     <input type="submit" class="btn btn-primary btn-lg m-2" value="Editer">
                 {# {% endif %} #}
-                <a href="{{ path('admin_show_users') }}" class="btn btn-danger btn-lg m-2">Annuler</a>
+                <a href="{{ path('admin_show_game_modes') }}" class="btn btn-danger btn-lg m-2">Annuler</a>
             </div>
 
-        {{ form_end(userForm)}}
+        {{ form_end(gameModeForm)}}
     </div>
 {% endblock %}

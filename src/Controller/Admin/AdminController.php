@@ -2,30 +2,26 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\TimesUpCard;
 use App\Entity\User;
-use App\Service\FrontSecurityService;
-use App\Form\TimesUpCardType;
 use App\Form\UserType;
-use App\Entity\Edition;
-use App\Entity\BlueCard;
 use App\Entity\Category;
+use App\Entity\GameMode;
 use App\Entity\Response;
-use App\Form\EditionType;
-use App\Entity\YellowCard;
 use App\Form\CategoryType;
+use App\Form\GameModeType;
 use App\Form\ResponseType;
-use App\Repository\TimesUpCardRepository;
+use App\Service\RandomService;
 use App\Repository\UserRepository;
 use App\Repository\EditionRepository;
+use App\Service\FrontSecurityService;
 use App\Repository\BlueCardRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\GameModeRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\YellowCardRepository;
-use App\Service\RandomService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TimesUpCardRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -37,33 +33,30 @@ class AdminController extends AbstractController
 {
     private $em;
     private $userRepo;
+    private $gameModesRepo;
     private $responseRepo;
     private $cardRepo;
-    private $editionRepo;
     private $categoryRepo;
     private $yellowCardRepo;
     private $blueCardRepo;
-    private $securityService;
 
     public function __construct(ResponseRepository $responseRepo, 
+                                GameModeRepository $gameModesRepo, 
                                 UserRepository $userRepo, 
                                 TimesUpCardRepository $cardRepo, 
-                                EditionRepository $editionRepo, 
                                 CategoryRepository $categoryRepo, 
                                 BlueCardRepository $blueCardRepo, 
                                 YellowCardRepository $yellowCardRepo, 
-                                EntityManagerInterface $em, 
-                                FrontSecurityService $securityService)
+                                EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->userRepo = $userRepo;
+        $this->gameModesRepo = $gameModesRepo;
         $this->responseRepo = $responseRepo;
         $this->cardRepo = $cardRepo;
-        $this->editionRepo = $editionRepo;
         $this->categoryRepo = $categoryRepo;
         $this->yellowCardRepo = $yellowCardRepo;
         $this->blueCardRepo = $blueCardRepo;
-        $this->securityService = $securityService;
     }
 
     /**
@@ -71,10 +64,25 @@ class AdminController extends AbstractController
      */
     public function index()
     {
-        $pageModTitle = "dashboard";
+        $pageModTitle = "Tableau de bord";
 
         return $this->render('admin/index.html.twig', [
             'pageModTitle' => $pageModTitle,
+        ]);
+    }
+
+    /**
+     * @Route("/Modes-de-Jeux", name="show_game_modes")
+     */
+    public function showGamesMode()
+    {
+        $pageModTitle = "Modes de Jeux";
+
+        $allGames = $this->gameModesRepo->findAll();
+
+        return $this->render('admin/showGamesMode.html.twig', [
+            'pageModTitle' => $pageModTitle,
+            'allGames' => $allGames
         ]);
     }
 
@@ -159,9 +167,75 @@ class AdminController extends AbstractController
         $this->em->remove($user);
         $this->em->flush();
 
-        $this->addFlash('success', 'L\'Utilisateur "' . $deleteName .'" a bien été supprimée.');
+        $this->addFlash('success', 'L\'Utilisateur "' . $deleteName .'" a bien été supprimé.');
 
         return $this->redirectToRoute('admin_show_users');
+    }
+
+    /**
+     * @Route("/edition-Mode-de-Jeu/{gameMode}", name="edit_game_mode")
+     * @param GameMode $gameMode
+     */
+    public function editGameMode (GameMode $gameMode, Request $request)
+    {
+        $pageModTitle = "Edition";
+
+        $gameModeForm = $this->createForm(GameModeType::class, $gameMode);
+
+        $gameModeForm->handleRequest($request);
+
+        if ($gameModeForm->isSubmitted() and $gameModeForm->isValid()) {
+            $this->em->flush();
+            return $this->redirectToRoute('admin_show_game_modes');
+        }
+
+        return $this->render('admin/editGameMode.html.twig', [
+            'pageModTitle' => $pageModTitle,
+            'gameMode' => $gameMode, 
+            'gameModeForm' => $gameModeForm->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/suppression-Mode-de-Jeu/{gameMode}", name="delete_game_mode")
+     * @param GameMode $gameMode
+     */
+    public function deleteGameMode(GameMode $gameMode, Request $request)
+    {
+        $deleteName = $gameMode->getName();
+
+        $this->em->remove($gameMode);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Le Mode de Jeu "' . $deleteName .'" a bien été supprimé.');
+
+        return $this->redirectToRoute('admin_show_game_modes');
+    }
+
+
+    /**
+     * @Route("/ajout-Mode-de-Jeu", name="add_game_mode")
+     */
+    public function addGameMode(Request $request)
+    {
+        $pageModTitle = "Création";
+
+        $newGameMode = new GameMode();
+
+        $gameModeForm = $this->createForm(GameModeType::class, $newGameMode);
+
+        $gameModeForm->handleRequest($request);
+
+        if ($gameModeForm->isSubmitted() and $gameModeForm->isValid()) {
+            $this->em->persist($newGameMode);
+            $this->em->flush();
+            return $this->redirectToRoute('admin_show_game_modes');
+        }
+
+        return $this->render('admin/editGameMode.html.twig', [
+            'pageModTitle' => $pageModTitle,
+            'gameModeForm' => $gameModeForm->createView(),
+        ]);
     }
 
 

@@ -31,6 +31,16 @@ class GameMode
      */
     private $responses;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rules;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $tag;
+
     public function __construct()
     {
         $this->responses = new ArrayCollection();
@@ -78,6 +88,30 @@ class GameMode
         if ($this->responses->contains($response)) {
             $this->responses->removeElement($response);
         }
+
+        return $this;
+    }
+
+    public function getRules(): ?string
+    {
+        return $this->rules;
+    }
+
+    public function setRules(?string $rules): self
+    {
+        $this->rules = $rules;
+
+        return $this;
+    }
+
+    public function getTag(): ?string
+    {
+        return $this->tag;
+    }
+
+    public function setTag(string $tag): self
+    {
+        $this->tag = $tag;
 
         return $this;
     }

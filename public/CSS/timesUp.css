@@ -67,6 +67,9 @@ body {
     margin-bottom: 0;
 }
 
+.admin-content .jumbotron {
+    background-color: #e9ecef21;
+}
 .col-red {
     color: red !important;
 }

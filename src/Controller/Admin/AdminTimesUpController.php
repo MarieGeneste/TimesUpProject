@@ -340,13 +340,13 @@ class AdminTimesUpController extends AbstractController
         $data["newCategoryColor"] = null;
         $data["newCategoryFound"] = false;
         $data["isNewCat"] = false;
-        $data["isYellowCard"] = true;
+        $data["isYellowCardCat"] = true;
         
         if (!empty($newYellowCardCatTitle) || !empty($newBlueCardCatTitle)) {
 
             // S'il s'agit d'une catégorie a rattacher à la réponse bleue
             if (!empty($newBlueCardCatTitle)) {
-                $data["isYellowCard"] = false;
+                $data["isYellowCardCat"] = false;
 
                 $newCatTitle = $newBlueCardCatTitle;
             } else {
@@ -376,7 +376,7 @@ class AdminTimesUpController extends AbstractController
                 $data["newCategoryId"] = $newCategory->getId();
                 $data["newCategoryColor"] = $newCategory->getColor();
             }
-        }
+        } 
 
         dump($data);
         // exit;

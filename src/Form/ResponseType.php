@@ -41,6 +41,7 @@ class ResponseType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Response::class,
+            'translation_domain' => 'forms'
         ]);
     }
 

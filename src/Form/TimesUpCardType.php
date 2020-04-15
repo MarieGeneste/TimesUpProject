@@ -38,6 +38,7 @@ class TimesUpCardType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TimesUpCard::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

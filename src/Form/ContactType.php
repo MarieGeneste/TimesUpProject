@@ -14,7 +14,7 @@ class ContactType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
+            ->add('name')
             ->add('email', EmailType::class)
             ->add('message', TextareaType::class)
             ->add('submit', SubmitType::class)
@@ -25,6 +25,7 @@ class ContactType extends AbstractType
     {
         $resolver->setDefaults([
             // Configure your form options here
+            'translation_domain' => 'forms'
         ]);
     }
 }

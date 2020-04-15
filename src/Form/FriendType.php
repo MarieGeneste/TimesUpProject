@@ -20,6 +20,7 @@ class FriendType extends AbstractType
     {
         $resolver->setDefaults([
             // 'data_class' => User::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

@@ -49,7 +49,7 @@ class ContactController extends AbstractController
     public function contactTemplatePreview()
     {
         $contact = [
-        "nom" => "Marie",
+        "name" => "Marie",
         "email" => "marie.geneste.formation@gmail.com",
         "message" => "test message" ];
 

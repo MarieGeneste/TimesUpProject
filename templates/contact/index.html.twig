@@ -14,9 +14,9 @@
             <div class="row mt-4 mb-4">
                 <div class="col-md-6 mb-4">
                     {% if app.user %}
-                        {{ form_row(contactForm.nom, { 'attr': {'value': app.user.username,  } }) }}
+                        {{ form_row(contactForm.name, { 'attr': {'value': app.user.username,  } }) }}
                     {% else %}
-                        {{ form_row(contactForm.nom) }}
+                        {{ form_row(contactForm.name) }}
                     {% endif %}
                 </div>
                 <div class="col-md-6 mb-4">

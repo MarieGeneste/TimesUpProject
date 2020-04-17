@@ -11,20 +11,33 @@
 
         <div class="row mt-4 mb-4 d-flex flex-column">
 
-            <div class="row justify-content-between align-items-center">
+            <div id="profileEdition" class="row justify-content-between align-items-center">
                 <h2 class="col-md-8">Mon Profil</h2>
                 <div class="acol-md-4">
-                    {{ app.user.avatarName }}
+                    {% if app.user.avatarName is not empty %}
+                        {{ app.user.avatarName }}
+                    {% endif %}
+                    
                     {{ app.user.email }}
                     {{ app.user.username }}
-                
-                    <a href="{{ path('account_edit', {'id': app.user.id}) }}">edit</a>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-lg btn-info">
-                        Rechercher
+                    <button onclick="openForm('#profileEdition')" class="btn btn-lg btn-info form-desactivate">
+                        Modifier
                     </button>
                 </div>
+            </div>
+
+            <div id="profileEditionForm" class="row justify-content-between align-items-center formPlace">
+
+                <h2 class="col-md-8">Modification de mon Profil</h2>
+                {{ form_start(profileForm, {'action': path('account_edit', {'id': app.user.id})} ) }}
+                    {{ form_widget(profileForm) }}
+                
+                    <button type="submit"class="btn">Enregistrer</button>
+                    <button onclick="EditModeReturn('#profileEdition', true)" class="btn">Annuler</button>
+                {{ form_end(profileForm) }}
+
             </div>
 
         </div>
@@ -34,7 +47,7 @@
             <div class="row">
                 <h2 class="col-md-8">Mes Amis</h2>
                 <div class="col-md-4">
-                    <button class="btn btn-lg btn-info">
+                    <button onclick="openForm('#friendSearch')" class="btn btn-lg btn-info form-desactivate">
                         Rechercher
                     </button>
                 </div>
@@ -47,7 +60,7 @@
                         <div class="">
                             <strong>{{ friend.username }}</strong>
                         </div>
-                        <button class="btn btn-lg btn-danger">
+                        <button class="btn btn-lg btn-danger form-desactivate">
                             Supprimer
                         </button>
                     </div>
@@ -62,19 +75,61 @@
                         <div>
                             <strong>{{ friendUsername }}</strong>
                         </div>
-                        <button class="btn btn-lg btn-danger">
+                        <button class="btn btn-lg btn-danger form-desactivate">
                             Supprimer
                         </button>
                     </div>
                 {% endfor %}
             {% endif %}
 
+            <div id="friendSearchForm" class="row mt-4 mb-4 flex-column formPlace">
+                <div class="d-flex flex-column jumbotron text-white">
+
+                    {{ form_start(friendForm, { 'attr': {'class': 'friendSearch w-100 ', 'action': path('account_friend_search')} }) }}
+                        <div class="row mr-4 ml-4 form-group d-flex flex-wrap align-items-center justify-content-between">
+                            <h2 class="col-12">Rechercher un Ami</h2>
+                            <div class="col-md-6 row">
+                                {{ form_row(friendForm.username) }}
+                            </div>
+
+                            <button class="btn btn-lg btn-primary mt-2 ">
+                                Rechercher
+                            </button>
+                        </div>
+                    {{ form_end(friendForm) }}
+
+                    <div class="row" id="friendFound">
+                        <h2 class="col-12">Résultat de votre recherche</h2>
+                        <form method="POST" action="{{ path('account_friend_invitation') }}"  class="row form-group d-flex flex-column align-items-center justify-content-center">
+                            <div class="row">
+                                <div class="mt-4 mb-4 friendUsername">
+                                    {# // Ajax friendFound username #}
+                                </div>
+                                <input type="hidden" name="friendId" />
+                            </div>
+
+                            <button class="btn btn-lg btn-primary mt-2 ">
+                                Lui envoyer une demande d'ami
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="row" id="friendNotFound">
+                        <h2 class="col-12">Résultat de votre recherche</h2>
+                        <div class="alert alert-danger align-items-center justify-content-center m-0 row">
+                            Aucun utilisateur possédant cet identifiant n'a été trouvé...
+                        </div>
+                    </div>
+                    <button onclick="EditModeReturn('#friendSearch')" class="btn">Annuler</button>
+                </div>
+            </div>
+
         </div>
     </div>
 
 </section>
 
-{% include 'userAccount/editProfileTemplate.html.twig' %}
-{% include 'userAccount/friendSearchTemplate.html.twig' %}
+{# {% include 'userAccount/editProfileTemplate.html.twig' %}
+{% include 'userAccount/friendSearchTemplate.html.twig' %} #}
 
 {% endblock %}

@@ -123,3 +123,8 @@ label.required:after {
 #friendNotFound {
     display: none;
 }
+
+/* CSS du compte utilisateur */
+.formPlace{
+    display: none;
+}

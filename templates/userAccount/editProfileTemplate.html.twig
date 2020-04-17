@@ -1,0 +1,9 @@
+<template id="userProfileEdition">
+
+    <h1>Edit User</h1>
+    {{ form_start(profileForm) }}
+        {{ form_widget(profileForm) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(profileForm) }}
+
+</template>

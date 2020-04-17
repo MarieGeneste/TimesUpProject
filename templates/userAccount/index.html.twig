@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} - Mon Compte{% endblock %}
+
+{% block body %}
+
+<section class="page-section simple-page authentication d-flex align-items-center" id="account">
+    <div class="container d-flex flex-column text-white">
+
+        <h1>Mon Compte</h1>
+
+        <div class="row mt-4 mb-4 d-flex flex-column">
+
+            <div class="row justify-content-between align-items-center">
+                <h2 class="col-md-8">Mon Profil</h2>
+                <div class="acol-md-4">
+                    {{ app.user.avatarName }}
+                    {{ app.user.email }}
+                    {{ app.user.username }}
+                
+                    <a href="{{ path('account_edit', {'id': app.user.id}) }}">edit</a>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-lg btn-info">
+                        Rechercher
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mt-4 mb-4 d-flex flex-column">
+
+            <div class="row">
+                <h2 class="col-md-8">Mes Amis</h2>
+                <div class="col-md-4">
+                    <button class="btn btn-lg btn-info">
+                        Rechercher
+                    </button>
+                </div>
+            </div>
+            
+            {% if app.user.friends|length >0  %}
+        
+                {% for friend in app.user.friends %}
+                    <div class="align-items-center col-12 d-flex justify-content-between m-2 row">
+                        <div class="">
+                            <strong>{{ friend.username }}</strong>
+                        </div>
+                        <button class="btn btn-lg btn-danger">
+                            Supprimer
+                        </button>
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+
+            {% if app.user.friendRequests|length >0 %}
+                <h3 class="col-12">Demandes en attente</h3>
+                {% for friendUsername in app.user.friendRequests %}
+                    <div class="align-items-center col-12 d-flex justify-content-between m-2 row">
+                        <div>
+                            <strong>{{ friendUsername }}</strong>
+                        </div>
+                        <button class="btn btn-lg btn-danger">
+                            Supprimer
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+
+</section>
+
+{% include 'userAccount/editProfileTemplate.html.twig' %}
+{% include 'userAccount/friendSearchTemplate.html.twig' %}
+
+{% endblock %}

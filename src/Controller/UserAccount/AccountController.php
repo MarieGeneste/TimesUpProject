@@ -4,8 +4,9 @@ namespace App\Controller\UserAccount;
 
 use App\Entity\User;
 use App\Form\FriendType;
-use App\Service\FrontSecurityService;
 use App\Repository\UserRepository;
+use App\Form\UserProfileEditionType;
+use App\Service\FrontSecurityService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +22,42 @@ class AccountController extends AbstractController
     {
         $this->securityService = $securityService;
     }
+
+    /**
+     * @Route("/", name="index")
+     */
+    public function index(Request $request, UserRepository $userRep, UserRepository $userRepository)
+    {
+        $user = $this->getUser();
+        
+        $friendForm = $this->createForm(FriendType::class);
+        $profileForm = $this->createForm(UserProfileEditionType::class, $user);
+
+        return $this->render('userAccount/index.html.twig', [
+            'friendForm' => $friendForm->createView(),
+            'profileForm' => $profileForm->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/edition/{id}", name="edit")
+     */
+    public function edit(Request $request, User $user)
+    {
+        $profileForm = $this->createForm(UserProfileEditionType::class, $user);
+        $profileForm->handleRequest($request);
+
+        if ($profileForm->isSubmitted() && $profileForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'La modification de votre profil a bien été enregistrée');
+            return $this->redirectToRoute('account_index');
+        }
+
+        return $this->redirectToRoute('account_index');
+    }
+
+
     /**
      * @Route("/mes-amis", name="friend_search")
      */
@@ -46,9 +83,7 @@ class AccountController extends AbstractController
             return $this->json($data);
         }
 
-        return $this->render('game/friends.html.twig', [
-            'friendForm' => $friendForm->createView(),
-        ]);
+        return $this->redirectToRoute('account_index');
     }
 
     /**
@@ -94,7 +129,7 @@ class AccountController extends AbstractController
         $mailer->send($message);
         
         $this->addFlash('success', 'Votre demande a bien été envoyée par mail à '. $friend->getUsername());
-        return $this->redirectToRoute('account_friend_search');
+        return $this->redirectToRoute('account_index');
     }
 
     /**
@@ -109,6 +144,6 @@ class AccountController extends AbstractController
         $entityManager->flush();
         
         $this->addFlash('success', 'Vous êtes maintenant ami avec '. $askingUser->getUsername());
-        return $this->redirectToRoute('account_friend_search');
+        return $this->redirectToRoute('account_index');
     }
 }

@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -35,6 +37,22 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
+
+    /**
+     * Avatar de l'utilisateur
+     * 
+     * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatarName")
+     * 
+     * @var File|null
+     */
+    private $avatarFile;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string|null
+     */
+    private $avatarName;
 
     /**
      * @ORM\Column(type="json")
@@ -269,31 +287,43 @@ class User implements UserInterface
         return $this;
     }
 
-    
-    // public function getFriendRequests()
-    // {
-    //     return $this->friendRequests;
-    // }
+    /**
+     * @return  File|null
+     */ 
+    public function getAvatarFile()
+    {
+        return $this->avatarFile;
+    }
 
-    // public function addFriendRequest(string $friendRequest)
-    // {
+    /**
+     * @param  File|null  $avatarFile  Avatar de l'utilisateur
+     *
+     * @return  self
+     */ 
+    public function setAvatarFile($avatarFile)
+    {
+        $this->avatarFile = $avatarFile;
 
-    //     dump($friendRequest);
-    //     if (!$this->friendRequests->contains($friendRequest)) {
-    //         $this->friendRequests[] = $friendRequest;
-    //         dump($this->friendRequests);
-    //         // exit;
-    //     }
+        return $this;
+    }
 
-    //     return $this;
-    // }
+    /**
+     * @return  string|null
+     */ 
+    public function getAvatarName()
+    {
+        return $this->avatarName;
+    }
 
-    // public function removeFriendRequest(string $friendRequest)
-    // {
-    //     if ($this->friendRequests->contains($friendRequest)) {
-    //         $this->friendRequests->removeElement($friendRequest);
-    //     }
+    /**
+     * @param  string|null  $avatarName
+     *
+     * @return  self
+     */ 
+    public function setAvatarName($avatarName)
+    {
+        $this->avatarName = $avatarName;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 }

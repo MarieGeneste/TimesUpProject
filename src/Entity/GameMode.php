@@ -9,18 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GameModeRepository")
  */
-class GameMode
+class GameMode extends DefaultEntity
 {
-    /**
-     * @var \Ramsey\Uuid\UuidInterface
-     * 
-     * @ORM\Id
-     * @ORM\Column(type="uuid",unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
     /**
      * @ORM\Column(type="string", length=50)
      */
@@ -44,14 +34,6 @@ class GameMode
     public function __construct()
     {
         $this->responses = new ArrayCollection();
-    }
-
-    /**
-     * @return \Ramsey\Uuid\UuidInterface
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getName(): ?string

@@ -9,18 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TimesUpCardRepository")
  */
-class TimesUpCard
+class TimesUpCard extends DefaultEntity
 {
-    /**
-     * @var \Ramsey\Uuid\UuidInterface
-     * 
-     * @ORM\Id
-     * @ORM\Column(type="uuid",unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Edition", inversedBy="cards")
      * @ORM\JoinColumn(nullable=false)
@@ -42,14 +32,6 @@ class TimesUpCard
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-    }
-
-    /**
-     * @return \Ramsey\Uuid\UuidInterface
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getEdition(): ?Edition

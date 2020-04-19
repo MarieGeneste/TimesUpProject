@@ -9,18 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  */
-class Category
+class Category extends DefaultEntity
 {
-    /**
-     * @var \Ramsey\Uuid\UuidInterface
-     * 
-     * @ORM\Id
-     * @ORM\Column(type="uuid",unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
     /**
      * @ORM\Column(type="string", length=50)
      */
@@ -51,14 +41,6 @@ class Category
         $this->cards = new ArrayCollection();
         $this->responses = new ArrayCollection();
         $this->ParentCategory = new ArrayCollection();
-    }
-
-    /**
-     * @return \Ramsey\Uuid\UuidInterface
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getTitle(): ?string

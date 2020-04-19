@@ -9,18 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ResponseRepository")
  */
-class Response
+class Response extends DefaultEntity
 {
-    /**
-     * @var \Ramsey\Uuid\UuidInterface
-     * 
-     * @ORM\Id
-     * @ORM\Column(type="uuid",unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -63,14 +53,6 @@ class Response
         $this->yellowCard = null;
         $this->blueCard = null;
         $this->games = new ArrayCollection();
-    }
-
-    /**
-     * @return \Ramsey\Uuid\UuidInterface
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function getName(): ?string

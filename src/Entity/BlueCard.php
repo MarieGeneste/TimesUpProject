@@ -9,17 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BlueCardRepository")
  */
-class BlueCard
+class BlueCard extends DefaultEntity
 {
-    /**
-     * @var \Ramsey\Uuid\UuidInterface
-     * 
-     * @ORM\Id
-     * @ORM\Column(type="uuid",unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    protected $id;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TimesUpCard", mappedBy="blueContent")
@@ -41,14 +32,6 @@ class BlueCard
     public function __construct()
     {
         $this->cards = new ArrayCollection();
-    }
-
-    /**
-     * @return \Ramsey\Uuid\UuidInterface
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

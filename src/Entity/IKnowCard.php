@@ -7,18 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IKnowCardRepository")
  */
-class IKnowCard
+class IKnowCard extends DefaultEntity
 {
-    /**
-     * @var \Ramsey\Uuid\UuidInterface
-     * 
-     * @ORM\Id
-     * @ORM\Column(type="uuid",unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Response", inversedBy="iKnowCard", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
@@ -39,14 +29,6 @@ class IKnowCard
      * @ORM\Column(type="string", length=255)
      */
     private $thirdIndication;
-
-    /**
-     * @return \Ramsey\Uuid\UuidInterface
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function getResponse(): ?Response
     {

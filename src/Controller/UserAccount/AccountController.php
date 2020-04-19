@@ -4,6 +4,7 @@ namespace App\Controller\UserAccount;
 
 use App\Entity\User;
 use App\Form\FriendType;
+use App\Form\ProfileType;
 use App\Repository\UserRepository;
 use App\Form\UserProfileEditionType;
 use App\Service\FrontSecurityService;
@@ -29,31 +30,52 @@ class AccountController extends AbstractController
     public function index(Request $request, UserRepository $userRep, UserRepository $userRepository)
     {
         $user = $this->getUser();
+        $userProfile = $user->getUserProfile();
         
         $friendForm = $this->createForm(FriendType::class);
-        $profileForm = $this->createForm(UserProfileEditionType::class, $user);
+        $userProfileForm = $this->createForm(UserProfileEditionType::class, $user);
+        $profileForm = $this->createForm(ProfileType::class, $userProfile);
+
+        dump($user);
+        dump($userProfile);
 
         return $this->render('userAccount/index.html.twig', [
+            'user' => $user,
             'friendForm' => $friendForm->createView(),
             'profileForm' => $profileForm->createView(),
+            'userProfileForm' => $userProfileForm->createView(),
         ]);
     }
 
     /**
-     * @Route("/edition/{id}", name="edit")
+     * @Route("/edition", name="edit")
      */
-    public function edit(Request $request, User $user)
+    public function edit(Request $request)
     {
-        $user->setPlainPassword($user->getPassword());
-        $profileForm = $this->createForm(UserProfileEditionType::class, $user);
+        $user = $this->getUser();
+        $userProfile = $user->getUserProfile();
 
+        $user->setPlainPassword($user->getPassword());
+        $userProfileForm = $this->createForm(UserProfileEditionType::class, $user);
+        $profileForm = $this->createForm(ProfileType::class, $userProfile);
+
+        $userProfileForm->handleRequest($request);
         $profileForm->handleRequest($request);
+
+        dump($request);
+        dump($profileForm);
+        dump($userProfileForm->isSubmitted() && $userProfileForm->isValid());
+
+        if ($userProfileForm->isSubmitted() && $userProfileForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'La modification de votre profil a bien été enregistrée');
+        }
 
         if ($profileForm->isSubmitted() && $profileForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'La modification de votre profil a bien été enregistrée');
-            return $this->redirectToRoute('account_index');
+            $this->addFlash('success', 'La modification de votre photo de profil a bien été enregistrée');
         }
 
         return $this->redirectToRoute('account_index');

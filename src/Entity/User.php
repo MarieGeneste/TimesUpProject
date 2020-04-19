@@ -2,32 +2,19 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"email"}, message="Il existe déja un compte avec cette adresse email")
  * @UniqueEntity(fields={"username"}, message="Ce nom d'utilisateur n'est pas disponible")
  */
-class User implements UserInterface
+class User extends DefaultEntity implements UserInterface
 {
-    /**
-     * @var \Ramsey\Uuid\UuidInterface
-     * 
-     * @ORM\Id
-     * @ORM\Column(type="uuid",unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
-
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
@@ -37,22 +24,6 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
-
-    /**
-     * Avatar de l'utilisateur
-     * 
-     * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatarName")
-     * 
-     * @var File|null
-     */
-    private $avatarFile;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @var string|null
-     */
-    private $avatarName;
 
     /**
      * @ORM\Column(type="json")
@@ -88,32 +59,17 @@ class User implements UserInterface
     private $activation_token;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="users", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\UserProfile", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $friends;
-
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $friendRequest = [];
+    private $userProfile;
 
 
     public function __construct()
     {
         $this->isActive = false;
         $this->roles = ["ROLE_USER"];
-        $this->friends = new ArrayCollection();
-        $this->users = new ArrayCollection();
     }
 
-
-    /**
-     * @return \Ramsey\Uuid\UuidInterface
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function getEmail(): ?string
     {
@@ -238,92 +194,23 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|self[]
-     */
-    public function getFriends(): Collection
+    public function setUserProfile(UserProfile $userProfile): self
     {
-        return $this->friends;
-    }
+        $this->userProfile = $userProfile;
 
-    public function addFriend(self $friend): self
-    {
-        if (!$this->friends->contains($friend)) {
-            $this->friends[] = $friend;
-            $friend->addFriend($this);
+        // set the owning side of the relation if necessary
+        if ($userProfile->getUser() !== $this) {
+            $userProfile->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeFriend(self $friend): self
-    {
-        if ($this->friends->contains($friend)) {
-            $this->friends->removeElement($friend);
-            $friend->removeFriend($this);
-        }
-
-        return $this;
-    }
-
-    public function getFriendRequests(): ?array
-    {
-        return $this->friendRequest;
-    }
-
-    public function addFriendRequest(?string $friendRequest)
-    {
-        array_push($this->friendRequest, $friendRequest);
-
-        return $this;
-    }
-
-    public function removeFriendRequest($friendRequest)
-    {
-        $keyFound = array_search($friendRequest, $this->getFriendRequests());
-        if ($keyFound !== false) {
-            unset($this->friendRequest[$keyFound]);
-        }
-        return $this;
-    }
-
     /**
-     * @return  File|null
+     * Get the value of userProfile
      */ 
-    public function getAvatarFile()
+    public function getUserProfile()
     {
-        return $this->avatarFile;
-    }
-
-    /**
-     * @param  File|null  $avatarFile  Avatar de l'utilisateur
-     *
-     * @return  self
-     */ 
-    public function setAvatarFile($avatarFile)
-    {
-        $this->avatarFile = $avatarFile;
-
-        return $this;
-    }
-
-    /**
-     * @return  string|null
-     */ 
-    public function getAvatarName()
-    {
-        return $this->avatarName;
-    }
-
-    /**
-     * @param  string|null  $avatarName
-     *
-     * @return  self
-     */ 
-    public function setAvatarName($avatarName)
-    {
-        $this->avatarName = $avatarName;
-
-        return $this;
+        return $this->userProfile;
     }
 }

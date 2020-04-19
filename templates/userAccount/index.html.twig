@@ -14,12 +14,13 @@
             <div id="profileEdition" class="row justify-content-between align-items-center">
                 <h2 class="col-md-8">Mon Profil</h2>
                 <div class="acol-md-4">
-                    {% if app.user.avatarName is not empty %}
-                        {{ app.user.avatarName }}
-                    {% endif %}
+                    {# {% if user.userprofile.avatarFile is not empty %}
+                        {{ user.userprofile.avatarFile }}
+                    {% endif %} #}
                     
-                    {{ app.user.email }}
-                    {{ app.user.username }}
+                    {{ user.email }}
+                    {{ user.username }}
+                    {# {{ user.id }} #}
                 </div>
                 <div class="col-12">
                     <button onclick="openForm('#profileEdition')" class="btn btn-lg btn-info form-desactivate">
@@ -31,7 +32,13 @@
             <div id="profileEditionForm" class="row justify-content-between align-items-center formPlace">
 
                 <h2 class="col-md-8">Modification de mon Profil</h2>
-                {{ form_start(profileForm, {'action': path('account_edit', {'id': app.user.id})} ) }}
+                {{ form_start(userProfileForm, {'action': path('account_edit')} ) }}
+                    {{ form_widget(userProfileForm) }}
+                
+                    <button type="submit"class="btn">Enregistrer</button>
+                    <button onclick="EditModeReturn('#userProfileEdition', true)" class="btn">Annuler</button>
+                {{ form_end(userProfileForm) }}
+                {{ form_start(profileForm, {'action': path('account_edit')} ) }}
                     {{ form_widget(profileForm) }}
                 
                     <button type="submit"class="btn">Enregistrer</button>
@@ -53,9 +60,9 @@
                 </div>
             </div>
             
-            {% if app.user.friends|length >0  %}
+            {% if user.userProfile.friends|length >0  %}
         
-                {% for friend in app.user.friends %}
+                {% for friend in user.userProfile.friends %}
                     <div class="align-items-center col-12 d-flex justify-content-between m-2 row">
                         <div class="">
                             <strong>{{ friend.username }}</strong>
@@ -68,9 +75,9 @@
 
             {% endif %}
 
-            {% if app.user.friendRequests|length >0 %}
+            {% if user.userProfile.friendRequests|length >0 %}
                 <h3 class="col-12">Demandes en attente</h3>
-                {% for friendUsername in app.user.friendRequests %}
+                {% for friendUsername in user.userProfile.friendRequests %}
                     <div class="align-items-center col-12 d-flex justify-content-between m-2 row">
                         <div>
                             <strong>{{ friendUsername }}</strong>
